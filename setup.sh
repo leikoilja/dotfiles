@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # Setting stuff up...
+# WIP
 #
 
 ## Calling dir
@@ -8,9 +9,6 @@ calling_dir=$PWD
 
 # Get dotfiles directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-# Clone Vundle for vim
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Setup symbolic links
 # Should check if they already exist and in that case unlink or delete

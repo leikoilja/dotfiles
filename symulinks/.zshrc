@@ -1,1 +1,0 @@
-/home/ilja/Development/Dev_settings/dotfiles/zshrc

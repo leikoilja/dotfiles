@@ -1,5 +1,5 @@
 
-name: JBL
+name: jobylon
 root: ~/Development/Jobylon/jbl-web/
 
 # Optional tmux socket
@@ -25,9 +25,6 @@ startup_window: Editor
 
 # Controls whether the tmux session should be attached to automatically. Defaults to true.
 # attach: false
-
-# Runs after everything. Use it to attach to tmux with custom options etc.
-# post: tmux -CC attach -t jbl-start
 
 windows:
   - GIT:

@@ -189,7 +189,22 @@ endfunction
 
 let g:coc_snippet_next = '<tab>'
 
-let g:UltiSnipsSnippetDirectories = ['/Users/leikoilja/Development/Dev_settings/dotfiles/vim-own-snippets', 'UltiSnips']
+if !exists("g:os")
+    if has("win64") || has("win32") || has("win16")
+        let g:os = "Windows"
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+    endif
+endif
+if g:os == "Linux"
+    let g:UltiSnipsSnippetDirectories = ['~/Development/Dev_settings/dotfiles/vim-own-snippets', 'UltiSnips']
+    let g:python_host_prog = '/usr/bin/python'
+    let g:python3_host_prog = '~/Development/Envs/nvim/bin/python3'
+elseif g:os == "Mac"
+   " TODO: Double check it works on Mac
+    let g:UltiSnipsSnippetDirectories = ['~/Development/Dev_settings/dotfiles/vim-own-snippets', 'UltiSnips']
+    let g:python3_host_prog = '/Users/leikoilja/Development/Envs/nvim/bin/python3'
+endif
 
 
 " use ,,  for escape
@@ -397,9 +412,6 @@ let g:coc_global_extensions = [
 
 " Asynctasks
 " let g:asyncrun_open = 6
-
-" Neovim
-let g:python3_host_prog = '/Users/leikoilja/Development/Envs/nvim/bin/python3'
 
 " JS and React Native
 let g:vim_jsx_pretty_colorful_config = 1
@@ -764,8 +776,8 @@ command! -bang -nargs=* GFiles
 " startify
 let g:startify_change_to_vcs_root = 1
 let g:startify_bookmarks = [
-    \{'rc': '~/Development/Dev_settings/dotfiles/vimrc'},
-    \{'a': '~/Development/Dev_settings/dotfiles/aliases'},
+    \{'rc': '~/.vimrc'},
+    \{'a': '~/.aliases'},
     \]
 
 " session management

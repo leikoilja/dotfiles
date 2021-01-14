@@ -1,5 +1,5 @@
 
-name: Muscle Imbalance Detection
+name: mid
 root: ~/Development/muscle-imbalance-detection/mobile_app/mid/
 
 # Optional tmux socket
