@@ -1,0 +1,15 @@
+tmux \
+	new-window -n 'MAGIT'
+	send-keys 'sleep 5; jbl; magit' 
+	#rename-window 'MAGIT'
+	#rename-window 'jbl-vim' \; \
+	#new-window 'jbl; vim' \; \
+	#rename-window 'logs' \; 
+
+# jbl;
+# magit;
+# jbl;
+# vim;
+# jbl;
+# jrestart;
+# jlogs web;

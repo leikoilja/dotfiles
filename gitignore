@@ -1,0 +1,27 @@
+#
+# Global gitignore file
+#
+
+# --- Files that might appear on external disk ---
+.Spotlight-V100
+.Trashes
+
+# --- Editors --- #
+
+# Vim
+# https://github.com/github/gitignore/blob/master/Global/vim.gitignore
+*.s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+# --- Temporary files --- #
+*.swp
+*.swo
+*~
+
+# --- Logs and databases --- #
+*.log
+*.sql
+*.sqlite

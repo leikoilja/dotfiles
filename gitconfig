@@ -1,0 +1,13 @@
+[core]
+    excludesfile = ~/.gitignore
+
+[color]
+    ui = true
+
+[user]
+  name = Ilja Leiko
+  email = leikoilja@gmail.com
+  username = leikoilja
+
+[web]
+  browser = google-chrome

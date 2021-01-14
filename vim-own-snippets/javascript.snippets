@@ -1,0 +1,64 @@
+priority 1
+
+snippet RNimport "RN import" b
+import React from 'react';
+import { ${1:modules} } from 'react-native';
+import PropTypes from 'prop-types';
+endsnippet
+
+snippet compC "RN Class-based component" b
+export default class ${1:name} extends React.Component {
+  static propTypes = {
+    // string: PropTypes.string.isRequired,
+    // number: PropTypes.number.isRequired,
+    // array: PropTypes.arrayOf(shape).isRequired,
+    // func: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+  };
+
+  state = {
+  };
+
+  render() {
+    const {  } = this.state;
+    const {  } = this.prop;
+
+    return (
+
+    );
+  };
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+endsnippet
+
+snippet compF "RN Function-based component" b
+export default function ${1:name}({}) {
+  return (
+
+  );
+}
+
+${1}.propTypes = {
+    // string: PropTypes.string.isRequired,
+    // number: PropTypes.number.isRequired,
+    // array: PropTypes.arrayOf(shape).isRequired,
+    // func: PropTypes.func.isRequired,
+};
+
+${1}.defaultProps = {
+
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+endsnippet

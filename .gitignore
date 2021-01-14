@@ -1,0 +1,6 @@
+*.log
+pip/zsh-cache
+vim-legacy/
+~~/
+ssh
+.DS_Store

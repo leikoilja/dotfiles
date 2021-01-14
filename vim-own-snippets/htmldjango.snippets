@@ -1,0 +1,13 @@
+extends html
+
+snippet if_superuser
+{% if request.user.is_superuser %}
+    ${0}
+{% endif %}
+endsnippet
+
+snippet if_developer
+{% if request.user.is_developer %}
+    ${0}
+{% endif %}
+endsnippet

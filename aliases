@@ -1,0 +1,113 @@
+## General  ##
+# Colorize the ls output
+# alias ls='ls --color=auto'
+
+# Use a long listing format
+alias ll='ls -la'
+
+# Show hidden files
+# alias l.='ls -d .* --color=auto'
+
+# get rid of command not found
+alias cd..='cd ..'
+
+# a quick way to get out of current directory
+alias ..='cd ..'
+alias ...='cd ../../'
+alias dev='cd ~/Development/'
+
+# Neovim
+alias vim="nvim"
+
+# Tasks
+alias t="task sync; task -Jobylon -Gingernest"
+alias ta="task add"
+
+## Custom functions ##
+# Stop all containers
+dockerstopall() { docker stop $(docker ps -a -q); }
+
+# Remove existing Jobylon containers and rebuild
+docker-rebuild() {
+   jbl;
+   dstop;
+   docker-compose up --build web worker scheduler
+  echo '------ Ready to go --------';
+}
+
+# alias magit="emacs -nw --eval '(progn (magit-status) (delete-other-windows))'"
+alias magit="/usr/local/Cellar/emacs-plus@27/27.1/Emacs.app/Contents/MacOS/Emacs -nw --eval '(progn (magit-status) (delete-other-windows))'"
+
+removecontainers() {
+    docker stop $(docker ps -aq)
+    docker rm $(docker ps -aq)
+}
+
+dockerarmageddon() {
+    removecontainers
+    docker network prune -f
+    docker rmi -f $(docker images --filter dangling=true -qa)
+    docker volume rm $(docker volume ls --filter dangling=true -q)
+    docker rmi -f $(docker images -qa)
+}
+
+## Docker & Docker-compose ##
+alias dstart="echo '--- Starting all the containers ---'; docker-compose start"
+alias dstop="echo '--- Stopping all the containers ---'; docker-compose stop"
+alias dlogs="echo '--- Lets dig into logs ---'; docker-compose logs -f"
+alias dps="echo '--- Running docker containers ---'; docker-compose ps"
+alias dshell="echo '--- Entering web contained shell ---'; docker-compose exec web python manage.py shell"
+alias drestart="echo '--- Restarting all docker containers ---'; dockerstopall; dstart"
+
+
+## Jobylon ##
+# Note jmm is specified in zshrc
+alias JJJ="tmuxinator start jbl-start"
+alias jbl="source ~/Development/Envs/jbl-web/bin/activate;cd ~/Development/Jobylon/jbl-web"
+alias jdebug2="echo '--- Restarting web container for debugging  ---'; jstop web; docker-compose run --service-ports --rm web python -m ipdb manage.py runserver 0.0.0.0:8000; jstart web"
+alias jdebug="echo '--- Web debugging on 8001 ---'; docker-compose exec web python -m ipdb manage.py runserver 0.0.0.0:8003"
+alias jgulp="echo '--- Compiling frontend files (grunt) ---'; jbl; docker-compose exec web npm run gulp"
+alias jrebuild="echo '--- Rebuilding all JBL docker containers ---'; docker-rebuild; jrestart"
+alias jwatch="echo '--- Watching frontend files (gulp) ---'; jbl; docker-compose exec web npm run gulp watch"
+alias jps="jbl; dps"
+alias jrestart="jbl; dockerstopall; dstart"
+alias jlogs="jbl; dlogs"
+alias jm="jbl; docker-compose exec web python manage.py migrate"
+alias jshell="jbl; dshell"
+alias jstart="jbl; dstart"
+alias jstop="jbl; dstop"
+alias jtest="jbl; docker-compose exec web python manage.py test $1 --settings=jbl_web.settings.test"
+alias jt="task sync; task +Jobylon"
+alias jta="jt add +Jobylon"
+alias jclean="echo '--- Resetting memcached and redis ---'; jbl; docker-compose exec redis redis-cli FLUSHALL; echo flush_all | nc localhost 11211; jrestart"
+alias jbash="jbl; docker-compose exec web bash"
+alias jreindex="jbl; docker-compose exec web python manage.py rebuild_index"
+
+
+## Gingernest ##
+# Note gmm is specified in zshrc
+alias GGG="tmuxinator start gingernest-start"
+alias gingernest="source ~/Development/Envs/gingernest/bin/activate;cd ~/Development/gingernest"
+alias gdebug="echo '--- Restarting web container for debugging  ---'; gstop web; docker-compose run --service-ports --rm web python -m ipdb manage.py runserver 0.0.0.0:8000; gstart web"
+alias grestart="gingernest; dockerstopall; gstart"
+alias gstart="gingernest; dstart"
+alias gstop="gingernest; dstop"
+alias gshell="gingernest; dshell"
+alias glogs="gingernest; dlogs"
+alias grebuild="echo '--- Rebuilding all gingernest docker containers ---'; docker-rebuild; grestart"
+alias gps="gingernest; dps"
+# alias gtest="gingernest; docker-compose exec web python manage.py test $1 --pattern='tests_*.py'"
+alias gtest="gingernest; docker-compose exec web python manage.py test $1 --settings=gingernest.settings.test"
+alias gt="task sync; task +Gingernest"
+alias gta="task add +Gingernest"
+alias gbash="gingernest; docker-compose exec web bash"
+# alias gproduction_build="gingernest; ssh hass-local -t tmux send-keys -R 'cd\ /home/pi/gingernest-production' Enter 'docker-compose\ -f\ docker-compose.prod.yml\ stop' Enter 'docker-compose\ -f\ docker-compose.prod.yml\ build\ --no-cache\ web\ worker\ scheduler' Enter"
+
+
+## React Native ##
+alias RN="tmuxinator start rn-start"
+alias MID="tmuxinator start mid-start"
+
+
+## Master Thesis ##
+alias MT="tmuxinator start thesis-start"
