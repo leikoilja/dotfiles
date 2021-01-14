@@ -73,7 +73,7 @@ ZSH_THEME="gruvbox"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(fabric fzf git pip python vagrant zsh-autosuggestions web-search)
+plugins=(fabric fzf git pip python vagrant zsh-autosuggestions web-search zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -96,7 +96,7 @@ fi
 [[ -f ~/.aliases ]] && source ~/.aliases
 
 # Load tmuxinator completion
-source ~/Development/Dev_settings/dotfiles/tmuxinator.zsh
+source ~/Development/Dev_settings/dotfiles/symulinks/.tmuxinator.zsh
 
 # FZF search
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -144,6 +144,3 @@ function gmm()
     done
   fi
 }
-
-# Sintax highlighter
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

@@ -4,8 +4,8 @@
 # python 'trellowarrior' package
 
 # Path to the `task` executable. Otherwise, it will through the error in logs that `task`(taskwarrior) is not found
-PATH=/usr/local/bin:$PATH
+PATH=/usr/local/bin:/usr/local/bin:$PATH
 export PATH
 
 # Path to python virtual environment where trellowarrior was installed and configured
-/Users/leikoilja/Development/Envs/nvim/bin/trellowarrior --config /Users/leikoilja/.trellowarrior.conf
+~/Development/Envs/nvim/bin/trellowarrior --config ~/.trellowarrior.conf

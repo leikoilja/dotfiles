@@ -46,7 +46,6 @@ if ! { [[ "$TERM" =~ "screen".* ]]; } then
   # Not in Tmux session
   project_name="default"
 fi
-echo $project_name
 
 if [ ${project_name} = "jobylon" ]; then
     echo "** Activating Jobylon dependant alias **"

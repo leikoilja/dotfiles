@@ -17,7 +17,7 @@ data.location=~/.task
 weekstart=Monday
 
 # Default values
-default.project=Inbox
+default.project=Sandbox
 
 # Color theme (uncomment one to use)
 #include /usr/local/Cellar/task/2.5.1/share/doc/task/rc/light-16.theme
@@ -41,12 +41,19 @@ report._reviewed.description=Tasksh review report.  Adjust the filter to your ne
 report._reviewed.columns=uuid
 report._reviewed.sort=reviewed+,modified+
 report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +PENDING or +WAITING )
+# Settings for NL-Alvik server
 taskd.certificate=\/home\/ilja\/Development\/Dev_settings\/dotfiles\/taskwarrior\/taskd\/default-client.cert.pem
 taskd.key=\/home\/ilja\/Development\/Dev_settings\/dotfiles\/taskwarrior\/taskd\/default-client.key.pem
 taskd.ca=\/home\/ilja\/Development\/Dev_settings\/dotfiles\/taskwarrior\/taskd\/ca.cert.pem
 taskd.server=83.241.232.163:53589
 taskd.credentials=Default\/Default\/2a72ffb7-5a9c-4319-a15b-0b849665a799
 taskd.trust=ignore hostname
+
+# UDAs
+uda.trelloid.type=string
+uda.trelloid.label=Trello ID
+uda.trellolistname.type=string
+uda.trellolistname.label=Trello List Name
 
 # next report: don't show annotations
 report.next.columns=id,start.age,entry.age,depends,priority,project,tags,recur,scheduled.countdown,due.relative,until.remaining,description.count,urgency
