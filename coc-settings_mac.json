@@ -1,5 +1,5 @@
 {
-  "snippets.userSnippetsDirectory": "~/Development/Dev_settings/dotfiles/vim-own-snippets",
+  "snippets.userSnippetsDirectory": "/Users/leikoilja/Development/Dev_settings/dotfiles/vim-own-snippets",
   "eslint.autoFixOnSave": false,
   "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "prettier.disableSuccessMessage": true,

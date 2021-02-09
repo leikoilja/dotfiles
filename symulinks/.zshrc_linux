@@ -82,6 +82,10 @@ source $ZSH/oh-my-zsh.sh
 
 ### Environmental variables
 export WORKON_HOME=~/Development/Envs
+# export PROJECT_HOME=$HOME/Devel
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV=/home/ilja/.local/bin/virtualenv
+source /usr/local/bin/virtualenvwrapper.sh
 
 if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
   source "${VIRTUAL_ENV}/bin/activate"

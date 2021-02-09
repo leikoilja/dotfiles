@@ -31,11 +31,11 @@ windows:
       layout: main-vertical
       panes:
         - magit
-        - jt
+        - t
   - FM:
       - vifm ~/Development/Jobylon/jbl-web/
   - Editor:
-      - vim
+      - jbl; vim
   - Logs:
       - jrestart; jlogs web
   # - server: bundle exec rails s
