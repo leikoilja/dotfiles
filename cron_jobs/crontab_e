@@ -1,4 +1,0 @@
-# Run `crontab -e` to setup user specific cron jobs
-
-# Sync trello boards with task warrior every 30 mins from 8-18
-*/30 8-18 * * * cd ~/Development/Dev_settings/dotfiles/cron_jobs && ./trellowarrior_sync.sh >> /tmp/stderr.log 2>&1

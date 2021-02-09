@@ -54,3 +54,13 @@ uda.trelloid.type=string
 uda.trelloid.label=Trello ID
 uda.trellolistname.type=string
 uda.trellolistname.label=Trello List Name
+
+# Urgency
+urgency.user.tag.PR.coefficient=-2
+urgency.user.tag.OnHold.coefficient=-3
+
+# Next report: don't show annotations
+report.next.columns=id,start.age,entry.age,depends,priority,project,tags,recur,scheduled.countdown,due.relative,until.remaining,description.count,urgency
+
+# Custom reports
+report.trello.columns=uuid,project,tags,description.count,trelloid
