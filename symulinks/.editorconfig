@@ -15,6 +15,11 @@ end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = false
 
+# JSON
+[*.json]
+indent_style = space
+indent_size = 4
+
 # Arduino
 [*.ino]
 indent_style = space
