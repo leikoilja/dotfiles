@@ -66,7 +66,7 @@ Plug 'ron89/thesaurus_query.vim'
 Plug 'scrooloose/nerdcommenter'
 
 " multiple cursors
-Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " yaml support
 Plug 'mrk21/yaml-vim'
@@ -86,6 +86,9 @@ Plug 'honza/vim-snippets'
 " Latex support
 Plug 'lervag/vimtex'
 Plug 'matze/vim-tex-fold'
+
+" Convert between camel and snek case
+Plug 'nicwest/vim-camelsnek'
 
 " Folding
 Plug 'matze/vim-tex-fold'
@@ -127,6 +130,15 @@ Plug 'fisadev/vim-isort'
 " Python black
 Plug 'psf/black', { 'branch': 'stable' }
 
+" Color picker
+Plug 'KabbAmine/vCoolor.vim'
+
+" Color CSS preview
+Plug 'chrisbra/Colorizer'
+
+" Maximizer
+Plug 'szw/vim-maximizer'
+
 " Asynctasks (VS code inspired tasks)
 " Plug 'skywind3000/asynctasks.vim'
 " Plug 'skywind3000/asyncrun.vim'
@@ -137,11 +149,24 @@ Plug 'psf/black', { 'branch': 'stable' }
 " Initialize plugin system
 call plug#end()
 
+" Configs
+set rtp+=/opt/homebrew/opt/fzf
+
 
 " =================
 " Keybindings
 " =================
 let mapleader=","
+
+" maximize current split or return to previous
+noremap <Leader>zz :MaximizerToggle<CR>
+
+" Toggle color highlights
+noremap <F1> :ColorToggle<CR>
+
+" Color picker
+let g:vcoolor_disable_mappings = 1
+let g:vcoolor_map = '<leader>cp'
 
 " Thesaurus
 " wt - word thesaurus
@@ -196,13 +221,15 @@ if !exists("g:os")
         let g:os = substitute(system('uname'), '\n', '', '')
     endif
 endif
+
 if g:os == "Linux"
     let g:UltiSnipsSnippetDirectories = ['~/Development/Dev_settings/dotfiles/vim-own-snippets', 'UltiSnips']
     let g:python_host_prog = '/usr/bin/python'
     let g:python3_host_prog = '~/Development/Envs/nvim/bin/python3'
-elseif g:os == "Mac"
+elseif g:os == "Darwin"  " M1 corresponds to 'Darwin'
    " TODO: Double check it works on Mac
     let g:UltiSnipsSnippetDirectories = ['~/Development/Dev_settings/dotfiles/vim-own-snippets', 'UltiSnips']
+    " let g:python_host_prog = '/Users/leikoilja/Development/Envs/nvim2/bin/python'
     let g:python3_host_prog = '/Users/leikoilja/Development/Envs/nvim/bin/python3'
 endif
 
@@ -239,9 +266,17 @@ nnoremap <silent> <leader>wo :only<CR>
 nnoremap <silent> + <C-W>+
 nnoremap <silent> - <C-W>-
 
-" clear search highlighted items
-"This unsets the "last search pattern" register by hitting return
-nnoremap <CR> :noh<CR><CR>
+" highlight the visual selection after pressing enter.
+xnoremap <silent> <cr> "*y:silent! let searchTerm = '\V'.substitute(escape(@*, '\/'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
+
+" Put <enter> to work too! Otherwise <enter> moves to the next line, which we can
+" already do by pressing the <j> key, which is a waste of keys!
+" Be useful <enter> key!:
+nnoremap <silent> <cr> :let searchTerm = '\v<'.expand("<cword>").'>' <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
+
+" Give ctrl+c a job when it is otherwise being wasted!
+" Now it toggles `hlsearch` while in NORMAL mode:
+nnoremap <silent> <c-c> :if (&hlsearch == 1) \| set nohlsearch \| else \| set hlsearch \| endif<cr>
 
 " NERDTree
 nnoremap <silent> <leader>n :call MyNerdToggle()<CR>
@@ -322,6 +357,8 @@ nmap <Leader>t :BTags<CR>
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
+vnoremap <Leader>S :sort <CR>
+
 nnoremap n nzz
 nnoremap N Nzz
 
@@ -331,10 +368,16 @@ nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 " Toggle Quick List
 noremap <Leader>l :call QFixToggle()<CR>
 
+" Convert snake case to camel case
+noremap <Leader>sctcc :call SnakeCaseToCamelCase()<CR>
+
 " Spell check toggle
 nnoremap <silent> <F2> :set spell!<cr>
 inoremap <silent> <F2> <C-O>:set spell!<cr>
 nnoremap <silent> <F3> z=<cr>
+
+" Do not jump on asterisk
+nnoremap * :keepjumps normal! mi*`i<CR>
 
 " Arduino
 nnoremap <Leader>av :ArduinoVerify<CR>
@@ -345,7 +388,7 @@ nnoremap <Leader>ap :ArduinoChooseProgrammer<CR>
 
 " Autoformatter
 " noremap <F1> :call AutoFormatCurrentLine()<CR>
-noremap <F1> :Autoformat<CR>
+" noremap <F1> :Autoformat<CR>
 
 " Neoterm
 nnoremap <leader>tc :<c-u>exec v:count.'Tclear'<cr>
@@ -363,9 +406,19 @@ nnoremap <silent> <F9> :call Darker()<CR>
 " Auto call darker on python file save
 autocmd BufWritePost *.py call Darker()
 
+" Multiple cursor
+" Add vertical cursors
+" let g:VM_maps["Add Cursor Down"]             = '<C-S-J>'
+" let g:VM_maps["Add Cursor Up"]               = '<C-S-K>'
+
+
+
 " =================
 " Configurations
 " =================
+
+" CSS auto colorizer
+:let g:colorizer_auto_filetype='css,html'
 
 " EasyMotion cursor
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
@@ -387,24 +440,24 @@ map <Leader>k <Plug>(easymotion-k)
 
 " CoC extensions
 let g:coc_global_extensions = [
-	\'coc-tsserver',
 	\'coc-angular',
 	\'coc-css',
 	\'coc-cssmodules',
 	\'coc-eslint',
 	\'coc-highlight',
+	\'coc-htmldjango',
+	\'coc-svg',
 	\'coc-html',
 	\'coc-jedi',
 	\'coc-json',
 	\'coc-markdownlint',
-	\'coc-python',
 	\'coc-prettier',
 	\'coc-sh',
 	\'coc-stylelint',
 	\'coc-snippets',
 	\'coc-spell-checker',
 	\'coc-texlab',
-    \'coc-tsserver',
+	\'coc-tsserver',
 	\'coc-yaml',
 	\'coc-xml'
 	\]
@@ -417,7 +470,7 @@ let g:coc_global_extensions = [
 let g:vim_jsx_pretty_colorful_config = 1
 
 " Tags autoclose
-let g:closetag_filenames = '*.html,*.xhtml,*.js'
+let g:closetag_filenames = '*.html,*.xhtml,*.js,*.ts,*.tsx'
 
 " Shortcut for closing tags, default is '>'
 let g:closetag_shortcut = '>'
@@ -425,7 +478,7 @@ let g:closetag_shortcut = '>'
 " set folding level for all files
 :set foldmethod=indent
 :set foldlevelstart=0
-:set textwidth=80
+" :set textwidth=80
 
 " Enable folding with the spacebar
 nnoremap <space> za
@@ -727,6 +780,20 @@ function! JBLRunCurrentTest()
 
 endfunction
 
+
+func! GetSelectedText()
+  normal gv"xy
+  let result = getreg("x")
+  normal gv
+  return result
+endfunc
+
+
+function! SnakeCaseToCamelCase()
+    echom GetSelectedText()
+endfunction
+
+
 function! QFixToggle()
   if exists("g:qfix_win")
     cclose
@@ -736,6 +803,7 @@ function! QFixToggle()
     let g:qfix_win = bufnr("$")
   endif
 endfunction
+
 
 " function! AutoFormatCurrentLine()
 "         let current_line = join([line("."),"-",line(".")])
@@ -776,8 +844,9 @@ command! -bang -nargs=* GFiles
 " startify
 let g:startify_change_to_vcs_root = 1
 let g:startify_bookmarks = [
-    \{'rc': '~/Development/Dev_settings/dotfiles/vimrc'},
-    \{'a': '~/Development/Dev_settings/dotfiles/aliases'},
+    \{'vrc': '~/.vimrc'},
+    \{'zrc': '~/.zshrc'},
+    \{'a': '~/.aliases'},
     \{'mt': '/Users/leikoilja/Library/Application Support/MTMR/items.json'},
     \]
 

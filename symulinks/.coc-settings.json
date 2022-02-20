@@ -1,14 +1,39 @@
 {
-  "snippets.userSnippetsDirectory": "~/Development/Dev_settings/dotfiles/vim-own-snippets",
-  "eslint.autoFixOnSave": false,
-  "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-  "prettier.disableSuccessMessage": true,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-  "tsserver.formatOnType": true,
-  "coc.preferences.formatOnType": true
+    "coc.preferences.formatOnType": true,
+    "coc.preferences.formatOnSaveFiletypes": [
+        "css",
+        "javascriptreact",
+        "json",
+        "typescript",
+        "typescriptreact"
+    ],
+
+    "eslint.autoFixOnSave": false,
+    "eslint.probe": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ],
+    "eslint.workingDirectories": [{ "mode": "auto" }],
+
+    "prettier.disableSuccessMessage": true,
+    "prettier.trailingComma": "all",
+    "prettier.jsxBracketSameLine": true,
+
+    "python.formatting.provider": "black",
+    "python.linting.mypyEnabled": true,
+    "python.pythonPath": "~/Development/Envs/nvim/bin/python3",
+
+    "snippets.userSnippetsDirectory": "~/Development/Dev_settings/dotfiles/vim-own-snippets",
+
+    "tsserver.formatOnType": false,
+    "cSpell.userWords": [
+      "Gingernest",
+      "Pressable",
+      "Swal",
+      "reakit",
+      "textbox",
+      "uuidv"
+    ]
 }

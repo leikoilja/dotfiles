@@ -25,13 +25,13 @@ FILENAME="./.env"
 sed -i '' "s/${OLD}/${NEW}/" ${FILENAME}
 
 TEXT="
-# Whoosh\n
-# Default\n
-HAYSTACK_CONNECTIONS['default']['ENGINE'] = 'haystack.backends.whoosh_backend.WhooshEngine'\n
-HAYSTACK_CONNECTIONS['default']['PATH'] = normpath(join(DJANGO_ROOT, 'whoosh.index'))\n
-# Jobs\n
-HAYSTACK_CONNECTIONS['jobs']['ENGINE'] = 'haystack.backends.whoosh_backend.WhooshEngine'\n
-HAYSTACK_CONNECTIONS['jobs']['PATH'] = normpath(join(DJANGO_ROOT, 'whoosh.index'))
+# Whoosh
+\n# Default
+\nHAYSTACK_CONNECTIONS['default']['ENGINE'] = 'haystack.backends.whoosh_backend.WhooshEngine'
+\nHAYSTACK_CONNECTIONS['default']['PATH'] = normpath(join(DJANGO_ROOT, 'whoosh.index'))
+\n# Jobs
+\nHAYSTACK_CONNECTIONS['jobs']['ENGINE'] = 'haystack.backends.whoosh_backend.WhooshEngine'
+\nHAYSTACK_CONNECTIONS['jobs']['PATH'] = normpath(join(DJANGO_ROOT, 'whoosh.index'))
 "
 FILENAME="./jbl_web/settings/common.py"
 echo $TEXT >> $FILENAME

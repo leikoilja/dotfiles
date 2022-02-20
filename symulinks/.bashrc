@@ -108,3 +108,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export WORKON_HOME=~/Development/Env
+source "$HOME/.cargo/env"

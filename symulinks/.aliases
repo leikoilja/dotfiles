@@ -17,8 +17,10 @@ alias ...='cd ../../'
 alias dev='cd ~/Development/'
 alias dotfiles='cd ~/Development/Dev_settings/dotfiles/'
 
-# Neovim
-alias vim="nvim"
+alias tmn='tmux new -s'
+alias tma='tmux attach'
+alias TTstart="tmuxinator start"
+alias TTdefault="tmuxinator start default"
 
 
 ## Platform dependant commands
@@ -36,8 +38,27 @@ if [ ${machine} = "Linux" ]; then
     alias magit="emacs -nw --eval '(progn (magit-status) (delete-other-windows))'"
 elif [ ${machine} = "Mac" ]; then
     echo "** Activating Mac dependant alias **"
-    alias magit="/usr/local/Cellar/emacs-plus@27/27.1/Emacs.app/Contents/MacOS/Emacs -nw --eval '(progn (magit-status) (delete-other-windows))'"
+    # alias magit="/usr/local/Cellar/emacs-plus@27/27.1/Emacs.app/Contents/MacOS/Emacs -nw --eval '(progn (magit-status) (delete-other-windows))'"
+    alias magit="/opt/homebrew/bin/emacs -nw --eval '(progn (magit-status) (delete-other-windows))'"
+
+    echo "** Activating M1 specific alias **"
+    # alias ag="/opt/homebrew/bin/ag" symulinked to /usrl/local/bin
+    alias brew="/opt/homebrew/bin/brew"
+    # alias nvim="/opt/homebrew/bin/nvim"
+    # alias tmux="/opt/homebrew/bin/tmux"
+    # alias zsh="/opt/homebrew/bin/zsh"
+    alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
+
+    # alias tmux-amd="/usr/local/bin/tmux"
+    alias brew-amd="/usr/local/bin/brew"
 fi
+
+# Silver Searcher global ignore
+alias ag='ag --path-to-ignore ~/.agignore'
+
+# Neovim
+alias vim="nvim"
+
 
 ## Project related comands
 # (note that project_name is extracted from tmux session's name)
@@ -96,21 +117,25 @@ alias drestart="echo '--- Restarting all docker containers ---'; dockerstopall; 
 
 ## Jobylon ##
 # Note jmm is specified in zshrc
-alias JJJ="tmuxinator start jbl-start"
+alias TTjbl="tmuxinator start jbl-start"
+alias TTjbl-js="tmuxinator start jbl-js-start"
+alias TTjbl-components-js="tmuxinator start jbl-components-js-start"
 alias jbl="source ~/Development/Envs/jbl-web/bin/activate;cd ~/Development/Jobylon/jbl-web"
 alias jdebug2="echo '--- Restarting web container for debugging  ---'; jstop web; docker-compose run --service-ports --rm web python -m ipdb manage.py runserver 0.0.0.0:8000; jstart web"
-alias jdebug="echo '--- Web debugging on 8001 ---'; docker-compose exec web python -m ipdb manage.py runserver 0.0.0.0:8003"
+alias jdebug="echo '--- Web debugging on 8003 ---'; docker-compose exec web python -m ipdb manage.py runserver 0.0.0.0:8003"
 alias jgulp="echo '--- Compiling frontend files (grunt) ---'; jbl; docker-compose exec web npm run gulp"
 alias jrebuild="echo '--- Rebuilding all JBL docker containers ---'; docker-rebuild; jrestart"
 alias jwatch="echo '--- Watching frontend files (gulp) ---'; jbl; docker-compose exec web npm run gulp watch"
 alias jps="jbl; dps"
 alias jrestart="jbl; dockerstopall; dstart"
-alias jlogs="jbl; dlogs"
+alias jlogs="jbl; docker-compose logs -f web worker scheduler"
+alias jlogs_full="jbl; dlogs"
 alias jm="jbl; docker-compose exec web python manage.py migrate"
 alias jshell="jbl; dshell"
 alias jstart="jbl; dstart"
 alias jstop="jbl; dstop"
-alias jtest="jbl; docker-compose exec web python manage.py test $1 --settings=jbl_web.settings.test"
+alias jtest="jbl; docker-compose exec web python manage.py test $1 --settings=jbl_web.settings.test_fast"
+alias jtest_full="jbl; docker-compose exec web python manage.py test $1 --settings=jbl_web.settings.test"
 alias jclean="echo '--- Resetting memcached and redis ---'; jbl; docker-compose exec redis redis-cli FLUSHALL; echo flush_all | nc localhost 11211; jrestart"
 alias jbash="jbl; docker-compose exec web bash"
 alias jreindex="jbl; docker-compose exec web python manage.py rebuild_index"
@@ -118,9 +143,9 @@ alias jreindex="jbl; docker-compose exec web python manage.py rebuild_index"
 
 ## Gingernest ##
 # Note gmm is specified in zshrc
-alias GGG="tmuxinator start gingernest-start"
-alias gingernest="source ~/Development/Envs/gingernest/bin/activate;cd ~/Development/gingernest"
-alias gdebug="echo '--- Restarting web container for debugging  ---'; gstop web; docker-compose run --service-ports --rm web python -m ipdb manage.py runserver 0.0.0.0:8000; gstart web"
+alias TTgingernest="tmuxinator start gingernest-start"
+alias gingernest="cd ~/Development/gingernest"
+alias gdebug="echo '--- Restarting web container for debugging  ---'; gstop web; docker-compose run --service-ports --rm web poetry run python -m ipdb manage.py runserver 0.0.0.0:9000; gstart web"
 alias grestart="gingernest; dockerstopall; gstart"
 alias gstart="gingernest; dstart"
 alias gstop="gingernest; dstop"
@@ -135,9 +160,9 @@ alias gbash="gingernest; docker-compose exec web bash"
 
 
 ## React Native ##
-alias RN="tmuxinator start rn-start"
-alias MID="tmuxinator start mid-start"
+alias TTRN="tmuxinator start rn-start"
+alias TTMID="tmuxinator start mid-start"
 
 
 ## Master Thesis ##
-alias MT="tmuxinator start thesis-start"
+alias TTMT="tmuxinator start thesis-start"
