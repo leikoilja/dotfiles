@@ -10,6 +10,36 @@ The run prereq and setup
 
 They will install dependencies, setup symlinks and create relevant directories.
 
+## Mac shortcuts
+I have caps lock mapped to Ctrl.
+
+- Cmd + Shift + B - Toggle Dozer (status bar hidden/showed)
+
+TickTick:
+- Cmd + Shift + A - Create task
+- Cmd + Shift + T - Toggle small window
+
+Phoenix:
+- App launch:
+  - Cmd + Shift + X - Allacritty
+  - Cmd + Shift + V - Slack
+  - Cmd + Shift + C - Chrome
+
+- Window management
+  - Cmd + Shift + Q - Position the window north west
+  - Cmd + Shift + W - Position the window north east
+  - Cmd + Shift + A - Position the window south west
+  - Cmd + Shift + S - Position the window south east
+  - Cmd + Shift + Z - Position the window in the center
+  - Cmd + Shift + F - Toggle fullscreen
+  - Cmd + Shift + O - Position the window on the left half
+  - Cmd + Shift + P - Position the window on the right half
+  - Cmd + Shift + H - Decrease window width
+  - Cmd + Shift + L - Increase window width
+  - Cmd + Shift + J - Decrease window height
+  - Cmd + Shift + K - Increase window height
+  - Cmd + Shift + . - Send a window to the next screen
+
 
 ## Inspired by... ##
 

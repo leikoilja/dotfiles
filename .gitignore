@@ -2,5 +2,6 @@
 pip/zsh-cache
 vim-legacy/
 ~~/
-ssh
+.ssh
 .DS_Store
+

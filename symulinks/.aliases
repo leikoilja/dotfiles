@@ -106,6 +106,29 @@ dockerarmageddon() {
     docker rmi -f $(docker images -qa)
 }
 
+check_if_app_runs() {
+  number=$(ps aux | grep -v grep | grep -c ${1})
+
+  if [ $number -gt 0 ]
+    then
+      echo 'Alredy running' ${1}
+      return 1
+  else
+      echo $1 'is not running'
+      return 0
+  fi
+}
+
+start_app_if_off() {
+  if check_if_app_runs ${1}
+    then
+      echo 'Starting' $1
+      open -a ${1};
+      echo 'Sleeping' $2 'seconds';
+      sleep $2;
+  fi
+}
+
 ## Docker & Docker-compose ##
 alias dstart="echo '--- Starting all the containers ---'; docker-compose start"
 alias dstop="echo '--- Stopping all the containers ---'; docker-compose stop"
@@ -120,22 +143,24 @@ alias drestart="echo '--- Restarting all docker containers ---'; dockerstopall; 
 alias TTjbl="tmuxinator start jbl-start"
 alias TTjbl-js="tmuxinator start jbl-js-start"
 alias TTjbl-components-js="tmuxinator start jbl-components-js-start"
-alias jbl="source ~/Development/Envs/jbl-web/bin/activate;cd ~/Development/Jobylon/jbl-web"
+alias jbl="cd ~/Development/Jobylon/jbl-web"
 alias jdebug2="echo '--- Restarting web container for debugging  ---'; jstop web; docker-compose run --service-ports --rm web python -m ipdb manage.py runserver 0.0.0.0:8000; jstart web"
 alias jdebug="echo '--- Web debugging on 8003 ---'; docker-compose exec web python -m ipdb manage.py runserver 0.0.0.0:8003"
 alias jgulp="echo '--- Compiling frontend files (grunt) ---'; jbl; docker-compose exec web npm run gulp"
 alias jrebuild="echo '--- Rebuilding all JBL docker containers ---'; docker-rebuild; jrestart"
 alias jwatch="echo '--- Watching frontend files (gulp) ---'; jbl; docker-compose exec web npm run gulp watch"
 alias jps="jbl; dps"
-alias jrestart="jbl; dockerstopall; dstart"
+# alias jrestart="jbl; dockerstopall; dstart"
+alias jrestart="jbl; start_app_if_off 'Docker' 20; dockerstopall; dstart"
 alias jlogs="jbl; docker-compose logs -f web worker scheduler"
 alias jlogs_full="jbl; dlogs"
 alias jm="jbl; docker-compose exec web python manage.py migrate"
 alias jshell="jbl; dshell"
 alias jstart="jbl; dstart"
 alias jstop="jbl; dstop"
-alias jtest="jbl; docker-compose exec web python manage.py test $1 --settings=jbl_web.settings.test_fast"
-alias jtest_full="jbl; docker-compose exec web python manage.py test $1 --settings=jbl_web.settings.test"
+alias jtest="jbl; docker-compose exec web python manage.py test $1 --settings=jbl_web.settings.test_fast --parallel 4"
+alias jtest_ipdb="jbl; docker-compose exec web python -m ipdb manage.py test $1 --settings=jbl_web.settings.test_fast"  # with ipdb
+alias jtest_full="jbl; docker-compose exec web python -m ipdb manage.py test $1 --settings=jbl_web.settings.test"
 alias jclean="echo '--- Resetting memcached and redis ---'; jbl; docker-compose exec redis redis-cli FLUSHALL; echo flush_all | nc localhost 11211; jrestart"
 alias jbash="jbl; docker-compose exec web bash"
 alias jreindex="jbl; docker-compose exec web python manage.py rebuild_index"

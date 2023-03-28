@@ -10,7 +10,6 @@
 
 # Vim
 # https://github.com/github/gitignore/blob/master/Global/vim.gitignore
-*.s[a-w][a-z]
 *.un~
 Session.vim
 .netrwhist

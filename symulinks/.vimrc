@@ -112,11 +112,17 @@ Plug 'jparise/vim-graphql'
 " Autoclose tags
 Plug 'alvan/vim-closetag'
 
+" Abolish
+Plug 'tpope/vim-abolish'
+
 " MJML support
 Plug 'amadeus/vim-mjml'
 
 " Markdown preview
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+
+" Mermaid syntax
+Plug 'mracos/mermaid.vim'
 
 " Slime
 Plug 'jpalardy/vim-slime'
@@ -185,6 +191,8 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
+
 " Show documentation
 nnoremap <silent> K :call CocAction('doHover')<CR>
 function! ShowDocIfNoDiagnostic(timer_id)
@@ -201,16 +209,16 @@ endfunction
 " autocmd CursorHold * :call <SID>show_hover_doc()
 
 " CoC Snippets
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
 let g:coc_snippet_next = '<tab>'
 
@@ -239,8 +247,8 @@ endif
 inoremap ,, <Esc>
 
 " Map keys to navigate dropdown
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
+inoremap <expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
 
 " go to next buffer
 " nnoremap <silent> <leader>bn :bn<CR>
@@ -341,7 +349,7 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap M :Marks<CR>
 
 " Tag finder
-nmap <Leader>t :BTags<CR>
+" nmap <Leader>t :BTags<CR>
 
 " Terminal mode double pressed leader as Esc
 :tnoremap ,, <C-\><C-n>
@@ -536,6 +544,9 @@ let g:virtualenv_auto_activate = 1
 set listchars=tab:>\ ,trail:•,extends:>,precedes:<,nbsp:+
 set list
 
+" Disable slow ruby provider
+let g:loaded_ruby_provider = 0
+
 " commenter
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
@@ -650,6 +661,7 @@ autocmd vimenter * colorscheme gruvbox
 " Markdown previewer settings
 " set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0
+let g:mkdp_theme = 'light'
 let g:mkdp_auto_start = 0
 
 " set to 1, the nvim will auto close current preview window when change

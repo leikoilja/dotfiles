@@ -170,8 +170,12 @@ command! reload :write | restart
 " program.
 
 " Pdf
-filextype *.pdf okular %c %i &, apvlv %c, xpdf %c
-fileviewer *.pdf pdftotext -nopgbrk %c -
+filetype {*.pdf},<application/pdf>
+       \ {Open in Preview}
+       \ open -a Preview.app,
+       \ {Open in Skim}
+       \ open -a Skim.app,
+fileviewer {*.pdf},<application/pdf> pdftotext -nopgbrk %c -
 
 " PostScript
 filextype *.ps,*.eps,*.ps.gz
