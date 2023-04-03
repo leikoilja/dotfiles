@@ -13,6 +13,9 @@ ln -hfs "$DIR/.aliases" ~/.aliases
 ln -hfs "$DIR/.autoenv" ~/.autoenv
 ln -hfs "$DIR/.bashrc" ~/.bashrc
 ln -hfs "$DIR/.coc-settings.json" ~/.config/nvim/coc-settings.json
+ln -hfs "$DIR/init.lua" ~/.config/nvim/init.lua
+ln -hfs "$DIR/lua" ~/.config/nvim/lua
+ln -hfs "$DIR/.coc-settings.json" ~/.config/nvim/coc-settings.json
 ln -hfs "$DIR/.editorconfig" ~/.editorconfig
 ln -hfs "$DIR/.eslintrc.js" ~/.eslintrc.js
 ln -hfs "$DIR/.gitconfig" ~/.gitconfig
