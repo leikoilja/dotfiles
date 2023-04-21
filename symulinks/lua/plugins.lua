@@ -61,6 +61,11 @@ packer.startup(function(use)
       requires = { {'nvim-lua/plenary.nvim'} }
     }
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }  -- telescope sorter
+    use { 'junegunn/fzf', run = './install --bin' } -- fzf
+    use { 'ibhagwan/fzf-lua',  -- fzf
+      -- optional for icon support
+      requires = { 'nvim-tree/nvim-web-devicons' }
+    }
     use({ -- silver searcher
       "kelly-lin/telescope-ag",
       requires = { "nvim-telescope/telescope.nvim" },

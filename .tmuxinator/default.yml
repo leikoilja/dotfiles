@@ -33,5 +33,5 @@ windows:
   - FM:
       - vifm ./
   - Editor:
-      - vimlua
+      - vim
   - Terminal:

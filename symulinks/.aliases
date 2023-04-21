@@ -57,8 +57,8 @@ fi
 alias ag='ag --path-to-ignore ~/.agignore'
 
 # Neovim
-alias vim="nvim -u ~/.config/nvim/init.vim.old"  # using old config
-alias vimlua="nvim"  # using lua config
+alias vimold="nvim -u ~/.config/nvim/init.vim.old"  # using old config
+alias vim="nvim"  # using lua config
 
 ## Project related comands
 # (note that project_name is extracted from tmux session's name)

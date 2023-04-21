@@ -20,15 +20,16 @@ vim.g.mapleader = ","
 
 -- Telescope search
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.git_files, {})
-vim.keymap.set('n', '<leader>fF', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fo', builtin.live_grep, {})
--- fuzzy find file
-vim.keymap.set('n', '<leader>fp', '<cmd>lua fuzzyFindFiles{}<cr>', {})
-vim.keymap.set('n', '<leader>fc', '<cmd>:Telescope resume<cr>', {})
-vim.keymap.set('n', '<leader>fw', builtin.grep_string, {})
-vim.keymap.set('n', '<leader>bb', builtin.buffers, {})
 vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
+vim.keymap.set('n', '<leader>bb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fF', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fct', '<cmd>:Telescope resume<cr>', {})
+vim.keymap.set('n', '<leader>ff', builtin.git_files, {})
+
+-- fzf
+vim.keymap.set('n', '<leader>fp', '<cmd>:FzfLua live_grep_native<cr>', {})
+vim.keymap.set('n', '<leader>fcf', '<cmd>:FzfLua live_grep_native<cr>', {})
+vim.keymap.set('n', '<leader>fw', '<cmd>:FzfLua grep_cword<cr>', {})
 
 -- Switch vim tabs
 -- vim.keymap.set('n', '<Tab>', '<Cmd>BufferLineCycleNext<CR>', {})
@@ -409,14 +410,11 @@ telescope.load_extension "ag"
 telescope.load_extension "fzf"
 telescope.load_extension "undo"
 
-function fuzzyFindFiles()
-  builtin.grep_string({
-    path_display = { 'smart' },
-    only_sort_text = true,
-    word_match = "-w",
-    search = '',
-  })
-end
+-- fzf (real one)
+local status, fzf_lua = pcall(require, "fzf-lua")
+fzf_lua.setup(
+  {'telescope'}  -- set profile closet to telescope in looks and feels
+)
 
 -- bufferline
 require("bufferline").setup{
@@ -521,8 +519,12 @@ wk.register({
     f = { "Find git file" },
     F = { "Find file in the project" },
     p = { "Silver search in the project" },
-    w = { "Find word" },
-    c = { "Continue last search" },
+    w = { "Find word in project" },
+    c = {
+      name = "Resume",
+      t = { "Continue last Telescope search" },
+      f = { "Continue last FZF search" },
+    }
   },
   g = {
     name = "git",
