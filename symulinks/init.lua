@@ -5,7 +5,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- set termguicolors to enable highlight groups
--- vim.opt.termguicolors = true
+vim.opt.termguicolors = true
 
 -- keybindings
 local map = require("utils").map
@@ -22,12 +22,16 @@ vim.g.mapleader = ","
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.git_files, {})
 vim.keymap.set('n', '<leader>fF', builtin.find_files, {})
-vim.keymap.set('n', '<leader>sp', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fo', builtin.live_grep, {})
+-- fuzzy find file
+vim.keymap.set('n', '<leader>fp', '<cmd>lua fuzzyFindFiles{}<cr>', {})
+vim.keymap.set('n', '<leader>fc', '<cmd>:Telescope resume<cr>', {})
+vim.keymap.set('n', '<leader>fw', builtin.grep_string, {})
 vim.keymap.set('n', '<leader>bb', builtin.buffers, {})
 vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
 
 -- Switch vim tabs
-vim.keymap.set('n', '<Tab>', '<Cmd>BufferLineCycleNext<CR>', {})
+-- vim.keymap.set('n', '<Tab>', '<Cmd>BufferLineCycleNext<CR>', {})
 vim.keymap.set('n', '<S-Tab>', '<Cmd>BufferLineCyclePrev<CR>', {})
 
 -- vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
@@ -93,12 +97,28 @@ vim.api.nvim_set_keymap('n', '<leader>xt', '<Plug>(toggle-lsp-diag)', { noremap 
 
 -- File tree
 local status, nvim_tree = pcall(require, "nvim-tree.api")
-vim.api.nvim_set_keymap('n', '<leader>n', '<cmd>NvimTreeToggle<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>nf', '<cmd>NvimTreeFindFile<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>nt', '<cmd>NvimTreeToggle<CR>', { noremap = true })
 
 -- Symbols outline (tagline)
 vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>SymbolsOutline<CR>', { noremap = true })
 
+-- neogit
+vim.api.nvim_set_keymap('n', '<leader>gg', '<cmd>Neogit<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>DiffviewOpen<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>gD', '<cmd>DiffviewOpen master<CR>', { noremap = true })
+
+-- search under cursor
+vim.api.nvim_set_keymap('n', '<CR>', [[:let @/ = '\<<C-r><C-w>\>' | :set hlsearch<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-c>', ':set invhlsearch<CR>', { noremap = true })
+
+-- git blame
+vim.api.nvim_set_keymap('n', '<leader>gb', '<cmd>GitBlameToggle<CR>', { noremap = true })
+
 -- settings
+
+-- editorconfig (should be neovim default, but was not yet released on the stable version)
+-- vim.g.editorconfig = true
 
 -- relative line numbers
 vim.wo.number = true
@@ -133,7 +153,7 @@ require('lualine').setup {
     lualine_c = { {
       'filename',
       file_status = true, -- displays file status (readonly status, modified status)
-      path = 0 -- 0 = just filename, 1 = relative path, 2 = absolute path
+      path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
     }, 'lsp_progress'},
     lualine_x = {
         {require('auto-session-library').current_session_name},
@@ -169,7 +189,6 @@ require("mason-lspconfig").setup{  -- After changes, run :Mason to install
         "cssls",
         "dockerls",
         "docker_compose_language_service",
-        "eslint",
         "html",
         "lua_ls",
         "jsonls",
@@ -183,10 +202,13 @@ require("mason-lspconfig").setup{  -- After changes, run :Mason to install
 }
 require("mason-null-ls").setup({  -- After changes, run :Mason to install
     automatic_setup = true,
-    ensure_installed = { "eslint", "eslint_d" }
+    ensure_installed = { "eslint", "djlint"}
 })
 
 require("mason").setup()
+
+-- Pin node version that neovim will use
+-- vim.g.node_host_prog = '~/.nvm/versions/node/v18.16.0/bin/node'
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local lspconfig = require('lspconfig')
@@ -196,18 +218,7 @@ lspconfig.pylsp.setup{}
 lspconfig.pyright.setup{}
 lspconfig.tailwindcss.setup {}
 
-local on_attach = function(client, bufnr)
-  -- format on save
-  if client.server_capabilities.documentFormattingProvider then
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = vim.api.nvim_create_augroup("Format", { clear = true }),
-      buffer = bufnr,
-      callback = function() vim.lsp.buf.formatting_seq_sync() end
-    })
-  end
-end
-
--- CMP completion plugin 
+-- CMP completion plugin
 local status, cmp = pcall(require, "cmp")
 if (not status) then return end
 
@@ -241,10 +252,20 @@ vim.cmd [[
 
 -- TypeScript
 lspconfig.tsserver.setup {
-  on_attach = on_attach,
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-  cmd = { "typescript-language-server", "--stdio" }
+  cmd = { "typescript-language-server", "--stdio" },
+  on_attach = function(client)
+      client.server_capabilities.document_formatting = false  -- disable tsserver formatting to avoid conflicts with null-ls
+  end,
 }
+
+-- Hide inline diagnostic
+-- vim.diagnostic.disable()
+
+-- You will likely want to reduce updatetime which affects CursorHold
+-- note: this setting is global and should be set only once
+vim.o.updatetime = 250
+vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -265,17 +286,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<space>f', function()
+    vim.keymap.set('n', 'gi',vim.lsp.buf.implementation, opts)
+    -- vim.keymap.set('n', '<leader>xD', vim.lsp.buf.type_definition, opts)
+    -- vim.keymap.set('n', '<leader>xr',vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<leader>xa',vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<leader>F', function()
       vim.lsp.buf.format { async = true }
     end, opts)
   end,
@@ -337,52 +352,78 @@ autopairs.setup({
 
 -- telescope
 local status, telescope = pcall(require, "telescope")
+local actions = require('telescope.actions')
 if (not status) then return end
 
 telescope.setup{
   defaults = {
     mappings = {
       i = {
-        ["<C-j>"] = require('telescope.actions').move_selection_next,
-        ["<C-k>"] = require('telescope.actions').move_selection_previous,
-        ["<C-h>"] = require('telescope.actions').select_horizontal,
-        ["<C-v>"] = require('telescope.actions').select_vertical,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-h>"] = actions.select_horizontal,
+        ["<C-v>"] = actions.select_vertical,
+        ["<C-f>"] = actions.to_fuzzy_refine,
       },
-	n = {
-
-        ["<C-c>"] = require('telescope.actions').close,
+      n = {
+        ["<C-c>"] = actions.close,
       }
+    },
+    preview = {
+      treesitter = false,
     }
   },
-    pickers = {
-        find_files = {
-            hidden = true
-        }
+  pickers = {
+    find_files = {
+      hidden = true
     },
-extensions = {
-	undo = {
-          side_by_side = true,
-          layout_strategy = "vertical",
-          layout_config = {
-            preview_height = 0.8,
-          },
-          mappings = {
-            i = {
-              -- ["<C-y>"] = require("telescope-undo.actions").yank_additions,
-              -- ["<C-y>"] = require("telescope-undo.actions").yank_deletions,
-            ["<CR>"] = require("telescope-undo.actions").restore,
-          },
-        }
+    buffers = {
+      sort_lastused = true
+    },
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    },
+    undo = {
+      side_by_side = true,
+      layout_strategy = "vertical",
+      layout_config = {
+        preview_height = 0.8,
+      },
+      mappings = {
+        i = {
+          -- ["<C-y>"] = require("telescope-undo.actions").yank_additions,
+          -- ["<C-y>"] = require("telescope-undo.actions").yank_deletions,
+          ["<CR>"] = require("telescope-undo.actions").restore,
+        },
+      }
     }
-}}
+  }
+}
+telescope.load_extension "ag"
+telescope.load_extension "fzf"
 telescope.load_extension "undo"
+
+function fuzzyFindFiles()
+  builtin.grep_string({
+    path_display = { 'smart' },
+    only_sort_text = true,
+    word_match = "-w",
+    search = '',
+  })
+end
 
 -- bufferline
 require("bufferline").setup{
-	options ={
-		mode ="tabs",
-		show_buffer_close_icons = false
-	}
+    options ={
+        mode ="tabs",
+        show_buffer_close_icons = false
+    }
 }
 
 -- enable auto-indentation
@@ -407,13 +448,43 @@ gitsigns.setup()
 local status, null_ls = pcall(require, "null-ls")
 if (not status) then return end
 
+
+local lsp_formatting = function(bufnr)
+    vim.lsp.buf.format({
+        filter = function(client)
+            -- apply whatever logic you want (in this example, we'll only use null-ls)
+            return client.name == "null-ls"
+        end,
+        bufnr = bufnr,
+    })
+end
+
+-- if you want to set up formatting on save, you can use this as a callback
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
 null_ls.setup({
   sources = {
-    null_ls.builtins.diagnostics.eslint_d.with({
-      diagnostics_format = '[eslint] #{m}\n(#{c})'
-    }),
-    null_ls.builtins.diagnostics.fish
-  }
+    -- null_ls.builtins.diagnostics.eslint_d.with({
+    --   diagnostics_format = '[eslint] #{m}\n(#{c})'
+    -- }),
+    null_ls.builtins.diagnostics.eslint,
+    null_ls.builtins.completion.spell,
+
+    null_ls.builtins.formatting.prettierd,
+  },
+  on_attach = function(client, bufnr)
+    -- format on the file save
+    if client.supports_method("textDocument/formatting") then
+        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = augroup,
+            buffer = bufnr,
+            callback = function()
+                lsp_formatting(bufnr)
+            end,
+        })
+    end
+end
 })
 
 -- prettier
@@ -424,38 +495,53 @@ prettier.setup {
   bin = 'prettierd',
   filetypes = {
     "css",
+    "graphql",
+    "html",
     "javascript",
     "javascriptreact",
+    "json",
+    "less",
+    "markdown",
+    "scss",
     "typescript",
     "typescriptreact",
-    "json",
-    "scss",
-    "less"
+    "yaml",
   }
 }
 
 -- Toggle diagnostics
 require('toggle_lsp_diagnostics').init()
 
--- Whichkey mapping 
+-- Whichkey mapping
 local wk = require("which-key")
 
 wk.register({
   f = {
-    name = "file", -- optional group name
-    f = { "Find git file" }, 
-    F = { "Find file in the working directory" },
+    name = "find",
+    f = { "Find git file" },
+    F = { "Find file in the project" },
+    p = { "Silver search in the project" },
+    w = { "Find word" },
+    c = { "Continue last search" },
+  },
+  g = {
+    name = "git",
   },
   x = {
-    name = "trouble", 
+    name = "trouble",
     t = { "Toggle diagnostics" },
   },
+  n = {
+    name = "File tree",
+    f = { "Focus on the current file" },
+    t = { "Toggle the tree" },
+  },
   t = {
-    name = "terminal", 
+    name = "terminal",
     t = { "Extract and run JBL test under cursor" },
     c = { "Clear console" },
     l = { "Rerun last terminal command" },
-    s = { 
+    s = {
         name = "Send",
         s = { "Send selected text to REPL" },
     },
@@ -484,7 +570,7 @@ vim.cmd('augroup END')
 
 -- Display invisible characters
 vim.opt.listchars = {tab = '> ', trail = '•', extends = '>', precedes = '<',nbsp = '+'}
-vim.opt.list = true   
+vim.opt.list = true
 
 -- Enable smartcase (needs ignorecase) - lower finds all / upper finds exact
 -- Enable incremental search to see matches as we type
@@ -619,9 +705,32 @@ require('kanagawa').setup({
     end,
 })
 
+-- git blame
+vim.g.gitblame_enabled = 0
+
+local ok, colorizer = pcall(require, "colorizer")
+if not ok then return end
+
+-- Colorizer, is known to make live_grep freeze
+-- https://github.com/lilydjwg/colorizer
+colorizer.setup(
+    { "css", "scss", "javascript", "lua", "vim", "toml", "svelte", "typescript" },
+    {
+        RGB = true, -- #RGB hex codes
+        RRGGBB = true, -- #RRGGBB hex codes
+        names = false, -- "Name" codes like Blue oe blue
+        RRGGBBAA = true, -- #RRGGBBAA hex codes
+        rgb_fn = true, -- CSS rgb() and rgba() functions
+        hsl_fn = true, -- CSS hsl() and hsla() functions
+        css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        -- Available modes: foreground, background, virtualtext
+        mode = "background", -- Set the display mode.)
+    }
+)
 
 -- Theme setup
 -- vim.o.background = "dark" -- or "light" for light mode
--- vim.cmd([[colorscheme gruvbox]])
-vim.cmd("colorscheme kanagawa-wave")
+vim.cmd([[colorscheme gruvbox]])
+-- vim.cmd("colorscheme kanagawa-wave")
 -- vim.cmd("colorscheme kanagawa-dragon")
