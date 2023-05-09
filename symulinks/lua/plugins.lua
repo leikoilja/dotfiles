@@ -19,7 +19,7 @@ packer.startup(function(use)
         "jay-babu/mason-null-ls.nvim",  -- bridge between mason and null-ls
         'MunifTanjim/prettier.nvim',  -- prettier plugin for LSP
     }
-    use 'onsails/lspkind-nvim' -- VSCode-like pictograms
+    use 'onsails/lspkind.nvim' -- VSCode-like pictograms
     use {  -- list to show LSP diagnostics, references
       "folke/trouble.nvim",
       requires = "nvim-tree/nvim-web-devicons",
@@ -107,13 +107,13 @@ packer.startup(function(use)
     use {  -- session manager
       'rmagatti/auto-session',
     }
-    use {  -- git solution
-      'TimUntersberger/neogit',
-      requires = {
-        'nvim-lua/plenary.nvim',
-        'sindrets/diffview.nvim'  -- diff view
-      }
-    }
+    -- use {  -- git solution
+    --   'TimUntersberger/neogit',
+    --   requires = {
+    --     'nvim-lua/plenary.nvim',
+    --     'sindrets/diffview.nvim'  -- diff view
+    --   }
+    -- }
     use 'kchmck/vim-coffee-script'  -- coffeescript support
     use 'editorconfig/editorconfig-vim' -- editorconfig support
     use({  -- surround
@@ -127,4 +127,28 @@ packer.startup(function(use)
     })
     use 'f-person/git-blame.nvim'  -- git blame
     use 'norcalli/nvim-colorizer.lua'  -- color highlight on the color code
+    use { "zbirenbaum/copilot.lua" } -- copilot in lua
+    use {
+      "zbirenbaum/copilot-cmp",
+      after = { "copilot.lua", "nvim-cmp" },
+      config = function ()
+        require("copilot_cmp").setup()
+      end
+    }
+    use { -- renamer
+      'filipdutescu/renamer.nvim',
+      branch = 'master',
+      requires = { {'nvim-lua/plenary.nvim'} }
+    }
+    -- use({ -- chatgpt
+    --   "jackMort/ChatGPT.nvim",
+    --     config = function()
+    --       require("chatgpt").setup()
+    --     end,
+    --     requires = {
+    --       "MunifTanjim/nui.nvim",
+    --       "nvim-lua/plenary.nvim",
+    --       "nvim-telescope/telescope.nvim"
+    --     }
+    -- })
 end)

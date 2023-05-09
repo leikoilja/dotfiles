@@ -13,22 +13,17 @@ local JBLRunCurrentTest = require("utils").JBLRunCurrentTest
 
 vim.g.mapleader = ","
 
--- map("n", ",<Space>", ":nohlsearch<CR>", { silent = true })
--- map("n", "<Leader>", ":<C-u>WhichKey ','<CR>", { silent = true })
--- map("n", "<Leader>?", ":WhichKey ','<CR>")
--- map("n", "<Leader>a", ":cclose<CR>")
-
 -- Telescope search
 local builtin = require('telescope.builtin')
 vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
 vim.keymap.set('n', '<leader>bb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fF', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fct', '<cmd>:Telescope resume<cr>', {})
-vim.keymap.set('n', '<leader>ff', builtin.git_files, {})
+-- vim.keymap.set('n', '<leader>ff', builtin.git_files, {})
 
 -- fzf
-vim.keymap.set('n', '<leader>fp', '<cmd>:FzfLua live_grep_native<cr>', {})
-vim.keymap.set('n', '<leader>fcf', '<cmd>:FzfLua live_grep_native<cr>', {})
+vim.keymap.set('n', '<leader>fp', '<cmd>:FzfLua grep_project<cr>', {})
+vim.keymap.set('n', '<leader>fcf', '<cmd>:FzfLua grep_last<cr>', {})
 vim.keymap.set('n', '<leader>fw', '<cmd>:FzfLua grep_cword<cr>', {})
 
 -- Switch vim tabs
@@ -105,9 +100,9 @@ vim.api.nvim_set_keymap('n', '<leader>nt', '<cmd>NvimTreeToggle<CR>', { noremap 
 vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>SymbolsOutline<CR>', { noremap = true })
 
 -- neogit
-vim.api.nvim_set_keymap('n', '<leader>gg', '<cmd>Neogit<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>DiffviewOpen<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>gD', '<cmd>DiffviewOpen master<CR>', { noremap = true })
+-- vim.api.nvim_set_keymap('n', '<leader>gg', '<cmd>Neogit<CR>', { noremap = true })
+-- vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>DiffviewOpen<CR>', { noremap = true })
+-- vim.api.nvim_set_keymap('n', '<leader>gD', '<cmd>DiffviewOpen master<CR>', { noremap = true })
 
 -- search under cursor
 vim.api.nvim_set_keymap('n', '<CR>', [[:let @/ = '\<<C-r><C-w>\>' | :set hlsearch<CR>]], { noremap = true, silent = true })
@@ -115,6 +110,18 @@ vim.api.nvim_set_keymap('n', '<C-c>', ':set invhlsearch<CR>', { noremap = true }
 
 -- git blame
 vim.api.nvim_set_keymap('n', '<leader>gb', '<cmd>GitBlameToggle<CR>', { noremap = true })
+
+-- copilot
+-- vim.api.nvim_set_keymap("i", "<C-l>", "<Plug>(copilot-next)", { noremap = false, silent = true })
+-- vim.api.nvim_set_keymap("i", "<C-h>", "<Plug>(copilot-previous)", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>cp", ":Copilot panel<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>ct", ":lua require('copilot').toggle()<CR>", { noremap = true, silent = true })
+
+-- Close window if it's the last one, otherwise close buffer
+vim.api.nvim_set_keymap("n", "Q", ":if winnr('$') > 1 | q | else | bd | endif<CR>", { noremap = true, silent = true })
+
+-- renamer
+vim.api.nvim_set_keymap('n', '<leader>r', '<cmd>lua require("renamer").rename()<cr>', { noremap = true, silent = true })
 
 -- settings
 
@@ -157,7 +164,7 @@ require('lualine').setup {
       path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
     }, 'lsp_progress'},
     lualine_x = {
-        {require('auto-session-library').current_session_name},
+        -- {require('auto-session-library').current_session_name},
       { 'diagnostics', sources = { "nvim_diagnostic" }, symbols = { error = ' ', warn = ' ', info = ' ',
         hint = ' ' } },
       'encoding',
@@ -179,31 +186,31 @@ require('lualine').setup {
     lualine_z = {}
   },
   tabline = {},
-  extensions = { 'fugitive' }
+  extensions = {}
 }
 
 -- LSP configurations
 require("mason").setup()
 require("mason-lspconfig").setup{  -- After changes, run :Mason to install
     ensure_installed = {
+        "angularls",
         "bashls",
         "cssls",
-        "dockerls",
         "docker_compose_language_service",
+        "dockerls",
         "html",
-        "lua_ls",
         "jsonls",
-        "tsserver",
-        "pyright",
+        "lua_ls",
         "pylsp",
+        "pyright",
         "tailwindcss",
         "terraformls",
-        "angularls"
+        "tsserver",
     }
 }
 require("mason-null-ls").setup({  -- After changes, run :Mason to install
     automatic_setup = true,
-    ensure_installed = { "eslint", "djlint"}
+    ensure_installed = { "eslint", "djlint", "mypy"}
 })
 
 require("mason").setup()
@@ -219,11 +226,67 @@ lspconfig.pylsp.setup{}
 lspconfig.pyright.setup{}
 lspconfig.tailwindcss.setup {}
 
+-- lspkind vscode-like pictograms for LSP
+local lspkind = require('lspkind')
+
+-- Copilot
+local status, copilot = pcall(require, "copilot")
+if not status then return end
+
+copilot.setup({
+  panel = {
+    enabled = true,
+    auto_refresh = false,
+    keymap = {
+      jump_prev = "[[",
+      jump_next = "]]",
+      accept = "<CR>",
+      refresh = "gr",
+      open = "<C-CR>"
+    },
+    layout = {
+      position = "bottom", -- | top | left | right
+      ratio = 0.4
+    },
+  },
+  -- suggestion = {
+  --   enabled = true,
+  --   auto_trigger = true,
+  --   debounce = 75,
+  --   keymap = {
+  --     accept = "<TAB>",
+  --     accept_word = false,
+  --     accept_line = false,
+  --     next = "<C-l>",
+  --     prev = "<C-h>",
+  --     dismiss = "<C-]>",
+  --   },
+  -- },
+  suggestion = { enabled = false },
+  filetypes = {
+    -- help = false,
+    -- yaml = false,
+    -- markdown = false,
+    -- gitcommit = false,
+    ['*'] = true,
+  },
+  copilot_node_command = 'node', -- Node.js version must be > 16.x
+  server_opts_overrides = {},
+})
+
 -- CMP completion plugin
 local status, cmp = pcall(require, "cmp")
 if (not status) then return end
 
 cmp.setup({
+  formatting = {
+    format = lspkind.cmp_format({
+      mode = 'symbol', -- show only symbol annotations
+      maxwidth = 50,
+      ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+      symbol_map = { Copilot = "" },
+    })
+  },
   snippet = {
     expand = function(args)
       require('luasnip').lsp_expand(args.body)
@@ -234,12 +297,21 @@ cmp.setup({
     ['<C-j>'] = cmp.mapping.select_next_item(),
     ['<C-u>'] = cmp.mapping.scroll_docs(-4),
     ['<C-d>'] = cmp.mapping.scroll_docs(4),
+    ['<C-s>'] = cmp.mapping.complete({
+        config = {
+            sources = {
+              { name = 'copilot' },
+            }
+          }
+        }
+    ),
     ['<CR>'] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = true
     }),
   }),
   sources = cmp.config.sources({
+    { name = 'copilot' },
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'buffer' },
@@ -298,37 +370,47 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- treesitter
-local status, ts = pcall(require, "nvim-treesitter.configs")
+local status, treesitter = pcall(require, "nvim-treesitter.configs")
 if (not status) then return end
 
-ts.setup {
+treesitter.setup {
+  auto_install = true,
   highlight = {
     enable = true,
-    disable = {"lua"},
+    disable = {
+      "lua",
+      -- https://github.com/nvim-treesitter/nvim-treesitter/issues/1788#issuecomment-972764251
+      "htmldjango",
+    },
   },
   indent = {
     enable = true,
     disable = {},
   },
   ensure_installed = {
-    "tsx",
-    "toml",
     "bash",
+    "c",
+    "css",
+    "dockerfile",
+    "graphql",
+    "html",
+    "htmldjango",
+    "javascript",
     "json",
     "json5",
     "latex",
-    "yaml",
-    "css",
-    "html",
     "lua",
+    "lua",
+    "python",
+    "query",
     "scss",
     "sql",
     "terraform",
-    "python",
-    "dockerfile",
-    "graphql",
-    "htmldjango",
-    "javascript",
+    "toml",
+    "tsx",
+    "vim",
+    "vimdoc",
+    "yaml",
   },
   autotag = {
     enable = true,
@@ -413,8 +495,20 @@ telescope.load_extension "undo"
 -- fzf (real one)
 local status, fzf_lua = pcall(require, "fzf-lua")
 fzf_lua.setup(
-  {'telescope'}  -- set profile closet to telescope in looks and feels
+  {
+    'telescope', -- set profile close to telescope in looks and feels
+    lsp = {
+        -- make lsp requests synchronous so they work with null-ls
+        async_or_timeout = 3000,
+    },
+    grep = {
+      -- ignore directiries during fuzzy grep search
+      cmd = "rg --color=always --smart-case -g '!{.git,node_modules,tinymce}/'"
+    }
+  }
 )
+
+-- require'fzf-lua'.grep({ })
 
 -- bufferline
 require("bufferline").setup{
@@ -466,6 +560,13 @@ null_ls.setup({
     --   diagnostics_format = '[eslint] #{m}\n(#{c})'
     -- }),
     null_ls.builtins.diagnostics.eslint,
+    null_ls.builtins.diagnostics.mypy.with({
+      diagnostics_format = '[mypy] #{m}\n(#{c})',
+      -- Have to specify the path to mypy (installed by global arm pip3) because auto installed with Mason
+      -- failes to detect extra pliugin/types installed
+      prefer_local = 'venv/bin',
+      -- command = "/opt/homebrew/bin/mypy",
+    }),
     null_ls.builtins.completion.spell,
 
     null_ls.builtins.formatting.prettierd,
@@ -528,6 +629,9 @@ wk.register({
   },
   g = {
     name = "git",
+  },
+  r = {
+    name = "Renamer",
   },
   x = {
     name = "trouble",
@@ -648,7 +752,9 @@ dashboard.section.buttons.val = {
 }
 
 -- Auto session
-require("auto-session").setup {
+local ok, autosession = pcall(require, "auto-session")
+if not ok then return end
+autosession.setup {
     log_level = "error",
 
   cwd_change_handling = {
@@ -663,13 +769,13 @@ vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,te
 
 
 -- neogit
-local neogit = require('neogit')
-
-neogit.setup {
-    integrations = {
-        diffview = true
-    }
-}
+-- local neogit = require('neogit')
+--
+-- neogit.setup {
+--     integrations = {
+--         diffview = true
+--     }
+-- }
 
 -- kanagawas theme
 require('kanagawa').setup({
@@ -733,6 +839,22 @@ colorizer.setup(
 
 -- Theme setup
 -- vim.o.background = "dark" -- or "light" for light mode
+require("gruvbox").setup({})
 vim.cmd([[colorscheme gruvbox]])
 -- vim.cmd("colorscheme kanagawa-wave")
 -- vim.cmd("colorscheme kanagawa-dragon")
+
+-- disable putting comments on new lines
+vim.cmd("au FileType * set fo-=c fo-=r fo-=o")
+
+-- Set python interpreter
+vim.g.python3_host_prog = '/opt/homebrew/bin/python3'
+
+-- renamer
+local status, renamer = pcall(require, "renamer")
+if (not status) then return end
+
+renamer.setup {
+  show_refs = true,
+  empty = false,
+}

@@ -26,10 +26,6 @@ startup_window: Editor
 # attach: false
 
 windows:
-  - GIT:
-      layout: main-vertical
-      panes:
-        - magit
   - FM:
       - vifm ./
   - Editor:

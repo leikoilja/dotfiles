@@ -1,9 +1,9 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$PATH:/opt/homebrew/bin/
 export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
-export PATH="/Users/leikoilja/Library/Python/2.7/bin:$PATH"
-export PATH=$PATH:~/.local/kitty.app/bin
+# export PATH="/Users/leikoilja/Library/Python/2.7/bin:$PATH"
+# export PATH=$PATH:~/.local/kitty.app/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/leikoilja/.oh-my-zsh"
@@ -96,7 +96,7 @@ export WORKON_HOME=~/Development/Envs
 # aliases
 [[ -f ~/.aliases ]] && source ~/.aliases
 
-alias python='python3'
+# alias python='python3'
 
 # Load tmuxinator completion
 source ~/.tmuxinator.zsh
@@ -170,7 +170,7 @@ function gmm()
 # source /Library/Python/3.8/site-packages/powerline/bindings/bash/powerline.sh
 
 # Sintax highlighter
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
 
 export ANDROID_HOME=$HOME/Library/Android/sdk
@@ -195,3 +195,5 @@ export PATH="/Users/leikoilja/.local/bin:$PATH"
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+export LIBMEMCACHED="/opt/homebrew/Cellar/libmemcached/1.0.18_2"
