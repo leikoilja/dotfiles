@@ -18,6 +18,7 @@ ln -hfs "$DIR/.eslintrc.js" ~/.eslintrc.js
 ln -hfs "$DIR/.gitconfig" ~/.gitconfig
 ln -hfs "$DIR/.gitignore" ~/.gitignore
 ln -hfs "$DIR/.lazygit_config.yml" ~/.lazygit_config.yml
+ln -hfs "$DIR/.skhdrc" ~/.skhdrc
 ln -hfs "$DIR/.ssh" ~/.ssh
 ln -hfs "$DIR/.tmux.conf" ~/.tmux.conf
 ln -hfs "$DIR/.tmux.conf.local" ~/.tmux.conf.local
@@ -28,3 +29,4 @@ ln -hfs "$DIR/.vimrc" ~/.vimrc
 ln -hfs "$DIR/.zshrc_mac" ~/.zshrc
 ln -hfs "$DIR/init.lua" ~/.config/nvim/init.lua
 ln -hfs "$DIR/lua" ~/.config/nvim/lua
+ln -hfs "$DIR/yabairc" ~/.config/yabai/yabairc

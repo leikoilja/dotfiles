@@ -197,3 +197,4 @@ source $(brew --prefix nvm)/nvm.sh
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 export LIBMEMCACHED="/opt/homebrew/Cellar/libmemcached/1.0.18_2"
+export OPENAI_API_KEY='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'

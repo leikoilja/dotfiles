@@ -1,0 +1,67 @@
+# restart yabai config
+###############################
+### General shortcuts ###
+###############################
+
+ctrl + alt + cmd - r : yabai --restart-service; skhd --restart-service
+
+###############################
+### Yabai window management ###
+###############################
+
+# balance size of windows
+shift + alt - r : yabai -m space --balance
+
+# create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
+alt + cmd - n : yabai -m space --create && \
+                index="$(yabai -m query --spaces --display | jq 'map(select(."is-native-fullscreen" == false))[-1].index')" && \
+                yabai -m window --space "${index}" && \
+                yabai -m space --focus "${index}"
+
+# delete focused space
+alt + cmd - x : yabai -m space --destroy
+
+# fast focus desktop
+alt - i : yabai -m space --focus next
+alt - o : yabai -m space --focus prev
+
+# increase width
+shift + alt - h : yabai -m window --resize left:-50:0
+shift + alt - l : yabai -m window --resize right:50:0
+
+# decrease width
+ctrl + alt - l : yabai -m window --resize left:50:0
+ctrl + alt - h : yabai -m window --resize right:-50:0
+
+# increase height
+shift + alt - k : yabai -m window --resize top:0:-20
+
+# decrease height
+shift + alt - j : yabai -m window --resize top:0:20
+
+# mirror by Y
+alt - m : yabai -m space --mirror y-axis
+
+# mirror by X
+ctrl + alt - m : yabai -m space --mirror x-axis
+
+# toggle window zoom
+alt - f : yabai -m window --toggle zoom-fullscreen
+
+# toggle window split type
+alt - e : yabai -m window --toggle split
+
+# float / unfloat window and center on screen
+alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+
+# Focus window
+alt - l : yabai -m window --focus east
+alt - h : yabai -m window --focus west
+alt - k : yabai -m window --focus north
+alt - j : yabai -m window --focus south
+
+# Move window
+shift + ctrl + alt - l : yabai -m window --swap east
+shift + ctrl + alt - h : yabai -m window --swap west
+shift + ctrl + alt - k : yabai -m window --swap north
+shift + ctrl + alt - j : yabai -m window --swap south

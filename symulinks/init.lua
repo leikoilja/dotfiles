@@ -11,6 +11,8 @@ vim.opt.termguicolors = true
 local map = require("utils").map
 local JBLRunCurrentTest = require("utils").JBLRunCurrentTest
 
+local github = require("github")
+
 vim.g.mapleader = ","
 
 -- Telescope search
@@ -19,7 +21,7 @@ vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
 vim.keymap.set('n', '<leader>bb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fF', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fct', '<cmd>:Telescope resume<cr>', {})
--- vim.keymap.set('n', '<leader>ff', builtin.git_files, {})
+vim.keymap.set('n', '<leader>ff', builtin.git_files, {})
 
 -- fzf
 vim.keymap.set('n', '<leader>fp', '<cmd>:FzfLua grep_project<cr>', {})
@@ -99,10 +101,13 @@ vim.api.nvim_set_keymap('n', '<leader>nt', '<cmd>NvimTreeToggle<CR>', { noremap 
 -- Symbols outline (tagline)
 vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>SymbolsOutline<CR>', { noremap = true })
 
--- neogit
--- vim.api.nvim_set_keymap('n', '<leader>gg', '<cmd>Neogit<CR>', { noremap = true })
--- vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>DiffviewOpen<CR>', { noremap = true })
--- vim.api.nvim_set_keymap('n', '<leader>gD', '<cmd>DiffviewOpen master<CR>', { noremap = true })
+-- ChatGPT
+vim.api.nvim_set_keymap('n', '<leader>cc', '<cmd>ChatGPT<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>ca', '<cmd>ChatGPTActAs<CR>', { noremap = true })
+-- vim.api.nvim_set_keymap('n', '<leader>ci', '<cmd>ChatGPTEditWithInstructions<CR>', { noremap = true })
+
+-- lazygit inside floatearm
+vim.api.nvim_set_keymap('n', '<leader>gg', '<cmd>FloatermNew --width=1.0 --height=1.0 lazygit --use-config-file="$HOME/.lazygit_config.yml"<CR>', { noremap = true })
 
 -- search under cursor
 vim.api.nvim_set_keymap('n', '<CR>', [[:let @/ = '\<<C-r><C-w>\>' | :set hlsearch<CR>]], { noremap = true, silent = true })
@@ -118,10 +123,13 @@ vim.api.nvim_set_keymap("n", "<leader>cp", ":Copilot panel<CR>", { noremap = tru
 vim.api.nvim_set_keymap("n", "<leader>ct", ":lua require('copilot').toggle()<CR>", { noremap = true, silent = true })
 
 -- Close window if it's the last one, otherwise close buffer
-vim.api.nvim_set_keymap("n", "Q", ":if winnr('$') > 1 | q | else | bd | endif<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "Q", ":if winnr('$') > 1 | q | else | bd | endif<CR>", { noremap = true, silent = true })
 
 -- renamer
 vim.api.nvim_set_keymap('n', '<leader>r', '<cmd>lua require("renamer").rename()<cr>', { noremap = true, silent = true })
+
+-- octo commands picker
+vim.api.nvim_set_keymap('n', '<leader>go', ':lua require"github".octo_menu()<cr>' , { noremap = true })
 
 -- settings
 
@@ -157,12 +165,12 @@ require('lualine').setup {
   },
   sections = {
     lualine_a = { 'mode' },
-    lualine_b = { 'branch' },
-    lualine_c = { {
-      'filename',
-      file_status = true, -- displays file status (readonly status, modified status)
-      path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
-    }, 'lsp_progress'},
+    lualine_b = {{
+        'filename',
+        file_status = true, -- displays file status (readonly status, modified status)
+        path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
+    }},
+    lualine_c = { 'lsp_progress'},
     lualine_x = {
         -- {require('auto-session-library').current_session_name},
       { 'diagnostics', sources = { "nvim_diagnostic" }, symbols = { error = ' ', warn = ' ', info = ' ',
@@ -175,12 +183,12 @@ require('lualine').setup {
   },
   inactive_sections = {
     lualine_a = {},
-    lualine_b = {},
-    lualine_c = { {
-      'filename',
-      file_status = true, -- displays file status (readonly status, modified status)
-      path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
+    lualine_b = {{
+        'filename',
+        file_status = true, -- displays file status (readonly status, modified status)
+        path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
     }},
+    lualine_c = {},
     lualine_x = { 'location' },
     lualine_y = {},
     lualine_z = {}
@@ -210,7 +218,7 @@ require("mason-lspconfig").setup{  -- After changes, run :Mason to install
 }
 require("mason-null-ls").setup({  -- After changes, run :Mason to install
     automatic_setup = true,
-    ensure_installed = { "eslint", "djlint", "mypy"}
+    ensure_installed = { "eslint", "djlint", "mypy" }
 })
 
 require("mason").setup()
@@ -570,6 +578,7 @@ null_ls.setup({
     null_ls.builtins.completion.spell,
 
     null_ls.builtins.formatting.prettierd,
+    -- null_ls.builtins.formatting.black.with { extra_args = { "--fast" } },
   },
   on_attach = function(client, bufnr)
     -- format on the file save
@@ -611,10 +620,164 @@ prettier.setup {
 -- Toggle diagnostics
 require('toggle_lsp_diagnostics').init()
 
+-- chatgpt
+local status, chatgpt = pcall(require, "chatgpt")
+if (not status) then return end
+
+chatgpt.setup {
+    api_key_cmd = nil,
+    yank_register = "+",
+    chat = {
+      -- welcome_message = WELCOME_MESSAGE,
+      -- loading_text = "Loading, please wait ...",
+      -- question_sign = "",
+      -- answer_sign = "ﮧ",
+      -- max_line_length = 120,
+      -- sessions_window = {
+      --   border = {
+      --     style = "rounded",
+      --     text = {
+      --       top = " Sessions ",
+      --     },
+      --   },
+      --   win_options = {
+      --     winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+      --   },
+      -- },
+      keymaps = {
+        close = { "<C-c>" },
+        yank_last = "<C-y>",
+        yank_last_code = "<C-k>",
+        scroll_up = "<C-u>",
+        scroll_down = "<C-d>",
+        new_session = "<C-n>",
+        cycle_windows = "<Tab>",
+        cycle_modes = "<C-f>",
+        select_session = "<Space>",
+        rename_session = "r",
+        delete_session = "d",
+        draft_message = "<C-d>",
+        toggle_settings = "<C-o>",
+        toggle_message_role = "<C-r>",
+        toggle_system_role_open = "<C-s>",
+      },
+    },
+    edit_with_instructions = {
+      diff = false,
+      keymaps = {
+        close = "<C-c>",
+        accept = "<C-y>",
+        toggle_diff = "<C-d>",
+        toggle_settings = "<C-o>",
+        cycle_windows = "<Tab>",
+        use_output_as_input = "<C-h>",
+      },
+    },
+    popup_input = {
+      prompt = " 🚀 ",
+      border = {
+        highlight = "FloatBorder",
+        style = "rounded",
+        text = {
+          top_align = "center",
+          top = " Prompt ",
+        },
+      },
+      win_options = {
+        winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+      },
+      submit = "<C-Enter>",
+      submit_n = "<Enter>",
+    },
+    -- popup_layout = {
+    --   default = "center",
+    --   center = {
+    --     width = "80%",
+    --     height = "80%",
+    --   },
+    --   right = {
+    --     width = "30%",
+    --     width_settings_open = "50%",
+    --   },
+    -- },
+    -- popup_window = {
+    --   border = {
+    --     highlight = "FloatBorder",
+    --     style = "rounded",
+    --     text = {
+    --       top = " ChatGPT ",
+    --     },
+    --   },
+    --   win_options = {
+    --     wrap = true,
+    --     linebreak = true,
+    --     foldcolumn = "1",
+    --     winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+    --   },
+    --   buf_options = {
+    --     filetype = "markdown",
+    --   },
+    -- },
+    -- system_window = {
+    --   border = {
+    --     highlight = "FloatBorder",
+    --     style = "rounded",
+    --     text = {
+    --       top = " SYSTEM ",
+    --     },
+    --   },
+    --   win_options = {
+    --     wrap = true,
+    --     linebreak = true,
+    --     foldcolumn = "2",
+    --     winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+    --   },
+    -- },
+    -- settings_window = {
+    --   border = {
+    --     style = "rounded",
+    --     text = {
+    --       top = " Settings ",
+    --     },
+    --   },
+    --   win_options = {
+    --     winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+    --   },
+    -- },
+    -- openai_params = {
+    --   model = "gpt-3.5-turbo",
+    --   frequency_penalty = 0,
+    --   presence_penalty = 0,
+    --   max_tokens = 300,
+    --   temperature = 0,
+    --   top_p = 1,
+    --   n = 1,
+    -- },
+    -- openai_edit_params = {
+    --   model = "code-davinci-edit-001",
+    --   temperature = 0,
+    --   top_p = 1,
+    --   n = 1,
+    -- },
+    -- actions_paths = {},
+    -- show_quickfixes_cmd = "Trouble quickfix",
+    -- predefined_chat_gpt_prompts = "https://raw.githubusercontent.com/f/awesome-chatgpt-prompts/main/prompts.csv",
+}
+
 -- Whichkey mapping
 local wk = require("which-key")
 
 wk.register({
+  c = {
+    name = "AI",
+    t = { "Toggle Copilot" },
+    i = {
+        function()
+            chatgpt.edit_with_instructions()
+        end,
+        "Edit with instructions",
+    },
+  },
   f = {
     name = "find",
     f = { "Find git file" },
@@ -652,7 +815,7 @@ wk.register({
         s = { "Send selected text to REPL" },
     },
   },
-}, { prefix = "<leader>" })
+}, { prefix = "<leader>", mode = "v" })
 
 
 -- Neoterm
@@ -842,6 +1005,7 @@ colorizer.setup(
 require("gruvbox").setup({})
 vim.cmd([[colorscheme gruvbox]])
 -- vim.cmd("colorscheme kanagawa-wave")
+-- vim.cmd("colorscheme kanagawa-lotus")
 -- vim.cmd("colorscheme kanagawa-dragon")
 
 -- disable putting comments on new lines
@@ -858,3 +1022,124 @@ renamer.setup {
   show_refs = true,
   empty = false,
 }
+
+-- Octo
+-- https://github.com/tuanbass/doom-nvim/tree/tuanbass/lua/user/modules/features/github
+--
+-- require"octo".setup({
+--   default_remote = {"origin", "upstream"}; -- order to try remotes
+--   mappings = {
+--     issue = {
+--       close_issue = { lhs = "<leader>ic", desc = "close issue" },
+--       reopen_issue = { lhs = "<leader>io", desc = "reopen issue" },
+--       list_issues = { lhs = "<leader>il", desc = "list open issues on same repo" },
+--       reload = { lhs = "<C-r>", desc = "reload issue" },
+--       open_in_browser = { lhs = "<C-b>", desc = "open issue in browser" },
+--       copy_url = { lhs = "<C-y>", desc = "copy url to system clipboard" },
+--       add_assignee = { lhs = "<leader>aa", desc = "add assignee" },
+--       remove_assignee = { lhs = "<leader>ad", desc = "remove assignee" },
+--       create_label = { lhs = "<leader>lc", desc = "create label" },
+--       add_label = { lhs = "<leader>la", desc = "add label" },
+--       remove_label = { lhs = "<leader>ld", desc = "remove label" },
+--       goto_issue = { lhs = "<leader>gi", desc = "navigate to a local repo issue" },
+--       add_comment = { lhs = "<leader>ca", desc = "add comment" },
+--       delete_comment = { lhs = "<leader>cd", desc = "delete comment" },
+--       next_comment = { lhs = "]c", desc = "go to next comment" },
+--       prev_comment = { lhs = "[c", desc = "go to previous comment" },
+--       react_hooray = { lhs = "<leader>rp", desc = "add/remove 🎉 reaction" },
+--       react_heart = { lhs = "<leader>rh", desc = "add/remove ❤️ reaction" },
+--       react_eyes = { lhs = "<leader>re", desc = "add/remove 👀 reaction" },
+--       react_thumbs_up = { lhs = "<leader>r+", desc = "add/remove 👍 reaction" },
+--       react_thumbs_down = { lhs = "<leader>r-", desc = "add/remove 👎 reaction" },
+--       react_rocket = { lhs = "<leader>rr", desc = "add/remove 🚀 reaction" },
+--       react_laugh = { lhs = "<leader>rl", desc = "add/remove 😄 reaction" },
+--       react_confused = { lhs = "<leader>rc", desc = "add/remove 😕 reaction" },
+--     },
+--     pull_request = {
+--       checkout_pr = { lhs = "<leader>po", desc = "checkout PR" },
+--       merge_pr = { lhs = "<leader>pm", desc = "merge commit PR" },
+--       squash_and_merge_pr = { lhs = "<leader>psm", desc = "squash and merge PR" },
+--       list_commits = { lhs = "<leader>pc", desc = "list PR commits" },
+--       list_changed_files = { lhs = "<leader>pf", desc = "list PR changed files" },
+--       show_pr_diff = { lhs = "<leader>pd", desc = "show PR diff" },
+--       add_reviewer = { lhs = "<leader>va", desc = "add reviewer" },
+--       remove_reviewer = { lhs = "<leader>vd", desc = "remove reviewer request" },
+--       close_issue = { lhs = "<leader>ic", desc = "close PR" },
+--       reopen_issue = { lhs = "<leader>io", desc = "reopen PR" },
+--       list_issues = { lhs = "<leader>il", desc = "list open issues on same repo" },
+--       reload = { lhs = "<C-r>", desc = "reload PR" },
+--       open_in_browser = { lhs = "<C-b>", desc = "open PR in browser" },
+--       copy_url = { lhs = "<C-y>", desc = "copy url to system clipboard" },
+--       goto_file = { lhs = "gf", desc = "go to file" },
+--       add_assignee = { lhs = "<leader>aa", desc = "add assignee" },
+--       remove_assignee = { lhs = "<leader>ad", desc = "remove assignee" },
+--       create_label = { lhs = "<leader>lc", desc = "create label" },
+--       add_label = { lhs = "<leader>la", desc = "add label" },
+--       remove_label = { lhs = "<leader>ld", desc = "remove label" },
+--       goto_issue = { lhs = "<leader>gi", desc = "navigate to a local repo issue" },
+--       add_comment = { lhs = "<leader>ca", desc = "add comment" },
+--       delete_comment = { lhs = "<leader>cd", desc = "delete comment" },
+--       next_comment = { lhs = "]c", desc = "go to next comment" },
+--       prev_comment = { lhs = "[c", desc = "go to previous comment" },
+--       react_hooray = { lhs = "<leader>rp", desc = "add/remove 🎉 reaction" },
+--       react_heart = { lhs = "<leader>rh", desc = "add/remove ❤️ reaction" },
+--       react_eyes = { lhs = "<leader>re", desc = "add/remove 👀 reaction" },
+--       react_thumbs_up = { lhs = "<leader>r+", desc = "add/remove 👍 reaction" },
+--       react_thumbs_down = { lhs = "<leader>r-", desc = "add/remove 👎 reaction" },
+--       react_rocket = { lhs = "<leader>rr", desc = "add/remove 🚀 reaction" },
+--       react_laugh = { lhs = "<leader>rl", desc = "add/remove 😄 reaction" },
+--       react_confused = { lhs = "<leader>rc", desc = "add/remove 😕 reaction" },
+--     },
+--     review_thread = {
+--       goto_issue = { lhs = "<leader>gi", desc = "navigate to a local repo issue" },
+--       add_comment = { lhs = "<leader>ca", desc = "add comment" },
+--       add_suggestion = { lhs = "<leader>sa", desc = "add suggestion" },
+--       delete_comment = { lhs = "<leader>cd", desc = "delete comment" },
+--       next_comment = { lhs = "]c", desc = "go to next comment" },
+--       prev_comment = { lhs = "[c", desc = "go to previous comment" },
+--       select_next_entry = { lhs = "]q", desc = "move to previous changed file" },
+--       select_prev_entry = { lhs = "[q", desc = "move to next changed file" },
+--       close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+--       react_hooray = { lhs = "<leader>rp", desc = "add/remove 🎉 reaction" },
+--       react_heart = { lhs = "<leader>rh", desc = "add/remove ❤️ reaction" },
+--       react_eyes = { lhs = "<leader>re", desc = "add/remove 👀 reaction" },
+--       react_thumbs_up = { lhs = "<leader>r+", desc = "add/remove 👍 reaction" },
+--       react_thumbs_down = { lhs = "<leader>r-", desc = "add/remove 👎 reaction" },
+--       react_rocket = { lhs = "<leader>rr", desc = "add/remove 🚀 reaction" },
+--       react_laugh = { lhs = "<leader>rl", desc = "add/remove 😄 reaction" },
+--       react_confused = { lhs = "<leader>rc", desc = "add/remove 😕 reaction" },
+--     },
+--     submit_win = {
+--       approve_review = { lhs = "<C-a>", desc = "approve review" },
+--       comment_review = { lhs = "<C-m>", desc = "comment review" },
+--       request_changes = { lhs = "<C-r>", desc = "request changes review" },
+--       close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+--     },
+--     review_diff = {
+--       add_review_comment = { lhs = "<leader>ca", desc = "add a new review comment" },
+--       add_review_suggestion = { lhs = "<leader>sa", desc = "add a new review suggestion" },
+--       focus_files = { lhs = "<leader>e", desc = "move focus to changed file panel" },
+--       toggle_files = { lhs = "<leader>b", desc = "hide/show changed files panel" },
+--       next_thread = { lhs = "]t", desc = "move to next thread" },
+--       prev_thread = { lhs = "[t", desc = "move to previous thread" },
+--       select_next_entry = { lhs = "]q", desc = "move to previous changed file" },
+--       select_prev_entry = { lhs = "[q", desc = "move to next changed file" },
+--       close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+--       toggle_viewed = { lhs = "<leader><leader>", desc = "toggle viewer viewed state" },
+--       goto_file = { lhs = "gf", desc = "go to file" },
+--     },
+--     file_panel = {
+--       next_entry = { lhs = "j", desc = "move to next changed file" },
+--       prev_entry = { lhs = "k", desc = "move to previous changed file" },
+--       select_entry = { lhs = "<cr>", desc = "show selected changed file diffs" },
+--       refresh_files = { lhs = "R", desc = "refresh changed files panel" },
+--       focus_files = { lhs = "<leader>e", desc = "move focus to changed file panel" },
+--       toggle_files = { lhs = "<leader>b", desc = "hide/show changed files panel" },
+--       select_next_entry = { lhs = "]q", desc = "move to previous changed file" },
+--       select_prev_entry = { lhs = "[q", desc = "move to next changed file" },
+--       close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+--       toggle_viewed = { lhs = "<leader><leader>", desc = "toggle viewer viewed state" },
+--     }
+--   }
+-- })
+

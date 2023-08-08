@@ -135,20 +135,36 @@ packer.startup(function(use)
         require("copilot_cmp").setup()
       end
     }
+    use({ -- chatGPT
+      "jackMort/ChatGPT.nvim",
+        config = function()
+          require("chatgpt").setup()
+        end,
+        requires = {
+          "MunifTanjim/nui.nvim",
+          "nvim-lua/plenary.nvim",
+          "nvim-telescope/telescope.nvim"
+        }
+    })
     use { -- renamer
       'filipdutescu/renamer.nvim',
       branch = 'master',
       requires = { {'nvim-lua/plenary.nvim'} }
     }
-    -- use({ -- chatgpt
-    --   "jackMort/ChatGPT.nvim",
-    --     config = function()
-    --       require("chatgpt").setup()
-    --     end,
-    --     requires = {
-    --       "MunifTanjim/nui.nvim",
-    --       "nvim-lua/plenary.nvim",
-    --       "nvim-telescope/telescope.nvim"
-    --     }
-    -- })
+    use 'voldikss/vim-floaterm' -- floating windows
+    use {  -- python black
+      'psf/black',
+      branch = 'stable'
+    }
+    use { -- Github issues/PR editor
+      'pwntester/octo.nvim',
+      requires = {
+        'nvim-lua/plenary.nvim',
+        'nvim-telescope/telescope.nvim',
+        'kyazdani42/nvim-web-devicons',
+      },
+      config = function ()
+        require"octo".setup()
+      end
+    }
 end)
