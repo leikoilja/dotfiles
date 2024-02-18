@@ -661,7 +661,7 @@ chatgpt.setup {
       submit_n = "<Enter>",
     },
     actions_paths = {
-        '/Users/leikoilja/Development/Dev_settings/dotfiles/nvim-chatgpt-actions/js.json'
+        '/Users/leikoilja/Development/dotfiles/nvim-chatgpt-actions/js.json'
     },
 }
 

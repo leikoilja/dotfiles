@@ -5,7 +5,7 @@
 
 # Get symulinks directory
 HOME="/Users/leikoilja"
-DIR="$HOME/Development/Dev_settings/dotfiles/symulinks"
+DIR="$HOME/Development/dotfiles/symulinks"
 
 # Setup symbolic links
 ln -hfs "$DIR/.agignore" ~/.agignore
