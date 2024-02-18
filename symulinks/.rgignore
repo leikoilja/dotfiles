@@ -1,0 +1,6 @@
+*.lock
+LC_MESSAGES/
+
+tinymce/
+
+*/static/js/*

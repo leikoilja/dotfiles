@@ -1,0 +1,48 @@
+[core]
+  excludesfile = ~/.gitignore
+
+[color]
+  ui = true
+
+[user]
+  name = Ilja Leiko
+  email = leikoilja@gmail.com
+  username = leikoilja
+
+[web]
+  browser = google-chrome
+
+[core]
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only --features=interactive
+
+[delta]
+  features = decorations
+  side-by-side = true
+
+[delta "interactive"]
+  keep-plus-minus-markers = false
+
+[delta "decorations"]
+  commit-decoration-style = blue ol
+  commit-style = raw
+  file-style = omit
+  hunk-header-decoration-style = blue box
+  hunk-header-file-style = red
+  hunk-header-line-number-style = "#067a00"
+  hunk-header-style = file line-number syntax
+
+[filter "lfs"]
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+[init]
+	templateDir = /Users/leikoilja/.git-templates/git-secrets
+[secrets]
+	providers = git secrets --aws-provider
+	patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
+	patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
+	patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?

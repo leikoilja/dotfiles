@@ -1,0 +1,13 @@
+{
+  "add_cypress_component_tests": {
+    "type": "chat",
+    "opts": {
+      "template": "Implement a cyptess component tests for the following code.\n\nCode:\n```{{filetype}}\n{{input}}\n```\n\nTests:\n```{{filetype}}",
+      "strategy": "append",
+      "params": {
+        "model": "gpt-3.5-turbo",
+        "stop": ["```"]
+      }
+    }
+  }
+}

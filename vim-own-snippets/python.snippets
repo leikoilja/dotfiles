@@ -1,0 +1,7 @@
+priority 1
+
+snippet _save "Class save" b
+def save(self, *args, **kwargs):
+    ${0}
+    super(${1:class_name}, self).save(*args, **kwargs)
+endsnippet

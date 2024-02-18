@@ -1,0 +1,21 @@
+os:
+  edit: 'nvim --server "$NVIM" --remote-tab {{filename}}'
+  editAtLine: 'nvim --server "$NVIM" --remote-tab {{filename}}; [ -z "$NVIM" ] || nvim --server "$NVIM" --remote-send ":{{line}}<CR>"'
+  editAtLineAndWait: "nvim +{{line}} {{filename}}"
+promptToReturnFromSubprocess: false
+
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+
+gui:
+  showFileTree: false
+
+customCommands:
+  - key: "C"
+    command: "git cz c"
+    description: "commit with commitizen"
+    context: "files"
+    loadingText: "opening commitizen commit tool"
+    subprocess: true

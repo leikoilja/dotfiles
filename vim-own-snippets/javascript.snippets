@@ -1,0 +1,54 @@
+priority 1
+
+snippet RNimport "RN import" b
+import React from 'react';
+import { ${1:modules} } from 'react-native';
+import PropTypes from 'prop-types';
+endsnippet
+
+snippet RNCC "RN Class-based component" b
+export default class ${1:name} extends React.Component {
+  static propTypes = {
+    // string: PropTypes.string.isRequired,
+    // number: PropTypes.number.isRequired,
+    // array: PropTypes.arrayOf(shape).isRequired,
+    // func: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+  };
+
+  state = {
+  };
+
+  render() {
+    const {  } = this.state;
+    const {  } = this.prop;
+
+    return (
+
+    );
+  };
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+endsnippet
+
+snippet RCF "React component function-based" b
+import { Fragment } from "react";
+import styles from "./${1}.module.css";
+
+const ${1:name} = props => {
+  return (
+    <Fragment>
+      ${0}
+    </Fragment>
+  );
+}
+
+export default ${1}
+endsnippet
