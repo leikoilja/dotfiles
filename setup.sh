@@ -7,6 +7,7 @@
 HOME="/Users/leikoilja"
 DOTFILES="$HOME/Development/dotfiles"
 SYMLINKS="$DOTFILES/symlinks"
+SECRETS="$DOTFILES/.secrets"
 
 # Setup symbolic links
 ln -hfs "$SYMLINKS/.agignore" ~/.agignore
@@ -30,4 +31,5 @@ ln -hfs "$SYMLINKS/bpytop.conf" ~/.config/bpytop/bpytop.conf
 ln -hfs "$SYMLINKS/init.lua" ~/.config/nvim/init.lua
 ln -hfs "$SYMLINKS/lua" ~/.config/nvim/lua
 
-ln -hfs "$DOTFILES/secrets/.ssh" ~/.ssh
+ln -hfs "$SECRETS/" ~/.secrets
+ln -hfs "$SECRETS/.ssh" ~/.ssh
