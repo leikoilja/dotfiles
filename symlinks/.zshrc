@@ -123,7 +123,7 @@ function jmm()
     echo "You must specify the app to make migrations for"
     echo "Example: jmm metis"
   else
-    jbl
+    cdjbl
     echo -e "Makemigrations for $1"
     docker-compose exec web python manage.py makemigrations "$1"
     echo "Run migration for $1?"
@@ -143,7 +143,7 @@ function jdm()
     echo "You must specify the app to make datamigration for"
     echo "Example: jdm metis data_migration_name"
   else
-    jbl
+    cdjbl
     echo -e "Creating datamigration for $1 with name $2"
     docker-compose exec web python manage.py datamigration "$1" "$2"
   fi
@@ -213,3 +213,5 @@ eval "$(atuin init zsh)"
 
 # source shell_secrets file
 source ~/.secrets/shell_secrets
+
+source ~/.zshenv

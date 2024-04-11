@@ -920,7 +920,7 @@ vim.cmd([[colorscheme gruvbox]])
 vim.cmd("au FileType * set fo-=c fo-=r fo-=o")
 
 -- Set python interpreter
-vim.g.python3_host_prog = '/opt/homebrew/bin/python3'
+vim.g.python3_host_prog = '~/Development/Envs/nvim/bin/python'
 
 -- renamer
 local status, renamer = pcall(require, "renamer")
