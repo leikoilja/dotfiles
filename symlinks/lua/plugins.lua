@@ -178,5 +178,12 @@ packer.startup(function(use)
             disable_filename = 1
         }
       end, ft = { "markdown" }, })
+    use('lervag/vimtex',
+    {
+      "lervag/vimtex",
+      init = function()
+        -- Use init for configuration, don't use the more common "config".
+      end
+    })
 
 end)

@@ -21,7 +21,7 @@ vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
 vim.keymap.set('n', '<leader>fct', '<cmd>:Telescope resume<cr>', {})
 
 -- fzf
-vim.keymap.set('n', '<leader>bb', "<cmd>lua require('fzf-lua').buffers()<cr>", { silent = true })
+vim.keymap.set('n', '<leader>b', "<cmd>lua require('fzf-lua').buffers()<cr>", { silent = true })
 vim.keymap.set('n', '<leader>fF', "<cmd>lua require('fzf-lua').files()<cr>", { silent = true })
 vim.keymap.set('n', '<leader>ff', "<cmd>lua require('fzf-lua').git_files()<cr>", { silent = true })
 vim.keymap.set('n', '<leader>fp', "<cmd>lua require('fzf-lua').grep_project()<cr>", { silent = true })
@@ -714,10 +714,11 @@ wk.register({
         t = { "Toggle the tree" },
     },
     t = {
-        name = "terminal",
+        name = "terminal and editor",
         t = { "Extract and run JBL test under cursor with 1 worker" },
         f = { "Extract and run JBL test file with auto workers" },
         l = { "Clear console" },
+        c = { "Toggle color scheme" },
         r = { "Rerun last terminal command" },
         s = {
             name = "Send",
@@ -911,10 +912,26 @@ colorizer.setup(
 
 -- Theme setup
 require("gruvbox").setup({})
+
+-- activate default color scheme
 vim.cmd([[colorscheme gruvbox]])
--- vim.cmd("colorscheme kanagawa-wave")
--- vim.cmd("colorscheme kanagawa-lotus")
--- vim.cmd("colorscheme kanagawa-dragon")
+
+local color_schemes = {
+    "gruvbox",
+    "kanagawa-lotus",
+    -- "kanagawa-wave",
+    -- "kanagawa-dragon"
+}
+
+local current_scheme = 1
+
+function toggle_color_scheme()
+    current_scheme = current_scheme % #color_schemes + 1
+    vim.cmd("colorscheme " .. color_schemes[current_scheme])
+end
+
+vim.api.nvim_set_keymap('n', '<leader>tc', '<cmd>lua toggle_color_scheme()<CR>', { noremap = true, silent = true })
+
 
 -- disable putting comments on new lines
 vim.cmd("au FileType * set fo-=c fo-=r fo-=o")
