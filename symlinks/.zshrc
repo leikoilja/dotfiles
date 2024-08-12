@@ -217,3 +217,7 @@ source ~/.secrets/shell_secrets
 source ~/.zshenv
 
 source "$HOME/.rye/env"
+
+# for superfile
+export RUNEWIDTH_EASTASIAN=0
+

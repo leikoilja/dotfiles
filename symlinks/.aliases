@@ -17,6 +17,8 @@ alias tma='tmux attach'
 alias TTstart="tmuxinator start"
 alias TTdefault="tmuxinator start default"
 
+alias ytdl='yt-dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b"'
+
 
 ## Platform speficif commands
 unameOut="$(uname -s)"

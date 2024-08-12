@@ -578,6 +578,9 @@ null_ls.setup({
 end
 })
 
+-- skip string normalization for Black by setting variable g:black_skip_string_normalization
+vim.g.black_skip_string_normalization = 1
+
 -- prettier
 local status, prettier = pcall(require, "prettier")
 if (not status) then return end
@@ -848,42 +851,6 @@ autosession.setup {
 }
 vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
--- kanagawas theme
-require('kanagawa').setup({
-    overrides = function(colors)
-        local theme = colors.theme
-        return {
-            NormalFloat = { bg = "none" },
-            FloatBorder = { bg = "none" },
-
-            -- Save an hlgroup with dark background and dimmed foreground
-            -- so that you can use it where your still want darker windows.
-            -- E.g.: autocmd TermOpen * setlocal winhighlight=Normal:NormalDark
-            NormalDark = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
-
-            -- Popular plugins that open floats will link to NormalFloat by default;
-            -- set their background accordingly if you wish to keep them dark and borderless
-            LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
-            MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
-
-            -- Block-like modern Telescope UI
-            TelescopeTitle = { fg = theme.ui.special, bold = true },
-            TelescopePromptNormal = { bg = theme.ui.bg_p1 },
-            TelescopePromptBorder = { fg = theme.ui.bg_p1, bg = theme.ui.bg_p1 },
-            TelescopeResultsNormal = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m1 },
-            TelescopeResultsBorder = { fg = theme.ui.bg_m1, bg = theme.ui.bg_m1 },
-            TelescopePreviewNormal = { bg = theme.ui.bg_dim },
-            TelescopePreviewBorder = { bg = theme.ui.bg_dim, fg = theme.ui.bg_dim },
-
-            -- Dark completion (popup) menu
-            Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 },
-            PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
-            PmenuSbar = { bg = theme.ui.bg_m1 },
-            PmenuThumb = { bg = theme.ui.bg_p2 },
-        }
-    end,
-})
-
 -- git blame
 vim.g.gitblame_enabled = 0
 vim.g.gitblame_date_format = '%x %H:%M'
@@ -914,19 +881,23 @@ colorizer.setup(
 require("gruvbox").setup({})
 
 -- activate default color scheme
+vim.o.background = "dark"
 vim.cmd([[colorscheme gruvbox]])
 
 local color_schemes = {
     "gruvbox",
-    "kanagawa-lotus",
-    -- "kanagawa-wave",
-    -- "kanagawa-dragon"
+    "catppuccin-latte",
 }
 
 local current_scheme = 1
 
 function toggle_color_scheme()
     current_scheme = current_scheme % #color_schemes + 1
+    if current_scheme == 1 then
+        vim.o.background = "dark"
+    else
+        vim.o.background = "light"
+    end
     vim.cmd("colorscheme " .. color_schemes[current_scheme])
 end
 

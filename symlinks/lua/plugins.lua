@@ -10,7 +10,7 @@ vim.cmd [[packadd packer.nvim]]
 packer.startup(function(use)
     use 'wbthomason/packer.nvim'
     use 'ellisonleao/gruvbox.nvim' -- theme
-    use "rebelot/kanagawa.nvim"  -- theme
+    use { "catppuccin/nvim", as = "catppuccin" }
     use {
         "williamboman/mason.nvim",  -- mason LSP server management
         "neovim/nvim-lspconfig",  -- neovim lspconfig
@@ -185,5 +185,4 @@ packer.startup(function(use)
         -- Use init for configuration, don't use the more common "config".
       end
     })
-
 end)
