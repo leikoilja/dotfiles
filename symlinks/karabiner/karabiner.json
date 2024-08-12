@@ -4,9 +4,35 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Option+L to Lock Screen (macOS 10.13+)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "l",
+                                    "modifiers": { "mandatory": ["left_control", "left_command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "q",
+                                        "modifiers": ["left_control", "left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Left ctrl + hjkl to arrow keys Vim",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^io\\.alacritty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "h",
                                     "modifiers": {
@@ -18,6 +44,14 @@
                                 "type": "basic"
                             },
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^io\\.alacritty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "j",
                                     "modifiers": {
@@ -29,6 +63,14 @@
                                 "type": "basic"
                             },
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^io\\.alacritty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "k",
                                     "modifiers": {
@@ -40,6 +82,14 @@
                                 "type": "basic"
                             },
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^io\\.alacritty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "l",
                                     "modifiers": {
