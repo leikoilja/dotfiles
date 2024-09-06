@@ -17,30 +17,6 @@ vim.g.mapleader = ","
 
 -- Telescope search
 local builtin = require('telescope.builtin')
-vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
-vim.keymap.set('n', '<leader>fct', '<cmd>:Telescope resume<cr>', {})
-
--- fzf
-vim.keymap.set('n', '<leader>b', "<cmd>lua require('fzf-lua').buffers()<cr>", { silent = true })
-vim.keymap.set('n', '<leader>fF', "<cmd>lua require('fzf-lua').files()<cr>", { silent = true })
-vim.keymap.set('n', '<leader>ff', "<cmd>lua require('fzf-lua').git_files()<cr>", { silent = true })
-vim.keymap.set('n', '<leader>fp', "<cmd>lua require('fzf-lua').grep_project()<cr>", { silent = true })
-vim.keymap.set('n', '<leader>fcf', "<cmd>lua require('fzf-lua').grep_last()<cr>", { silent = true })
-vim.keymap.set('n', '<leader>fw', "<cmd>lua require('fzf-lua').grep_cword()<cr>", { silent = true })
-
--- Switch vim tabs
-vim.keymap.set('n', '<S-Tab>', '<Cmd>BufferLineCyclePrev<CR>', {})
-
-vim.keymap.set('i', '<leader><leader>', '<Esc>', {})
-
--- close all windows except current
-vim.keymap.set('n', '<leader>wo', ':only<CR>', {silent = true})
-
--- quick save
-vim.api.nvim_set_keymap('n', '<Leader>ww', ':update<CR>', { noremap = true, silent = true })
-
--- quick filew reload
-vim.api.nvim_set_keymap('n', '<Leader>we', ':e<CR>', { noremap = true, silent = true })
 
 -- windows nagivation
 vim.api.nvim_set_keymap('n', '<C-J>', '<C-W><C-J>', { noremap = true })
@@ -52,75 +28,16 @@ vim.api.nvim_set_keymap('n', '<C-H>', '<C-W><C-H>', { noremap = true })
 vim.api.nvim_set_keymap('n', 'H', '^', { noremap = true })
 vim.api.nvim_set_keymap('n', 'L', '$', { noremap = true })
 
--- sort selection
-vim.api.nvim_set_keymap('v', '<leader>S', ':sort <CR>', { noremap = true })
-
 -- search and center the screen
 vim.api.nvim_set_keymap('n', 'n', 'nzz', { noremap = true })
 vim.api.nvim_set_keymap('n', 'N', 'Nzz', { noremap = true })
 
--- Trouble
-vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
-  {silent = true, noremap = true}
-)
-vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
-  {silent = true, noremap = true}
-)
-vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
-  {silent = true, noremap = true}
-)
-
--- Hop (easymotion alternative)
-vim.api.nvim_set_keymap("n", "<leader><leader>", "<cmd>HopChar2<CR>", {noremap=true})
-
---- Neoterm terminal wrapper
--- ,, in the terminal windows as Esc
-vim.api.nvim_set_keymap('t', '<leader><leader>', '<C-\\><C-n>' , { silent = true })
-
--- Run the current test
-vim.api.nvim_set_keymap('n', '<leader>tt', ':lua require"utils".JBLRunCurrentTest("one")<cr>' , { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>tf', ':lua require"utils".JBLRunCurrentTest()<cr>' , { noremap = true })
-
--- Clear the terminal
-vim.api.nvim_set_keymap('n', '<leader>tl', [[:<C-u>exec v:count .. 'Tclear'<cr>]] , {noremap = true, silent = true})
-
--- Send selected text to REPL
-vim.api.nvim_set_keymap('v', '<leader>tss', '<Plug>(neoterm-repl-send)' , { noremap = true })
-
--- Rerun the last command
-vim.api.nvim_set_keymap('n', '<leader>tr', [[:<C-u>exec printf("%sTexec !! \<lt>cr>", v:count)<cr>]] , { noremap = true, silent = true })
-
--- Toggle diagnostics
-vim.api.nvim_set_keymap('n', '<leader>xt', '<Plug>(toggle-lsp-diag)', { noremap = true })
-
 -- File tree
 local status, nvim_tree = pcall(require, "nvim-tree.api")
-vim.api.nvim_set_keymap('n', '<leader>nf', '<cmd>NvimTreeFindFile<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>nt', '<cmd>NvimTreeToggle<CR>', { noremap = true })
-
--- Symbols outline (tagline)
-vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>SymbolsOutline<CR>', { noremap = true })
-
--- setup mapping to call :LazyGit
-vim.api.nvim_set_keymap('n', '<leader>gg', ':LazyGit<CR>', { silent = true })
 
 -- search under cursor
 vim.api.nvim_set_keymap('n', '<CR>', [[:let @/ = '\<<C-r><C-w>\>' | :set hlsearch<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-c>', ':set invhlsearch<CR>', { noremap = true })
-
--- git blame
-vim.api.nvim_set_keymap('n', '<leader>gb', '<cmd>GitBlameToggle<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>gi', '<cmd>GitBlameOpenCommitURL<CR>', { noremap = true })
-
--- copilot
-vim.api.nvim_set_keymap("n", "<leader>cp", ":Copilot panel<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>ct", ":lua require('copilot').toggle()<CR>", { noremap = true, silent = true })
-
--- renamer
-vim.api.nvim_set_keymap('n', '<leader>r', '<cmd>lua require("renamer").rename()<cr>', { noremap = true, silent = true })
-
--- octo commands picker
-vim.api.nvim_set_keymap('n', '<leader>go', ':lua require"github".octo_menu()<cr>' , { noremap = true })
 
 -- relative line numbers
 vim.wo.number = true
@@ -299,12 +216,9 @@ vim.cmd [[
 ]]
 
 -- TypeScript
-lspconfig.tsserver.setup {
+lspconfig.ts_ls.setup {
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
   cmd = { "typescript-language-server", "--stdio" },
-  on_attach = function(client)
-      client.server_capabilities.document_formatting = false  -- disable tsserver formatting to avoid conflicts with null-ls
-  end,
 }
 
 -- You will likely want to reduce updatetime which affects CursorHold
@@ -332,10 +246,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', 'gi',vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<leader>xa',vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<leader>F', function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
+    -- vim.keymap.set('n', '<leader>xa',vim.lsp.buf.code_action, opts)
+    -- vim.keymap.set('n', '<leader>F', function()
+    --   vim.lsp.buf.format { async = true }
+    -- end, opts)
   end,
 })
 
@@ -671,73 +585,85 @@ chatgpt.setup {
 
 -- Whichkey mapping
 local wk = require("which-key")
+wk.add({
+  -- AI Group
+  { "<leader>c", group = "AI" },
+  { "<leader>ca", "<cmd>ChatGPTRun add_cypress_component_tests<CR>", desc = "Add Tests" },
+  { "<leader>cb", "Toggle Copilot" },
+  { "<leader>cc", "<cmd>ChatGPT<CR>", desc = "ChatGPT" },
+  { "<leader>cd", "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring" },
+  { "<leader>ce", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
+  { "<leader>cf", "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs" },
+  { "<leader>cg", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
+  { "<leader>ck", "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords" },
+  { "<leader>cl", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis" },
+  { "<leader>co", "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code" },
+  { "<leader>cr", "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit" },
+  { "<leader>cs", "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize" },
+  { "<leader>ct", "<cmd>ChatGPTRun translate<CR>", desc = "Translate" },
+  { "<leader>cx", "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code" },
+  { "<leader>cp", ":Copilot panel<CR>", desc = "Copilot panel", mode = "n", noremap = true, silent = true },
+  -- { "<leader>ct", "<cmd>lua require('copilot').toggle()<CR>", desc = "Toggle Copilot", mode = "n", noremap = true, silent = true },
 
-wk.register({
-    ["<leader>"] = {
-        c = {
-            name = "AI",
+  -- Find Group
+  { "<leader>f", group = "Find" },
+  { "<leader>ff", "<cmd>lua require('fzf-lua').git_files()<cr>", desc = "Find git file", mode = "n", silent = true },
+  { "<leader>fF", "<cmd>lua require('fzf-lua').files()<cr>", desc = "Find file in the project", mode = "n", silent = true },
+  { "<leader>fp", "<cmd>lua require('fzf-lua').grep_project()<cr>", desc = "Silver search in the project", mode = "n", silent = true },
+  { "<leader>fw", "<cmd>lua require('fzf-lua').grep_cword()<cr>", desc = "Find word in project", mode = "n", silent = true },
+  { "<leader>fcf", "<cmd>lua require('fzf-lua').grep_last()<cr>", desc = "Continue last FZF search", mode = "n", silent = true },
 
-        a = { "<cmd>ChatGPTRun add_cypress_component_tests<CR>", "Add Tests" },
-        b = { "Toggle Copilot" },
-        c = { "<cmd>ChatGPT<CR>", "ChatGPT" },
-        d = { "<cmd>ChatGPTRun docstring<CR>", "Docstring" },
-        e = { "<cmd>ChatGPTEditWithInstruction<CR>", "Edit with instruction" },
-        f = { "<cmd>ChatGPTRun fix_bugs<CR>", "Fix Bugs" },
-        g = { "<cmd>ChatGPTRun grammar_correction<CR>", "Grammar Correction" },
-        k = { "<cmd>ChatGPTRun keywords<CR>", "Keywords" },
-        l = { "<cmd>ChatGPTRun code_readability_analysis<CR>", "Code Readability Analysis" },
-        o = { "<cmd>ChatGPTRun optimize_code<CR>", "Optimize Code" },
-        r = { "<cmd>ChatGPTRun roxygen_edit<CR>", "Roxygen Edit" },
-        s = { "<cmd>ChatGPTRun summarize<CR>", "Summarize" },
-        t = { "<cmd>ChatGPTRun translate<CR>", "Translate" },
-        x = { "<cmd>ChatGPTRun explain_code<CR>", "Explain Code" },
+  -- Buffer Group
+  { "<leader>b", "<cmd>lua require('fzf-lua').buffers()<cr>", desc = "Find buffers", mode = "n", silent = true },
 
-    },
-    f = {
-        name = "find",
-        f = { "Find git file" },
-        F = { "Find file in the project" },
-        p = { "Silver search in the project" },
-        w = { "Find word in project" },
-        c = {
-            name = "Resume",
-            t = { "Continue last Telescope search" },
-            f = { "Continue last FZF search" },
-        }
-    },
-    g = {
-        name = "git",
-        g = { "Open lazygit" },
-        b = { "Git blame" },
-        i = { "Open commit URL in browser" },
-        o = { "Octo menu" },
-    },
-    n = {
-        name = "File tree",
-        f = { "Focus on the current file" },
-        t = { "Toggle the tree" },
-    },
-    t = {
-        name = "terminal and editor",
-        t = { "Extract and run JBL test under cursor with 1 worker" },
-        f = { "Extract and run JBL test file with auto workers" },
-        l = { "Clear console" },
-        c = { "Toggle color scheme" },
-        r = { "Rerun last terminal command" },
-        s = {
-            name = "Send",
-            s = { "Send selected text to REPL" },
-        },
-    },
-    x = {
-        name = "trouble",
-        t = { "Toggle diagnostics" },
-    },
-    r = {
-        name = "Renamer",
-    }
-    }
-}, {mode={"n", "v"}})
+  -- Sorting
+  { "<leader>S", ":sort <CR>", desc = "Sort selection", mode = "v", noremap = true },
+
+  -- Git Group
+  { "<leader>g", group = "Git" },
+  { "<leader>gg", ":LazyGit<CR>", desc = "Open lazygit", mode = "n", silent = true },
+  { "<leader>gb", "<cmd>GitBlameToggle<CR>", desc = "Git blame toggle", mode = "n", noremap = true },
+  { "<leader>gi", "<cmd>GitBlameOpenCommitURL<CR>", desc = "Open commit URL in browser", mode = "n", noremap = true },
+  { "<leader>go", ':lua require"github".octo_menu()<cr>', desc = "Octo menu", mode = "n", noremap = true },
+
+  -- File Tree Group
+  { "<leader>n", group = "File tree" },
+  { "<leader>nf", "<cmd>NvimTreeFindFile<CR>", desc = "Find file in NvimTree", mode = "n", noremap = true },
+  { "<leader>nt", "<cmd>NvimTreeToggle<CR>", desc = "Toggle NvimTree", mode = "n", noremap = true },
+
+  -- Terminal and Editor Group
+  { "<leader>t", group = "Terminal and editor" },
+  { "<leader>tt", ':lua require"utils".JBLRunCurrentTest("one")<cr>', desc = "Run current test (one)", mode = "n", noremap = true },
+  { "<leader>tf", ':lua require"utils".JBLRunCurrentTest()<cr>', desc = "Run current test", mode = "n", noremap = true },
+  { "<leader>tl", [[:<C-u>exec v:count .. 'Tclear'<cr>]], desc = "Clear terminal", mode = "n", noremap = true, silent = true },
+  { "<leader>tc", "Toggle color scheme" },
+  { "<leader>tr", [[:<C-u>exec printf("%sTexec !! \<lt>cr>", v:count)<cr>]], desc = "Rerun last command", mode = "n", noremap = true, silent = true },
+  { "<leader>ts", group = "Send" },
+  { "<leader>tss", '<Plug>(neoterm-repl-send)', desc = "Send selected text to REPL", mode = "v", noremap = true },
+
+  -- Trouble Group
+  { "<leader>x", group = "Trouble" },
+
+  { "<leader>xt", '<Plug>(toggle-lsp-diag)', desc = "Toggle LSP diagnostics", mode = "n", noremap = true },
+  { "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics", mode = "n", noremap = true, silent = true },
+  { "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics", mode = "n", noremap = true, silent = true },
+
+  -- Renamer Group
+  { "<leader>r", '<cmd>lua require("renamer").rename()<cr>', desc = "Rename", mode = "n", noremap = true, silent = true },
+
+  -- File/Window
+  { "<leader>w", group = "File/Window" },
+  { "<leader>ww", ":update<CR>", desc = "Save file", mode = "n", noremap = true, silent = true },
+  { "<leader>we", ":e<CR>", desc = "Edit file", mode = "n", noremap = true, silent = true },
+  { "<leader>wo", ":only<CR>", desc = "Close other windows", mode = "n", silent = true },
+
+  -- Others
+  { "<leader>e", "<cmd>SymbolsOutline<CR>", desc = "Show Symbols Outline", mode = "n", noremap = true },
+  { "<leader><leader>", "<cmd>HopChar2<CR>", desc = "Hop Char2", mode = "n", noremap = true },
+  { "<leader><leader>", "<Esc>", desc = "Escape to normal mode", mode = "i" },
+  { "<leader><leader>", "<C-\\><C-n>", desc = "Escape terminal", mode = "t", silent = true },
+  { "<leader>u", "<cmd>Telescope undo<cr>", desc = "Telescope Undo", mode = "n" },
+}, { mode = { "n", "v" } })
 
 
 -- Neoterm

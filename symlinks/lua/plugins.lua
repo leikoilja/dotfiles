@@ -74,10 +74,7 @@ packer.startup(function(use)
       "debugloop/telescope-undo.nvim",
       requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
     }
-    use {  -- bufferline
-      'akinsho/bufferline.nvim', tag = "v3.*",
-      requires = 'nvim-tree/nvim-web-devicons'
-    }
+    use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
     use {  -- git changes on the side
       'lewis6991/gitsigns.nvim',
     }
