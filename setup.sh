@@ -14,9 +14,9 @@ ln -hfs "$SYMLINKS/.agignore" ~/.agignore
 ln -hfs "$SYMLINKS/.alacritty.yml" ~/.alacritty.yml
 ln -hfs "$SYMLINKS/.aliases" ~/.aliases
 ln -hfs "$SYMLINKS/.autoenv" ~/.autoenv
+ln -hfs "$SYMLINKS/.aerospace.toml" ~/.aerospace.toml
 ln -hfs "$SYMLINKS/.bashrc" ~/.bashrc
 ln -hfs "$SYMLINKS/.editorconfig" ~/.editorconfig
-ln -hfs "$SYMLINKS/.eslintrc.js" ~/.eslintrc.js
 ln -hfs "$SYMLINKS/.git-templates" ~/.git-templates
 ln -hfs "$SYMLINKS/.gitconfig" ~/.gitconfig
 ln -hfs "$SYMLINKS/.gitignore" ~/.gitignore

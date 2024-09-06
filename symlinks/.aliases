@@ -55,7 +55,7 @@ dockerstopall() { docker stop $(docker ps -a -q); }
 docker-rebuild() {
    cdjbl;
    dstop;
-   docker-compose up --build
+   docker compose up --build
   echo '------ Ready to go --------';
 }
 
@@ -82,28 +82,28 @@ start_app_if_off() {
   fi
 }
 
-## Docker & Docker-compose ##
-alias dstart="echo '--- Starting all the containers ---'; docker-compose start"
-alias dstop="echo '--- Stopping all the containers ---'; docker-compose stop"
-alias dlogs="echo '--- Lets dig into logs ---'; docker-compose logs -f"
-alias dps="echo '--- Running docker containers ---'; docker-compose ps"
+## Docker & Docker compose ##
+alias dstart="echo '--- Starting all the containers ---'; docker compose start"
+alias dstop="echo '--- Stopping all the containers ---'; docker compose stop"
+alias dlogs="echo '--- Lets dig into logs ---'; docker compose logs -f"
+alias dps="echo '--- Running docker containers ---'; docker compose ps"
 
 ## Jobylon ##
 alias cdjbl="cd ~/Development/Jobylon/jbl-web"
-alias jdebug2="echo '--- Restarting web container for debugging  ---'; jstop web; docker-compose run --service-ports --rm web python -m ipdb manage.py runserver 0.0.0.0:8000; jstart web"
-alias jdebug="echo '--- Web debugging on 8003 ---'; docker-compose exec web python -m ipdb manage.py runserver 0.0.0.0:8003"
-alias jgulp="echo '--- Compiling frontend files (grunt) ---'; cdjbl; docker-compose exec web npm run gulp"
+alias jdebug2="echo '--- Restarting web container for debugging  ---'; jstop web; docker compose run --service-ports --rm web python -m ipdb manage.py runserver 0.0.0.0:8000; jstart web"
+alias jdebug="echo '--- Web debugging on 8003 ---'; docker compose exec web python -m ipdb manage.py runserver 0.0.0.0:8003"
+alias jgulp="echo '--- Compiling frontend files (grunt) ---'; cdjbl; docker compose exec web npm run gulp"
 alias jrebuild="echo '--- Rebuilding all JBL docker containers ---'; docker-rebuild; jrestart"
-alias jwatch="echo '--- Watching frontend files (gulp) ---'; cdjbl; docker-compose exec web npm run gulp watch"
+alias jwatch="echo '--- Watching frontend files (gulp) ---'; cdjbl; docker compose exec web npm run gulp watch"
 alias jps="cdjbl; dps"
 alias jrestart="cdjbl; start_app_if_off 'Docker' 20; dockerstopall; dstart"
-alias jm="cdjbl; docker-compose exec web python manage.py migrate"
+alias jm="cdjbl; docker compose exec web python manage.py migrate"
 # Note jmm is specified in zshrc
-alias jshell="cdjbl; echo '--- Entering web contained shell ---'; docker-compose exec web python manage.py shell"
+alias jshell="cdjbl; echo '--- Entering web contained shell ---'; docker compose exec web python manage.py shell"
 alias jstart="cdjbl; dstart"
 alias jstop="cdjbl; dstop"
 alias jtest="cdjbl; docker compose exec web pytest --rootdir=jbl_web --pyargs $1 -n auto"
 alias jtest_one="cdjbl; docker compose exec web pytest --rootdir=jbl_web --pyargs $1"
-alias jclean="echo '--- Resetting memcached and redis ---'; cdjbl; docker-compose exec redis redis-cli FLUSHALL; echo flush_all | nc localhost 11211; jrestart"
-alias jbash="cdjbl; docker-compose exec web bash"
-alias jreindex="cdjbl; docker-compose exec web python manage.py rebuild_index"
+alias jclean="echo '--- Resetting memcached and redis ---'; cdjbl; docker compose exec redis redis-cli FLUSHALL; echo flush_all | nc localhost 11211; jrestart"
+alias jbash="cdjbl; docker compose exec web bash"
+alias jreindex="cdjbl; docker compose exec web python manage.py rebuild_index"

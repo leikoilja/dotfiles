@@ -79,6 +79,9 @@ ZSH_THEME="agnoster"
 TOUCHBAR_GIT_ENABLED=true
 plugins=(fabric fzf git pip python vagrant zsh-autosuggestions web-search)
 
+
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
 source $ZSH/oh-my-zsh.sh
 
 # My Customisations...
@@ -125,11 +128,11 @@ function jmm()
   else
     cdjbl
     echo -e "Makemigrations for $1"
-    docker-compose exec web python manage.py makemigrations "$1"
+    docker compose exec web python manage.py makemigrations "$1"
     echo "Run migration for $1?"
     select yn in "Yes" "No"; do
       case $yn in
-        Yes ) docker-compose exec web python manage.py migrate "$1"; break;;
+        Yes ) docker compose exec web python manage.py migrate "$1"; break;;
         No ) echo "Quiting";;
       esac
     done
@@ -145,7 +148,7 @@ function jdm()
   else
     cdjbl
     echo -e "Creating datamigration for $1 with name $2"
-    docker-compose exec web python manage.py datamigration "$1" "$2"
+    docker compose exec web python manage.py datamigration "$1" "$2"
   fi
 }
 
@@ -158,11 +161,11 @@ function gmm()
   else
     gingernest
     echo -e "Makemigrations for $1"
-    docker-compose exec web poetry run python manage.py makemigrations "$1"
+    docker compose exec web poetry run python manage.py makemigrations "$1"
     echo "Run migration for $1?"
     select yn in "Yes" "No"; do
       case $yn in
-        Yes ) docker-compose exec web poetry run python manage.py migrate "$1"; break;;
+        Yes ) docker compose exec web poetry run python manage.py migrate "$1"; break;;
         No ) echo "Quiting";;
       esac
     done
@@ -220,4 +223,6 @@ source "$HOME/.rye/env"
 
 # for superfile
 export RUNEWIDTH_EASTASIAN=0
+export TENV_AUTO_INSTALL=true
 
+eval "$(op completion zsh)"; compdef _op op

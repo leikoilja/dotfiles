@@ -216,6 +216,7 @@ lspconfig.eslint.setup{}
 lspconfig.pylsp.setup{}
 lspconfig.pyright.setup{}
 lspconfig.tailwindcss.setup {}
+lspconfig.terraformls.setup {}
 
 -- lspkind vscode-like pictograms for LSP
 local lspkind = require('lspkind')
@@ -775,6 +776,7 @@ require("nvim-tree").setup {}
 require("symbols-outline").setup {
     highlight_hovered_item = false,
     show_relative_numbers = true,
+    auto_close = true,
     symbol_blacklist = {
       -- 'File',
       -- 'Module',
@@ -909,6 +911,9 @@ vim.cmd("au FileType * set fo-=c fo-=r fo-=o")
 
 -- Set python interpreter
 vim.g.python3_host_prog = '~/Development/Envs/nvim/bin/python'
+
+-- Set node interpreter
+vim.g.node_host_prog = '/Users/leikoilja/.nvm/versions/node/v20.12.2/lib/node_modules/neovim/bin/cli.js'
 
 -- renamer
 local status, renamer = pcall(require, "renamer")
