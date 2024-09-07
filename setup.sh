@@ -29,8 +29,7 @@ ln -hfs "$SYMLINKS/.zshrc" ~/.zshrc
 ln -hfs "$SYMLINKS/atuin" ~/.config/atuin
 ln -hfs "$SYMLINKS/karabiner" ~/.config/karabiner
 ln -hfs "$SYMLINKS/bpytop.conf" ~/.config/bpytop/bpytop.conf
-ln -hfs "$SYMLINKS/init.lua" ~/.config/nvim/init.lua
-ln -hfs "$SYMLINKS/lua" ~/.config/nvim/lua
+ln -hfs "$SYMLINKS/nvim" ~/.config/nvim
 
 ln -hfs "$SECRETS/" ~/.secrets
 ln -hfs "$SECRETS/.ssh" ~/.ssh
