@@ -16,3 +16,9 @@ vim.g.lazyvim_picker = "fzf"
 
 -- This disables showing of the blame text next to the cursor
 vim.g.gitblame_display_virtual_text = 0
+
+-- format on save
+vim.g.autoformat = false
+
+-- text wrapping
+vim.opt.wrap = true

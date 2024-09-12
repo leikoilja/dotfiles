@@ -29,3 +29,15 @@ vim.api.nvim_set_keymap(
 
 -- Map <leader>w to save the file
 vim.api.nvim_set_keymap("n", "<leader>ww", ":w<CR>", { noremap = true, silent = true, desc = "Save file" })
+
+-- Map <leader>go to create a pull request
+vim.api.nvim_set_keymap("n", "<leader>go", ":Octo pr create<CR>", { noremap = true, silent = true, desc = "Create a PR" })
+
+vim.api.nvim_set_keymap("n", "<leader>gO", ":Octo pr browser<CR>", { noremap = true, silent = true, desc = "Open PR in browser" })
+
+-- Flash navigation
+vim.api.nvim_set_keymap("n", "<C-s>", "<cmd>lua require('flash').jump()<CR>", { noremap = true, silent = true, desc = "Flash Jump" })
+vim.api.nvim_set_keymap("n", "S", "<cmd>lua require('flash').treesitter()<CR>", { noremap = true, silent = true, desc = "Flash Treesitter" })
+
+-- Reset s to default
+vim.api.nvim_set_keymap("n", "s", "s", { noremap = true, silent = true, desc = "s" })
