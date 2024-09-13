@@ -41,3 +41,10 @@ vim.api.nvim_set_keymap("n", "S", "<cmd>lua require('flash').treesitter()<CR>", 
 
 -- Reset s to default
 vim.api.nvim_set_keymap("n", "s", "s", { noremap = true, silent = true, desc = "s" })
+
+-- Sort selection
+vim.api.nvim_set_keymap("v", "<leader>S", ":sort <CR>", { noremap = true, silent = true, desc = "Sort selection" })
+
+-- Terminal
+vim.api.nvim_set_keymap("n", "<leader>tt", ':lua require"utils".JBLRunCurrentTest("one")<cr>', { noremap = true, silent = true, desc = "Run current test (one)" })
+vim.api.nvim_set_keymap("n", "<leader>tr", [[:<C-u>exec printf("%sTexec !! \<lt>cr>", v:count)<cr>]], { noremap = true, silent = true, desc = "Rerun last command" })
