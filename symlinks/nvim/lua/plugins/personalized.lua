@@ -93,7 +93,7 @@ return {
         disabled_filetypes = {},
       },
       sections = {
-        lualine_a = { "mode" },
+        lualine_a = { "mode", "swenv" },
         lualine_b = {
           {
             "filename",
@@ -162,4 +162,57 @@ return {
     -- Optional: Lazy load Incline
     event = "VeryLazy",
   },
+
+  -- https://www.reddit.com/r/neovim/comments/11k5but/comment/jbjwwtf/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+  -- disable pyright
+  {
+    "nvim-lspconfig",
+    opts = {
+      ---@type lspconfig.options
+      servers = {
+        pyright = {
+          capabilities = (function()
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities.textDocument.publishDiagnostics.tagSupport.valueSet = { 2 }
+            return capabilities
+          end)(),
+          settings = {
+            python = {
+              analysis = {
+                useLibraryCodeForTypes = true,
+                diagnosticSeverityOverrides = {
+                  reportUnusedVariable = "warning", -- or anything
+                },
+                typeCheckingMode = "basic",
+              },
+            },
+          },
+        },
+        ruff_lsp = {
+          on_attach = function(client, _)
+            client.server_capabilities.hoverProvider = false
+          end,
+        },
+      },
+    },
+  },
+
+  -- {
+  --   "linux-cultist/venv-selector.nvim",
+  --   branch = "regexp", -- Use this branch for the new version
+  --   cmd = "VenvSelect",
+  --   enabled = function()
+  --     return LazyVim.has("telescope.nvim") -- cannot use yet due to https://github.com/linux-cultist/venv-selector.nvim/issues/142#issuecomment-2364003039
+  --   end,
+  --   opts = {
+  --     settings = {
+  --       options = {
+  --         notify_user_on_venv_activation = true,
+  --       },
+  --     },
+  --   },
+  --   --  Call config for python files and load the cached venv automatically
+  --   ft = "python",
+  --   keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" } },
+  -- },
 }

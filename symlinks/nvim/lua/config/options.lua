@@ -30,3 +30,15 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 -- format on save
 vim.g.autoformat = false
+
+--format on save tsx files
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.tsx",
+  callback = function()
+    require("conform").format({ formatters = { "prettier" }})
+  end,
+})
+
+-- Disable automatic newline at the end of file
+vim.opt.fixeol = false
+vim.opt.endofline = false
