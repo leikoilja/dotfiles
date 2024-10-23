@@ -221,6 +221,8 @@ source ~/.zshenv
 
 source "$HOME/.rye/env"
 
+export LIBRARY_PATH=$LIBRARY_PATH:/opt/homebrew/opt/openssl/lib
+
 # for superfile
 export RUNEWIDTH_EASTASIAN=0
 export TENV_AUTO_INSTALL=true
