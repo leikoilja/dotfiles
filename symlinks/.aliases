@@ -83,10 +83,11 @@ start_app_if_off() {
 }
 
 ## Docker & Docker compose ##
-alias dstart="echo '--- Starting all the containers ---'; docker compose start"
-alias dstop="echo '--- Stopping all the containers ---'; docker compose stop"
+alias dstopall="echo '--- Stopping all the containers ---'; dockerstopall"
+alias dstart="echo '--- Starting all the docker compose containers ---'; docker compose start"
+alias dstop="echo '--- Stopping all the docker compose containers ---'; docker compose stop"
 alias dlogs="echo '--- Lets dig into logs ---'; docker compose logs -f"
-alias dps="echo '--- Running docker containers ---'; docker compose ps"
+alias dps="echo '--- Running docker containers ---'; docker ps"
 
 ## Jobylon ##
 alias cdjbl="cd ~/Development/Jobylon/jbl-web"

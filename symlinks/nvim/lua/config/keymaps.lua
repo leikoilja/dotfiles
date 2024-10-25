@@ -28,6 +28,8 @@ vim.api.nvim_set_keymap(
 )
 
 -- Map <leader>w to save the file
+-- unset the default keymap
+vim.api.nvim_set_keymap("n", "<leader>ww", "<nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>ww", ":w<CR>", { noremap = true, silent = true, desc = "Save file" })
 
 -- Map <leader>go to create a pull request
