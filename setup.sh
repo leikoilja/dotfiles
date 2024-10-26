@@ -33,3 +33,4 @@ ln -hfs "$SYMLINKS/nvim" ~/.config/nvim
 
 ln -hfs "$SECRETS/" ~/.secrets
 ln -hfs "$SECRETS/.ssh" ~/.ssh
+ln -hfs "$SYMLINKS/ohmyposh/base.json" ~/.config/ohmyposh.json

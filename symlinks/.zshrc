@@ -220,3 +220,8 @@ export RUNEWIDTH_EASTASIAN=0
 export TENV_AUTO_INSTALL=true
 
 eval "$(op completion zsh)"; compdef _op op
+
+# oh-my-posh prompt
+if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+  eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh.json)"
+fi
