@@ -2,19 +2,11 @@
 
 # Mostly inspired by
 # https://github.com/JamesTurland/JimsGarage/blob/main/Kubernetes/K3S-Deploy/k3s.sh
-echo -e " \033[33;5m    __  _          _        ___                            \033[0m"
-echo -e " \033[33;5m    \ \(_)_ __ ___( )__    / _ \__ _ _ __ __ _  __ _  ___  \033[0m"
-echo -e " \033[33;5m     \ \ | '_ \` _ \/ __|  / /_\/ _\` | '__/ _\` |/ _\` |/ _ \ \033[0m"
-echo -e " \033[33;5m  /\_/ / | | | | | \__ \ / /_\\  (_| | | | (_| | (_| |  __/ \033[0m"
-echo -e " \033[33;5m  \___/|_|_| |_| |_|___/ \____/\__,_|_|  \__,_|\__, |\___| \033[0m"
-echo -e " \033[33;5m                                               |___/       \033[0m"
-
 echo -e " \033[36;5m         _  _________   ___         _        _ _           \033[0m"
 echo -e " \033[36;5m        | |/ |__ / __| |_ _|_ _  __| |_ __ _| | |          \033[0m"
 echo -e " \033[36;5m        | ' < |_ \__ \  | || ' \(_-|  _/ _\` | | |          \033[0m"
 echo -e " \033[36;5m        |_|\_|___|___/ |___|_||_/__/\__\__,_|_|_|          \033[0m"
 echo -e " \033[36;5m                                                           \033[0m"
-echo -e " \033[32;5m             https://youtube.com/@jims-garage              \033[0m"
 echo -e " \033[32;5m                                                           \033[0m"
 
 
@@ -29,11 +21,11 @@ KVVERSION="v0.8.4"
 k3sVersion="v1.30.5+k3s1"
 
 # Set the IP addresses of the master and work nodes
-master1=192.168.88.104
-master2=192.168.88.105
-master3=192.168.88.106
-worker1=192.168.88.107
-worker2=192.168.88.108
+master1=10.0.0.11
+master2=10.0.0.12
+master3=10.0.0.13
+worker1=10.0.0.14
+worker2=10.0.0.15
 
 # User of remote machines
 user=ubuntu
@@ -42,7 +34,7 @@ user=ubuntu
 interface=eth0
 
 # Set the virtual IP address (VIP)
-vip=192.168.88.109
+vip=10.0.0.10
 
 # Array of master nodes
 masters=($master2 $master3)
@@ -57,7 +49,7 @@ all=($master1 $master2 $master3 $worker1 $worker2)
 allnomaster1=($master2 $master3 $worker1 $worker2)
 
 # Loadbalancer IP range
-lbrange=192.168.88.110-192.168.88.130
+lbrange=10.0.0.100-10.0.0.150
 
 # ssh certificate name variable
 certName=id_k3s_rsa
@@ -69,11 +61,11 @@ certDir=~/Development/dotfiles/kubernetes/.ssh
 #            DO NOT EDIT BELOW              #
 #############################################
 
- # add ssh keys for all nodes
- for node in "${all[@]}"; do
-   ssh-copy-id $user@$node
-   ssh-copy-id -i $certDir/$certName $user@$node
- done
+# add ssh keys for all nodes
+for node in "${all[@]}"; do
+  ssh-copy-id $user@$node
+  ssh-copy-id -i $certDir/$certName $user@$node
+done
 
 # Install policycoreutils for each node
 for newnode in "${all[@]}"; do
@@ -101,11 +93,13 @@ k3sup install \
 echo -e " \033[32;5mFirst Node bootstrapped successfully!\033[0m"
 
 # Step 2: Install Kube-VIP for HA
+# Kube-VIP must be installed before adding additional nodes
 kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
 
 # Step 3: Download kube-vip
-curl -sO https://raw.githubusercontent.com/JamesTurland/JimsGarage/main/Kubernetes/K3S-Deploy/kube-vip
-cat kube-vip | sed 's/$interface/'$interface'/g; s/$vip/'$vip'/g' > ./kube-vip.yaml
+# curl -sO https://raw.githubusercontent.com/JamesTurland/JimsGarage/main/Kubernetes/K3S-Deploy/kube-vip
+# cat kube-vip | sed 's/$interface/'$interface'/g; s/$vip/'$vip'/g' > ./kube-vip.yaml
+# Note: set svc_enable to true if you want to use metallb
 
 # Step 4: Copy kube-vip.yaml to master1
 scp -i $certDir/$certName ./kube-vip.yaml $user@$master1:~/kube-vip.yaml
@@ -147,34 +141,29 @@ done
 # Step 7: Install kube-vip as network LoadBalancer - Install the kube-vip Cloud Provider
 kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
 
-# Step 8: Install Metallb
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml
-# Download ipAddressPool and configure using lbrange above
-# curl -sO https://raw.githubusercontent.com/JamesTurland/JimsGarage/main/Kubernetes/K3S-Deploy/ipAddressPool
-# cat ipAddressPool | sed 's/$lbrange/'$lbrange'/g' > ./ipAddressPool.yaml
-kubectl apply -f ./ipAddressPool.yaml
+# Step 8: IP range for LoadBalancer
+kubectl create configmap -n kube-system kubevip --from-literal range-global=$lbrange
 
-# Step 9: Test with Nginx
-kubectl apply -f https://raw.githubusercontent.com/inlets/inlets-operator/master/contrib/nginx-sample-deployment.yaml -n default
-kubectl expose deployment nginx-1 --port=80 --type=LoadBalancer -n default
-
-echo -e " \033[32;5mWaiting for K3S to sync and LoadBalancer to come online\033[0m"
-
-while [[ $(kubectl get pods -l app=nginx -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
-   sleep 1
-done
-
-# Step 10: Deploy IP Pools and l2Advertisement
-kubectl wait --namespace metallb-system \
-                 --for=condition=ready pod \
-                 --selector=component=controller \
-                 --timeout=120s
-kubectl apply -f ipAddressPool.yaml
-kubectl apply -f https://raw.githubusercontent.com/JamesTurland/JimsGarage/main/Kubernetes/K3S-Deploy/l2Advertisement.yaml
-
-kubectl get nodes
-kubectl get svc
-kubectl get pods --all-namespaces -o wide
-
-echo -e " \033[32;5mHappy Kubing! Access Nginx at EXTERNAL-IP above\033[0m"
+# # Step 9: Test with Nginx
+# kubectl apply -f https://raw.githubusercontent.com/inlets/inlets-operator/master/contrib/nginx-sample-deployment.yaml -n default
+# kubectl expose deployment nginx-1 --port=80 --type=LoadBalancer -n default
+#
+# echo -e " \033[32;5mWaiting for K3S to sync and LoadBalancer to come online\033[0m"
+#
+# while [[ $(kubectl get pods -l app=nginx -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
+#    sleep 1
+# done
+#
+# # Step 10: Deploy IP Pools and l2Advertisement
+# kubectl wait --namespace metallb-system \
+#                  --for=condition=ready pod \
+#                  --selector=component=controller \
+#                  --timeout=120s
+# kubectl apply -f ipAddressPool.yaml
+# kubectl apply -f https://raw.githubusercontent.com/JamesTurland/JimsGarage/main/Kubernetes/K3S-Deploy/l2Advertisement.yaml
+#
+# kubectl get nodes
+# kubectl get svc
+# kubectl get pods --all-namespaces -o wide
+#
+# echo -e " \033[32;5mHappy Kubing! Access Nginx at EXTERNAL-IP above\033[0m"
