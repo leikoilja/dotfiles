@@ -20,6 +20,15 @@ return {
     },
   },
 
+  {
+    "folke/which-key.nvim",
+    opts = {
+      spec = {
+        { "<leader>w", proxy = false },
+      },
+    },
+  },
+
   -- override nvim-cmp and add cmp-emoji
   {
     "hrsh7th/nvim-cmp",
@@ -105,6 +114,11 @@ return {
         lualine_c = { "lsp_progress" },
         lualine_x = {
           -- {require('auto-session-library').current_session_name},
+          {
+            require("noice").api.statusline.mode.get,
+            cond = require("noice").api.statusline.mode.has,
+            color = { fg = "#ff9e64" },
+          },
           {
             "diagnostics",
             sources = { "nvim_diagnostic" },

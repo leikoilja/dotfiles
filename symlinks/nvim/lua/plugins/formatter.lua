@@ -14,6 +14,8 @@ return {
       fish = { "fish_indent" },
       sh = { "shfmt" },
       python = { "isort", "black" },
+      json = { "prettier" },
+      jsonl = { "prettier" },
     },
   }
 }

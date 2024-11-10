@@ -27,9 +27,7 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true, desc = "Buffer Selection" }
 )
 
--- Map <leader>w to save the file
--- unset the default keymap
-vim.api.nvim_set_keymap("n", "<leader>ww", "<nop>", { noremap = true, silent = true })
+-- Set your custom keybinding for saving the file
 vim.api.nvim_set_keymap("n", "<leader>ww", ":w<CR>", { noremap = true, silent = true, desc = "Save file" })
 
 -- Map <leader>go to create a pull request
