@@ -33,7 +33,7 @@ vim.g.autoformat = false
 
 --format on save tsx files
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.tsx", "*.json", "*.jsonl" },
+  pattern = { "*ts", "*.tsx", "*.json", "*.jsonl" },
   callback = function()
     require("conform").format({ formatters = { "prettier" }})
   end,
