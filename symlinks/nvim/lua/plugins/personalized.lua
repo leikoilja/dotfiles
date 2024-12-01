@@ -20,15 +20,6 @@ return {
     },
   },
 
-  {
-    "folke/which-key.nvim",
-    opts = {
-      spec = {
-        { "<leader>w", proxy = false },
-      },
-    },
-  },
-
   -- override nvim-cmp and add cmp-emoji
   {
     "hrsh7th/nvim-cmp",
