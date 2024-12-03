@@ -48,3 +48,5 @@ vim.api.nvim_set_keymap("v", "<leader>S", ":sort <CR>", { noremap = true, silent
 -- Terminal
 vim.api.nvim_set_keymap("n", "<leader>tt", ':lua require"utils".JBLRunCurrentTest("one")<cr>', { noremap = true, silent = true, desc = "Run current test (one)" })
 vim.api.nvim_set_keymap("n", "<leader>tr", [[:<C-u>exec printf("%sTexec !! \<lt>cr>", v:count)<cr>]], { noremap = true, silent = true, desc = "Rerun last command" })
+vim.api.nvim_set_keymap("n", "<leader>tl", ":<C-u>exec v:count.'Tclear'<CR>", { noremap = true, silent = true, desc = "Clear terminal" })
+vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })

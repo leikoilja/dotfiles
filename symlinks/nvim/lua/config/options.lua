@@ -42,3 +42,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- Disable automatic newline at the end of file
 vim.opt.fixeol = false
 vim.opt.endofline = false
+
+-- Neoterm
+vim.g.neoterm_default_mod = "vertical"
+vim.g.neoterm_autoscroll = 1
+vim.g.neoterm_automap_keys = 0
+vim.g.neoterm_auto_repl_cmd = 0
