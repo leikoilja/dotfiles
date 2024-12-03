@@ -43,6 +43,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.fixeol = false
 vim.opt.endofline = false
 
+-- Folding
+vim.opt.foldmethod = "manual"
+vim.opt.foldexpr = ""
+
 -- Neoterm
 vim.g.neoterm_default_mod = "vertical"
 vim.g.neoterm_autoscroll = 1
