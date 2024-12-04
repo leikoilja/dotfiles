@@ -27,8 +27,6 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true, desc = "Buffer Selection" }
 )
 
--- Set your custom keybinding for saving the file
-vim.api.nvim_set_keymap("n", "<leader>ww", ":w<CR>", { noremap = true, silent = true, desc = "Save file" })
 
 -- Map <leader>go to create a pull request
 vim.api.nvim_set_keymap("n", "<leader>go", ":Octo pr create<CR>", { noremap = true, silent = true, desc = "Create a PR" })
@@ -50,3 +48,7 @@ vim.api.nvim_set_keymap("n", "<leader>tt", ':lua require"utils".JBLRunCurrentTes
 vim.api.nvim_set_keymap("n", "<leader>tr", [[:<C-u>exec printf("%sTexec !! \<lt>cr>", v:count)<cr>]], { noremap = true, silent = true, desc = "Rerun last command" })
 vim.api.nvim_set_keymap("n", "<leader>tl", ":<C-u>exec v:count.'Tclear'<CR>", { noremap = true, silent = true, desc = "Clear terminal" })
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })
+
+-- Set your custom keybinding for saving the file
+vim.keymap.del("n", "<leader>w")
+vim.keymap.set("n", "<leader>ww", "<cmd>w<CR>", { noremap = true, silent = true, desc = "Save file" })
