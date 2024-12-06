@@ -225,3 +225,6 @@ eval "$(op completion zsh)"; compdef _op op
 if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
   eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh.json)"
 fi
+
+# fzf-tab-completion
+source ~/Development/dotfiles/fzf-tab-completion/zsh/fzf-zsh-completion.sh
