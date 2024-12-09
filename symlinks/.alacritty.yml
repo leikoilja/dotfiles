@@ -744,6 +744,7 @@ key_bindings:
 
   - { key: K, mods: Alt, chars: "\x1b[1;3A" }
   - { key: J, mods: Alt, chars: "\x1b[1;3B" }
+  - { key: S, mods: Alt, chars: "\x1bs" }
   # - { key: F1,                      chars: "\x1bOP"                      }
   # - { key: F2,                      chars: "\x1bOQ"                      }
   # - { key: F3,                      chars: "\x1bOR"                      }
