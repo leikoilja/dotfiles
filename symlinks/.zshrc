@@ -207,7 +207,7 @@ fpath+=~/.zfunc
 eval "$(atuin init zsh)"
 
 # source shell_secrets file
-source ~/.secrets/shell_secrets
+source ~/.secrets/shell_secrets.sh
 
 source ~/.zshenv
 
