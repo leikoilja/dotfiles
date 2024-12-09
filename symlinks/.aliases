@@ -22,6 +22,9 @@ alias TTdefault="tmuxinator start default"
 
 alias ytdl='yt-dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b"'
 
+# quartz
+alias q-run='cd ~/Development/quartz; npx quartz build --serve --verbose'
+alias q-sync='cd ~/Development/quartz; npx quartz sync '
 
 ## Platform speficif commands
 unameOut="$(uname -s)"
