@@ -1,4 +1,4 @@
-name: jobylon
+name: jbl-web
 root: ~/Development/Jobylon/jbl-web/
 
 # Optional tmux socket
@@ -26,14 +26,8 @@ startup_window: Editor
 # attach: false
 
 windows:
-  - GIT:
-      layout: main-vertical
-      panes:
-        - magit
-        - t
-  - FM:
-      - vifm ~/Development/Jobylon/jbl-web/
   - Editor:
       - cdjbl; vim
   - Logs:
-      - jrestart; jlogs web
+      - dlogs web
+  - Terminal:

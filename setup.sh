@@ -25,6 +25,7 @@ ln -hfs "$SYMLINKS/.rgignore" ~/.rgignore
 ln -hfs "$SYMLINKS/.tmux.conf" ~/.tmux.conf
 ln -hfs "$SYMLINKS/.tmux.conf.local" ~/.tmux.conf.local
 ln -hfs "$SYMLINKS/.tmuxinator.zsh" ~/.tmuxinator.zsh
+ln -hfs "$SYMLINKS/tmuxinator" ~/.config/tmuxinator
 ln -hfs "$SYMLINKS/.zshrc" ~/.zshrc
 ln -hfs "$SYMLINKS/atuin" ~/.config/atuin
 ln -hfs "$SYMLINKS/karabiner" ~/.config/karabiner
