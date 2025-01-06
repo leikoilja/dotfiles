@@ -9,8 +9,13 @@ return {
 
   { "f-person/git-blame.nvim" },
 
+  { "kchmck/vim-coffee-script" },
+
   -- add gruvbox
   { "ellisonleao/gruvbox.nvim" },
+
+  -- code snap
+  { "mistricky/codesnap.nvim", build = "make" },
 
   -- Configure LazyVim to load gruvbox
   {
