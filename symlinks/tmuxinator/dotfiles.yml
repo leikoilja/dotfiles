@@ -1,5 +1,5 @@
-name: grind
-root: .
+name: dotfiles
+root: ~/Development/dotfiles/
 
 # Optional tmux socket
 # socket_name: foo
