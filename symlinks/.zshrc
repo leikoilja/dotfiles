@@ -228,3 +228,6 @@ fi
 
 # fzf-tab-completion
 source ~/Development/dotfiles/fzf-tab-completion/zsh/fzf-zsh-completion.sh
+
+# carapace
+eval "$(carapace _carapace)"
