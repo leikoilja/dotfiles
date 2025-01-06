@@ -101,19 +101,6 @@
                                 "type": "basic"
                             }
                         ]
-                    },
-                    {
-                        "description": "Map left_control+left_shift+1 to F20",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "1",
-                                    "modifiers": { "mandatory": ["left_control", "left_shift"] }
-                                },
-                                "to": [{ "key_code": "f20" }],
-                                "type": "basic"
-                            }
-                        ]
                     }
                 ]
             },
@@ -134,51 +121,6 @@
                             "to": [{ "key_code": "left_command" }]
                         }
                     ]
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "is_pointing_device": true,
-                        "product_id": 20992,
-                        "vendor_id": 11720
-                    },
-                    "ignore": false,
-                    "simple_modifications": [
-                        {
-                            "from": { "key_code": "left_command" },
-                            "to": [{ "key_code": "left_option" }]
-                        },
-                        {
-                            "from": { "key_code": "left_option" },
-                            "to": [{ "key_code": "left_command" }]
-                        },
-                        {
-                            "from": { "key_code": "right_option" },
-                            "to": [{ "key_code": "f19" }]
-                        }
-                    ]
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "product_id": 50475,
-                        "vendor_id": 1133
-                    },
-                    "ignore": true
-                }
-            ],
-            "fn_function_keys": [
-                {
-                    "from": { "key_code": "f4" },
-                    "to": [{ "key_code": "vk_none" }]
-                },
-                {
-                    "from": { "key_code": "f5" },
-                    "to": [{ "key_code": "vk_none" }]
-                },
-                {
-                    "from": { "key_code": "f6" },
-                    "to": [{ "software_function": { "iokit_power_management_sleep_system": {} } }]
                 }
             ],
             "name": "Default profile",
@@ -187,14 +129,6 @@
                 {
                     "from": { "key_code": "caps_lock" },
                     "to": [{ "key_code": "left_control" }]
-                },
-                {
-                    "from": { "key_code": "right_command" },
-                    "to": [{ "key_code": "f19" }]
-                },
-                {
-                    "from": { "key_code": "right_option" },
-                    "to": [{ "key_code": "f20" }]
                 }
             ],
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }

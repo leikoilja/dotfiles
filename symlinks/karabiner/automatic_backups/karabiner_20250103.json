@@ -101,19 +101,6 @@
                                 "type": "basic"
                             }
                         ]
-                    },
-                    {
-                        "description": "Map left_control+left_shift+1 to F20",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "1",
-                                    "modifiers": { "mandatory": ["left_control", "left_shift"] }
-                                },
-                                "to": [{ "key_code": "f20" }],
-                                "type": "basic"
-                            }
-                        ]
                     }
                 ]
             },
@@ -153,18 +140,14 @@
                             "to": [{ "key_code": "left_command" }]
                         },
                         {
+                            "from": { "key_code": "right_command" },
+                            "to": [{ "key_code": "right_option" }]
+                        },
+                        {
                             "from": { "key_code": "right_option" },
-                            "to": [{ "key_code": "f19" }]
+                            "to": [{ "key_code": "right_command" }]
                         }
                     ]
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "product_id": 50475,
-                        "vendor_id": 1133
-                    },
-                    "ignore": true
                 }
             ],
             "fn_function_keys": [
