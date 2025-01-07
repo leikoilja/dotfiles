@@ -22,13 +22,13 @@
                         ]
                     },
                     {
-                        "description": "Left ctrl + hjkl to arrow keys Vim",
+                        "description": "Left ctrl + hjkl to arrow keys Vim (wezterm)",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^io\\.alacritty$"
+                                            "^com\\.github\\.wez\\.wezterm$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -47,7 +47,7 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^io\\.alacritty$"
+                                            "^com\\.github\\.wez\\.wezterm$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -66,7 +66,7 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^io\\.alacritty$"
+                                            "^com\\.github\\.wez\\.wezterm$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -85,7 +85,7 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^io\\.alacritty$"
+                                            "^com\\.github\\.wez\\.wezterm$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -132,6 +132,14 @@
                         {
                             "from": { "key_code": "left_option" },
                             "to": [{ "key_code": "left_command" }]
+                        },
+                        {
+                            "from": { "key_code": "right_command" },
+                            "to": [{ "key_code": "f20" }]
+                        },
+                        {
+                            "from": { "key_code": "right_option" },
+                            "to": [{ "key_code": "f19" }]
                         }
                     ]
                 },
@@ -153,10 +161,15 @@
                             "to": [{ "key_code": "left_command" }]
                         },
                         {
+                            "from": { "key_code": "right_control" },
+                            "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
+                        },
+                        {
                             "from": { "key_code": "right_option" },
                             "to": [{ "key_code": "f19" }]
                         }
-                    ]
+                    ],
+                    "treat_as_built_in_keyboard": true
                 },
                 {
                     "identifiers": {
