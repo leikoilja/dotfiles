@@ -11,8 +11,9 @@ return {
 
   { "kchmck/vim-coffee-script" },
 
-  -- add gruvbox
+  -- themex
   { "ellisonleao/gruvbox.nvim" },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
   -- code snap
   { "mistricky/codesnap.nvim", build = "make" },
@@ -21,6 +22,8 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
+      -- colorscheme = "catppuccin-latte",
+      -- colorscheme = "catppuccin-frappe",
       colorscheme = "gruvbox",
     },
   },
