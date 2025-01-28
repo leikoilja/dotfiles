@@ -25,10 +25,10 @@ customCommands:
         key: "Type"
         options:
           - name: "Feature"
-            description: "a new feature"
+            description: "A new feature"
             value: "feat"
           - name: "Fix"
-            description: "a bug fix"
+            description: "A bug fix"
             value: "fix"
           - name: "Documentation"
             description: "Documentation only changes"

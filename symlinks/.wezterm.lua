@@ -4,7 +4,7 @@ local config = wezterm.config_builder()
 -- tmux configurations --
 local tmux = {}
 if wezterm.target_triple == "aarch64-apple-darwin" then
-    tmux = { "/opt/homebrew/bin/tmux", "new", "-Asgeneral" }
+    tmux = { "/opt/homebrew/bin/tmux", "new", "-As--general--" }
 else
     tmux = { "tmux", "new", "-As0" }
 end

@@ -15,10 +15,8 @@ alias ...='cd ../../'
 alias dev='cd ~/Development/'
 alias dotfiles='cd ~/Development/dotfiles/'
 
-alias tmn='tmux new -s'
-alias tma='tmux attach'
-alias TTstart="tmuxinator start"
-alias TTdefault="tmuxinator start default"
+alias rm_node_modules="find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;"
+alias ignorenm="bun ~/Development/synology-drive-ignore-nm/index.ts"
 
 alias ytdl='yt-dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b"'
 

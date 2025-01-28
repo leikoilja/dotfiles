@@ -231,3 +231,9 @@ source ~/Development/dotfiles/fzf-tab-completion/zsh/fzf-zsh-completion.sh
 
 # carapace
 eval "$(carapace _carapace)"
+# bun completions
+[ -s "/Users/leikoilja/.bun/_bun" ] && source "/Users/leikoilja/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
