@@ -26,7 +26,6 @@ ln -hfs "$HOME_DIR/Library/CloudStorage/SynologyDrive-home/Development" ~/Develo
 ln -hfs "$SYMLINKS_DIR/.agignore" ~/.agignore
 ln -hfs "$SYMLINKS_DIR/.alacritty.yml" ~/.alacritty.yml
 ln -hfs "$SYMLINKS_DIR/.aliases" ~/.aliases
-ln -hfs "$SYMLINKS_DIR/.autoenv" ~/.autoenv
 ln -hfs "$SYMLINKS_DIR/.aerospace.toml" ~/.aerospace.toml
 ln -hfs "$SYMLINKS_DIR/.bashrc" ~/.bashrc
 ln -hfs "$SYMLINKS_DIR/.editorconfig" ~/.editorconfig
@@ -44,6 +43,7 @@ ln -hfs "$SYMLINKS_DIR/atuin" ~/.config/atuin
 ln -hfs "$SYMLINKS_DIR/karabiner" ~/.config/karabiner
 ln -hfs "$SYMLINKS_DIR/bpytop.conf" ~/.config/bpytop/bpytop.conf
 ln -hfs "$SYMLINKS_DIR/nvim" ~/.config/nvim
+ln -hfs "$SYMLINKS_DIR/direnv" ~/.config/direnv
 
 ln -hfs "$SECRETS_DIR/" ~/.secrets
 ln -hfs "$SECRETS_DIR/.ssh" ~/.ssh
