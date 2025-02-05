@@ -50,5 +50,5 @@ vim.api.nvim_set_keymap("n", "<leader>tl", ":<C-u>exec v:count.'Tclear'<CR>", { 
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })
 
 -- Set your custom keybinding for saving the file
-vim.keymap.del("n", "<leader>w")
+-- vim.keymap.del("n", "<leader>w")
 vim.keymap.set("n", "<leader>ww", "<cmd>w<CR>", { noremap = true, silent = true, desc = "Save file" })
