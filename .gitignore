@@ -5,3 +5,5 @@ vim-legacy/
 .ssh
 .DS_Store
 .secrets/
+
+zmk-config-*
