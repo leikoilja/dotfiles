@@ -52,3 +52,15 @@ vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = 
 -- Set your custom keybinding for saving the file
 -- vim.keymap.del("n", "<leader>w")
 vim.keymap.set("n", "<leader>ww", "<cmd>w<CR>", { noremap = true, silent = true, desc = "Save file" })
+
+-- Keybindings for Ctrl + Arrow Keys
+vim.api.nvim_set_keymap('n', '<C-Up>', '<C-w>k', { noremap = true, silent = true })    -- Move up
+vim.api.nvim_set_keymap('n', '<C-Down>', '<C-w>j', { noremap = true, silent = true })  -- Move down
+vim.api.nvim_set_keymap('n', '<C-Left>', '<C-w>h', { noremap = true, silent = true })  -- Move left
+vim.api.nvim_set_keymap('n', '<C-Right>', '<C-w>l', { noremap = true, silent = true }) -- Move right
+
+-- -- Keybindings for Ctrl + Alt + 'i/e/n/o' (hjkl alternative)
+-- vim.api.nvim_set_keymap('n', '<C-A-i>', '<C-w>k', { noremap = true, silent = true })    -- Move up
+-- vim.api.nvim_set_keymap('n', '<C-A-e>', '<C-w>j', { noremap = true, silent = true })    -- Move down
+-- vim.api.nvim_set_keymap('n', '<C-A-n>', '<C-w>h', { noremap = true, silent = true })    -- Move left
+-- vim.api.nvim_set_keymap('n', '<C-A-o>', '<C-w>l', { noremap = true, silent = true })    -- Move right
