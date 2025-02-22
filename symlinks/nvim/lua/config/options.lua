@@ -2,9 +2,6 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
--- remap leader key
-vim.g.mapleader = ","
-
 -- Automatic toggling between line number based on the mode
 vim.cmd("augroup numbertoggle")
 vim.cmd("autocmd!")
@@ -52,3 +49,5 @@ vim.g.neoterm_default_mod = "vertical"
 vim.g.neoterm_autoscroll = 1
 vim.g.neoterm_automap_keys = 0
 vim.g.neoterm_auto_repl_cmd = 0
+
+vim.g.lazyvim_check_order = false
