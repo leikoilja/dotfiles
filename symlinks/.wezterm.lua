@@ -18,7 +18,7 @@ config.hide_tab_bar_if_only_one_tab = true
 -- config.color_scheme = 'Sweet Love (terminal.sexy)'
 config.color_scheme = 'Gruvbox Dark (Gogh)'
 
-config.font = wezterm.font 'JetBrains Mono'
+config.font = wezterm.font 'JetBrainsMono NF'
 
 config.window_decorations = 'RESIZE'
 config.max_fps=120
