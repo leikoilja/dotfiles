@@ -20,6 +20,9 @@ return {
     windows = {
       position = 'right',
       width = 45, -- %
+      ask = {
+        start_insert=false
+      }
     },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
