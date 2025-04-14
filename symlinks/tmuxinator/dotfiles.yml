@@ -28,4 +28,6 @@ startup_window: Editor
 windows:
   - Editor:
       - vim
+  - Portainer:
+      - cd ~/Development/portainer_docker_compose_stacks/; vim
   - Terminal:

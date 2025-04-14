@@ -1,4 +1,4 @@
-name: grind
+name: <%= @args[0] %>
 root: .
 
 # Optional tmux socket
