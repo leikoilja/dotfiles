@@ -7,3 +7,5 @@ vim-legacy/
 .secrets/
 
 zmk-config-*
+symlinks/nvim/lua/plugins/neotree.lua
+symlinks/yazi/plugins/*

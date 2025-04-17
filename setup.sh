@@ -47,4 +47,5 @@ ln -hfs "$SYMLINKS_DIR/direnv" ~/.config/direnv
 
 ln -hfs "$SECRETS_DIR/" ~/.secrets
 ln -hfs "$SECRETS_DIR/.ssh" ~/.ssh
-ln -hfs "$SYMLINKS_DIR/ohmyposh/base.json" ~/.config/ohmyposh.json
+# ln -hfs "$SYMLINKS_DIR/ohmyposh/base.json" ~/.config/ohmyposh.json
+ln -hfs "$SYMLINKS_DIR/starship.toml" ~/.config/starship.toml

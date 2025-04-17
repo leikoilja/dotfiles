@@ -10,15 +10,19 @@ else
 end
 
 config.default_prog = tmux
+config.automatically_reload_config = true
 
 -- appearance --
 config.hide_tab_bar_if_only_one_tab = true
+config.enable_tab_bar = false
+config.default_cursor_style = 'BlinkingBar'
 -- config.color_scheme = 'Afterglow (Gogh)'
 -- config.color_scheme = 'Apprentice (Gogh)'
 -- config.color_scheme = 'Sweet Love (terminal.sexy)'
 config.color_scheme = 'Gruvbox Dark (Gogh)'
 
-config.font = wezterm.font 'JetBrainsMono NF'
+-- config.font = wezterm.font 'JetBrainsMono NF'
+config.font = wezterm.font('JetBrains Mono', { weight = "Bold" })
 
 config.window_decorations = 'RESIZE'
 config.max_fps=120
@@ -126,6 +130,39 @@ config.keys = {
         action = wezterm.action.SendString("\x01\x6c"),  -- Send Ctrl+A followed by l
     },
   }
+
+-- background
+config.background = {
+    {
+      source = {
+        File = "/Users/" .. os.getenv("USER") .. "/Development/dotfiles/bg_image.jpg",
+      },
+      hsb = {
+        hue = 1.0,
+        saturation = 1.02,
+        brightness = 0.25,
+      },
+      -- attachment = { Parallax = 0.3 },
+      -- width = "100%",
+      -- height = "100%",
+    },
+    {
+      source = {
+        Color = "#282c35",
+      },
+      width = "100%",
+      height = "100%",
+      opacity = 0.55,
+    },
+}
+
+-- window
+config.window_padding = {
+  left = 3,
+  right = 3,
+  top = 3,
+  bottom = 0,
+}
 
 -- debug keyboard presses (run wezterm from Terminal app to watch logs)
 -- config.debug_key_events = true

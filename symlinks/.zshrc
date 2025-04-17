@@ -77,7 +77,7 @@ ZSH_THEME="agnoster"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 TOUCHBAR_GIT_ENABLED=true
-plugins=(fabric fzf git pip python vagrant zsh-autosuggestions web-search)
+plugins=(fzf git pip python zsh-autosuggestions web-search zsh-vi-mode)
 
 
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
@@ -179,8 +179,7 @@ function gmm()
 # source /Library/Python/3.8/site-packages/powerline/bindings/bash/powerline.sh
 
 # Sintax highlighter
-# source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
@@ -203,8 +202,6 @@ autoload -Uz compinit
 zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
-# atuin
-eval "$(atuin init zsh)"
 
 # source shell_secrets file
 source ~/.secrets/shell_secrets.sh
@@ -219,16 +216,16 @@ export LIBRARY_PATH=$LIBRARY_PATH:/opt/homebrew/opt/openssl/lib
 export RUNEWIDTH_EASTASIAN=0
 export TENV_AUTO_INSTALL=true
 
+
+# # oh-my-posh prompt
+# if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+#   eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh.json)"
+# fi
+
+eval "$(starship init zsh)"
+eval "$(trivy completion zsh)"
+eval "$(atuin init zsh)"
 eval "$(op completion zsh)"; compdef _op op
-
-# oh-my-posh prompt
-if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-  eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh.json)"
-fi
-
-# fzf-tab-completion
-source ~/Development/dotfiles/fzf-tab-completion/zsh/fzf-zsh-completion.sh
-
 # carapace
 eval "$(carapace _carapace)"
 # bun completions
@@ -237,3 +234,13 @@ eval "$(carapace _carapace)"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}

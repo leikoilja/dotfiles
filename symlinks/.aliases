@@ -101,7 +101,7 @@ alias jgulp="echo '--- Compiling frontend files (grunt) ---'; cdjbl; docker comp
 alias jrebuild="echo '--- Rebuilding all JBL docker containers ---'; docker-rebuild; jrestart"
 alias jwatch="echo '--- Watching frontend files (gulp) ---'; cdjbl; docker compose exec web npm run gulp watch"
 alias jps="cdjbl; dps"
-alias jrestart="cdjbl; start_app_if_off 'Docker' 20; dockerstopall; dstart"
+alias jrestart="cdjbl; dockerstopall; dstart"
 alias jm="cdjbl; docker compose exec web python manage.py migrate"
 # Note jmm is specified in zshrc
 alias jshell="cdjbl; echo '--- Entering web contained shell ---'; docker compose exec web python manage.py shell"
