@@ -36,9 +36,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Disable automatic newline at the end of file
-vim.opt.fixeol = false
-vim.opt.endofline = false
+-- Prevent stripping EOL on save
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead", "BufWritePost" }, {
+  group = "_formatting",
+  pattern = "*",
+  command = "setl fixeol"
+})
 
 -- Folding
 vim.opt.foldmethod = "manual"

@@ -34,19 +34,6 @@ return {
     end,
   },
 
-  -- add pyright to lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- pyright will be automatically installed with mason and loaded with lspconfig
-        pyright = {},
-      },
-    },
-  },
-
   -- add more treesitter parsers
   {
     "nvim-treesitter/nvim-treesitter",
@@ -170,39 +157,5 @@ return {
     end,
     -- Optional: Lazy load Incline
     event = "VeryLazy",
-  },
-
-  -- https://www.reddit.com/r/neovim/comments/11k5but/comment/jbjwwtf/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-  -- disable pyright
-  {
-    "nvim-lspconfig",
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        pyright = {
-          capabilities = (function()
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities.textDocument.publishDiagnostics.tagSupport.valueSet = { 2 }
-            return capabilities
-          end)(),
-          settings = {
-            python = {
-              analysis = {
-                useLibraryCodeForTypes = true,
-                diagnosticSeverityOverrides = {
-                  reportUnusedVariable = "warning", -- or anything
-                },
-                typeCheckingMode = "basic",
-              },
-            },
-          },
-        },
-        ruff_lsp = {
-          on_attach = function(client, _)
-            client.server_capabilities.hoverProvider = false
-          end,
-        },
-      },
-    },
   },
 }

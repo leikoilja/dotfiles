@@ -6,7 +6,11 @@ return {
         prepend_args = { "--profile", "black" },
       },
       black = {
-        prepend_args = { "--line-length", "100", "--skip-string-normalization" },
+        prepend_args = {
+          "--line-length",
+          "100",
+          "--skip-string-normalization",
+        },
       },
     },
     formatters_by_ft = {

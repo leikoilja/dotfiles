@@ -224,8 +224,8 @@ export TENV_AUTO_INSTALL=true
 
 eval "$(starship init zsh)"
 eval "$(trivy completion zsh)"
-eval "$(atuin init zsh)"
 eval "$(op completion zsh)"; compdef _op op
+
 # carapace
 eval "$(carapace _carapace)"
 # bun completions
@@ -244,3 +244,10 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
+
+# https://github.com/jobylon/jbl-web
+export LDFLAGS="-L$(brew --prefix libmemcached)/lib/"
+export CPPFLAGS="-I$(brew --prefix libmemcached)/include/"
+
+# Atuin
+eval "$(atuin init zsh)"

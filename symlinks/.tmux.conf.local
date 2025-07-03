@@ -395,11 +395,11 @@ set -g status-keys vi
 set -g mode-keys vi
 
 # replace C-b by C-a instead of using both prefixes
-# set -gu prefix2
-# unbind C-a
-# unbind C-b
-# set -g prefix C-a
-# bind C-a send-prefix
+set -gu prefix2
+unbind C-a
+unbind C-b
+set -g prefix C-a
+bind C-a send-prefix
 
 # if you don't want Oh my tmux! to alter a binding or a setting, use #!important
 # bind c new-window -c '#{pane_current_path}' #!important
@@ -507,3 +507,13 @@ set -g @plugin 'tmux-plugins/tmux-cpu'
 # required by https://github.com/3rd/image.nvim
 set -gq allow-passthrough on
 set -g visual-activity off
+
+# easymotion
+# GET MORE AT https://github.com/rothgar/awesome-tmux?tab=readme-ov-file
+set -g @plugin 'ddzero2c/tmux-easymotion'
+set -g @easymotion-key 'r'
+
+set-window-option -g mode-keys vi
+bind-key -T copy-mode-vi C-v send-keys -X begin-selection \; send-keys -X rectangle-toggle;
+bind-key -T copy-mode-vi v send-keys -X begin-selection;
+bind-key -T copy-mode-vi V send-keys -X select-line;
