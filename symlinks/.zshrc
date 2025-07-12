@@ -2,8 +2,6 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$PATH:/opt/homebrew/bin/
 export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
-# export PATH="/Users/leikoilja/Library/Python/2.7/bin:$PATH"
-# export PATH=$PATH:~/.local/kitty.app/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/leikoilja/.oh-my-zsh"

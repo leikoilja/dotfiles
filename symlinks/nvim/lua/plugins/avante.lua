@@ -4,25 +4,29 @@ return {
   version = false, -- Never set this value to "*"! Never!
   opts = {
     provider = "copilot",
-    auto_suggestions_provider = 'claude', -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider. auto_suggestions is turned off
+    auto_suggestions_provider = "claude", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider. auto_suggestions is turned off
     behaviour = {
-      auto_suggestions = false,  -- for now useing copilot plugin directly
+      auto_suggestions = false, -- for now useing copilot plugin directly
     },
-    copilot = {
-      endpoint = 'https://api.githubcopilot.com/',
-      model = 'claude-3.7-sonnet',
-      proxy = nil, -- [protocol://]host[:port] Use this proxy
-      allow_insecure = false, -- Do not allow insecure server connections
-      timeout = 30000, -- Timeout in milliseconds
-      temperature = 0.1, -- kinda creative
-      max_tokens = 8192,
+    providers = {
+      copilot = {
+        endpoint = "https://api.githubcopilot.com/",
+        model = "claude-3.7-sonnet",
+        proxy = nil, -- [protocol://]host[:port] Use this proxy
+        allow_insecure = false, -- Do not allow insecure server connections
+        timeout = 30000, -- Timeout in milliseconds
+        extra_request_body = {
+          temperature = 0.1, -- kinda creative
+          max_tokens = 8192,
+        }
+      },
     },
     windows = {
-      position = 'right',
+      position = "right",
       width = 45, -- %
       ask = {
-        start_insert=false
-      }
+        start_insert = false,
+      },
     },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
@@ -58,7 +62,7 @@ return {
     },
     {
       -- Make sure to set this up properly if you have lazy=true
-      'MeanderingProgrammer/render-markdown.nvim',
+      "MeanderingProgrammer/render-markdown.nvim",
       opts = {
         file_types = { "markdown", "Avante" },
       },
