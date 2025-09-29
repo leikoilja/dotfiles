@@ -9,6 +9,34 @@ alias ll='ls -la'
 # get rid of command not found
 alias cd..='cd ..'
 
+# fabric and telos
+alias fabric='fabric-ai'
+alias telos='cat $TELOS_FILE_PATH'
+
+alias process_journal='
+  # Navigate to the directory containing daily markdown files
+  cd "$OBSIDIAN_DAILIES_PATH" || exit 1
+
+  # Loop through each markdown file in the directory
+  for file in *.md; do
+    # Extract the date part of the filename (without the .md extension)
+    date_part="${file%.md}"
+
+    # Create a micro summary using the fabric command
+    summary=$(cat "$file" | fabric -p create_micro_summary)
+
+    # Append the summary to the specified Telos file with the updated header format
+    echo -e "\n### Journal summary for $date_part\n$summary" >> "$TELOS_FILE_PATH"
+
+    # Move the processed file to the archive directory
+    mv "$file" archive/
+  done
+'
+
+# Don't forget to reload your shell configuration after adding the alias
+
+# Don't forget to reload your shell configuration after adding the alias
+
 # a quick way to get out of current directory
 alias ..='cd ..'
 alias ...='cd ../../'

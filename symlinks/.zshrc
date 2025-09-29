@@ -196,11 +196,6 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 export LIBMEMCACHED="/opt/homebrew/Cellar/libmemcached/1.0.18_2"
 
-autoload -Uz compinit
-zstyle ':completion:*' menu select
-fpath+=~/.zfunc
-
-
 # source shell_secrets file
 source ~/.secrets/shell_secrets.sh
 
@@ -249,3 +244,19 @@ export CPPFLAGS="-I$(brew --prefix libmemcached)/include/"
 
 # Atuin
 eval "$(atuin init zsh)"
+
+# Telos file
+export TELOS_FILE_PATH='/Users/leikoilja/Documents/Obsidian/IL/Quartz/content/2. areas/productivity/telos/telos.md'
+export OBSIDIAN_DAILIES_PATH='/Users/leikoilja/Documents/Obsidian/IL/dailies'
+
+# Custom completions
+. ~/Development/dotfiles/completions/setup-completions.zsh
+
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
+
+autoload -Uz compinit && compinit
+
+# Keep grep colour
+export GREP_OPTIONS='--color=always'
+export GREP_COLOR='1;35;40'

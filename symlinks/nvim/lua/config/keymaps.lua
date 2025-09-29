@@ -27,6 +27,11 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true, desc = "Buffer Selection" }
 )
 
+-- Vertical split with last buffer
+vim.api.nvim_set_keymap("n", "<leader>wV", ":vsplit | b#<CR>", { noremap = true, silent = true, desc = "Vertical split with last buffer" })
+
+-- Horizontal split with last buffer
+vim.api.nvim_set_keymap("n", "<leader>wS", ":split | b#<CR>", { noremap = true, silent = true, desc = "Horizontal split with last buffer" })
 
 -- Map <leader>go to create a pull request
 vim.api.nvim_set_keymap("n", "<leader>go", ":Octo pr create<CR>", { noremap = true, silent = true, desc = "Create a PR" })
