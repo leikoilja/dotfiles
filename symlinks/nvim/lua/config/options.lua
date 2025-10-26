@@ -54,3 +54,6 @@ vim.g.neoterm_automap_keys = 0
 vim.g.neoterm_auto_repl_cmd = 0
 
 vim.g.lazyvim_check_order = false
+
+-- Set node version (min v22 for copilot)
+vim.g.node_host_prog = '/Users/leikoilja/.nvm/versions/node/v22.20.0/bin/node'

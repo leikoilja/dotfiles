@@ -511,7 +511,7 @@ set -g visual-activity off
 # easymotion
 # GET MORE AT https://github.com/rothgar/awesome-tmux?tab=readme-ov-file
 set -g @plugin 'ddzero2c/tmux-easymotion'
-set -g @easymotion-key 'r'
+set -g @easymotion-key 's'
 
 set-window-option -g mode-keys vi
 bind-key -T copy-mode-vi C-v send-keys -X begin-selection \; send-keys -X rectangle-toggle;

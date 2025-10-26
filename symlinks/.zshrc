@@ -75,7 +75,12 @@ ZSH_THEME="agnoster"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 TOUCHBAR_GIT_ENABLED=true
-plugins=(fzf git pip python zsh-autosuggestions web-search zsh-vi-mode)
+plugins=(fzf git pip python zsh-autosuggestions web-search)
+
+# use vim zsh plguin only if nvim is not running
+if [[ -z "$NVIM" ]]; then
+  plugins+=(zsh-vi-mode)
+fi
 
 
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
@@ -260,3 +265,7 @@ autoload -Uz compinit && compinit
 # Keep grep colour
 export GREP_OPTIONS='--color=always'
 export GREP_COLOR='1;35;40'
+
+eval "$(zoxide init zsh)"
+
+export OPENCODE_CONFIG=~/Development/dotfiles/symlinks/opencode.json
