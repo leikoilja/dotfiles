@@ -267,5 +267,6 @@ export GREP_OPTIONS='--color=always'
 export GREP_COLOR='1;35;40'
 
 eval "$(zoxide init zsh)"
+eval "$(mise activate zsh)"
 
 export OPENCODE_CONFIG=~/Development/dotfiles/symlinks/opencode.json

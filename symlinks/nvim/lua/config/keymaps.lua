@@ -69,3 +69,14 @@ vim.api.nvim_set_keymap('n', '<C-Right>', '<C-w>l', { noremap = true, silent = t
 -- vim.api.nvim_set_keymap('n', '<C-A-e>', '<C-w>j', { noremap = true, silent = true })    -- Move down
 -- vim.api.nvim_set_keymap('n', '<C-A-n>', '<C-w>h', { noremap = true, silent = true })    -- Move left
 -- vim.api.nvim_set_keymap('n', '<C-A-o>', '<C-w>l', { noremap = true, silent = true })    -- Move right
+
+vim.keymap.set("n", "<leader>ut", function()
+  local current = vim.g.colors_name
+  if current == "gruvbox" then
+    vim.cmd("colorscheme catppuccin")
+    vim.o.background = "light"
+  else
+    vim.cmd("colorscheme gruvbox")
+    vim.o.background = "dark"
+  end
+end, { desc = "Toggle between dark/light theme" })
