@@ -268,5 +268,7 @@ export GREP_COLOR='1;35;40'
 
 eval "$(zoxide init zsh)"
 eval "$(mise activate zsh)"
+eval "$(tailscale completion zsh)"
+eval "$(opencode completion)"
 
 export OPENCODE_CONFIG=~/Development/dotfiles/symlinks/opencode.json

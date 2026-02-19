@@ -1,3 +1,3 @@
-return {
-  { "mistricky/codesnap.nvim", build = "make", opts = { watermark = "" } },
-}
+-- return {
+--   { "mistricky/codesnap.nvim", build = "make", opts = { watermark = "" } },
+-- }
