@@ -9,3 +9,4 @@ vim-legacy/
 zmk-config-*
 symlinks/yazi/plugins/*
 symlinks/karabiner/automatic_backups/
+symlinks/.wakatime.cfg
