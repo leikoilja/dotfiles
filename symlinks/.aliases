@@ -50,6 +50,10 @@ alias ytdl='yt-dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b"'
 
 alias dash='gh dash -c ~/Development/dotfiles/symlinks/gh-dash.yml'
 
+# worktrunk
+alias wts='wt switch $(wt list --format json | jq -r ".[].branch" | fzf)'
+alias wtc='wt switch --create'
+
 # quartz
 alias q-run='cd ~/Development/quartz; npx quartz build --serve --verbose'
 alias q-sync='cd ~/Development/quartz; npx quartz sync '
