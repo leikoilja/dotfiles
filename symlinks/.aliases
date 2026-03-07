@@ -48,6 +48,8 @@ alias ignorenm="bun ~/Development/synology-drive-ignore-nm/index.ts --ignore=dis
 
 alias ytdl='yt-dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b"'
 
+alias dash='gh dash -c ~/Development/dotfiles/symlinks/gh-dash.yml'
+
 # quartz
 alias q-run='cd ~/Development/quartz; npx quartz build --serve --verbose'
 alias q-sync='cd ~/Development/quartz; npx quartz sync '
