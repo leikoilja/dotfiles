@@ -272,3 +272,4 @@ eval "$(tailscale completion zsh)"
 eval "$(opencode completion)"
 
 export OPENCODE_CONFIG=~/Development/dotfiles/symlinks/opencode.json
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
