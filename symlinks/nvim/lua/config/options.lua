@@ -9,6 +9,21 @@ vim.cmd("autocmd BufEnter,FocusGained,InsertLeave * set relativenumber")
 vim.cmd("autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber")
 vim.cmd("augroup END")
 
+-- Disable relative line numbers in OpenCode terminal buffer (always, even when not focused)
+vim.api.nvim_create_autocmd({"BufEnter", "BufLeave", "FocusGained", "FocusLost", "InsertLeave", "InsertEnter"}, {
+  callback = function()
+    -- Find all windows displaying OpenCode buffers and disable relative numbers
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      local buf_name = vim.api.nvim_buf_get_name(buf)
+      if buf_name:match("opencode") then
+        vim.api.nvim_set_option_value("relativenumber", false, {win = win})
+      end
+    end
+  end,
+  desc = "Keep relative line numbers disabled in OpenCode windows",
+})
+
 vim.g.lazyvim_picker = "fzf"
 
 -- This disables showing of the blame text next to the cursor
