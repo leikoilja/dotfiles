@@ -90,7 +90,7 @@ keybindings:
     - key: Z
       name: code review using opencode
       command: >
-        wt switch -c PR-O-{{.PrNumber}} -x 'repo=$(basename {{.RepoName}}); tmux send-keys -t "$repo/PR-O-{{.PrNumber}}" "opencode -m github-copilot/claude-haiku-4.5 --prompt review-pr-for-this-branch" C-m'
+        wt switch pr:{{.PrNumber}} -x 'tmux send-keys -t "$(tmux list-sessions -F "#{session_created} #{session_name}" | sort -nr | head -n1 | cut -d" " -f2)" "opencode -m github-copilot/claude-haiku-4.5 --prompt review-pr-for-this-branch" C-m'
 repoPaths: {}
 theme:
     ui:

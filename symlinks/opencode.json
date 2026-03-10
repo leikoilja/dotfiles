@@ -1,5 +1,6 @@
 {
     "$schema": "https://opencode.ai/config.json",
+    "enabled_providers": ["github-copilot", "openai", "google"],
     "plugin": [
         "@mohak34/opencode-notifier@latest",
         "@plannotator/opencode@latest",

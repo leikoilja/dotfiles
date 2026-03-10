@@ -1,8 +1,8 @@
 [commit.generation]
 command = "opencode run -m github-copilot/claude-haiku-4.5 --variant fast"
 
-[post-switch]
-tmux = "[ -n \"$TMUX\" ] && tmux rename-window {{ branch | sanitize }}"
+# [post-switch]
+# tmux = "[ -n \"$TMUX\" ] && tmux rename-window {{ branch | sanitize }}"
 
 [post-create]
 tmux = """
@@ -25,4 +25,4 @@ echo "✓ New tmux session '$S' created"
 """
 
 [pre-remove]
-tmux = "tmux kill-session -t {{ branch | sanitize }} 2>/dev/null || true"
+tmux = "tmux kill-session -t {{ repo }}/{{ branch | sanitize }} 2>/dev/null || true"
