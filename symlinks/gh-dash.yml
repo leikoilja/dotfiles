@@ -87,6 +87,10 @@ keybindings:
         tmux new-window -n PR-{{.RepoName}}-{{.PrNumber}}
         'nvim -c
         ":silent Octo pr edit {{.PrNumber}}"'
+    - key: N
+      name: Checkout in a worktree
+      command: >
+        wt switch pr:{{.PrNumber}} -x 'tmux send-keys -t "$(tmux list-sessions -F "#{session_created} #{session_name}" | sort -nr | head -n1 | cut -d" " -f2)" C-m'
     - key: Z
       name: code review using opencode
       command: >
