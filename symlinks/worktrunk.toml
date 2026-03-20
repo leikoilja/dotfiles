@@ -5,6 +5,7 @@ command = "opencode run -m github-copilot/claude-haiku-4.5 --variant fast"
 # tmux = "[ -n \"$TMUX\" ] && tmux rename-window {{ branch | sanitize }}"
 
 [post-create]
+# copy-ignored = "wt step copy-ignored"
 tmux = """
 S={{ repo }}/{{ branch | sanitize }}
 W={{ worktree_path }}

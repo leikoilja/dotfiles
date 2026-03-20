@@ -3,8 +3,12 @@
 export PATH=$PATH:/opt/homebrew/bin/
 export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 
+zstyle ':completion:*' menu select
+fpath=(~/.zfunc $fpath)
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/leikoilja/.oh-my-zsh"
+ZSH_DISABLE_COMPFIX=true
 
 # Locale
 export LC_CTYPE=en_US.UTF-8
@@ -75,7 +79,7 @@ ZSH_THEME="agnoster"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 TOUCHBAR_GIT_ENABLED=true
-plugins=(fzf git pip python zsh-autosuggestions web-search)
+plugins=(fzf git pip python zsh-autosuggestions)
 
 # use vim zsh plguin only if nvim is not running
 if [[ -z "$NVIM" ]]; then
@@ -106,10 +110,6 @@ export WORKON_HOME=~/Development/Envs
 
 # Load tmuxinator completion
 source ~/.tmuxinator.zsh
-
-# FZF search
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_OPS="--extended"
 
 # Preferred editor
 # https://github.com/kdheepak/lazygit.nvim
@@ -196,15 +196,17 @@ fi
 export PATH="/Users/leikoilja/.local/bin:$PATH"
 
 export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
+nvm() {
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+  nvm "$@"
+}
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 export LIBMEMCACHED="/opt/homebrew/Cellar/libmemcached/1.0.18_2"
 
 # source shell_secrets file
 source ~/.secrets/shell_secrets.sh
-
-source ~/.zshenv
 
 source "$HOME/.rye/env"
 
@@ -221,13 +223,10 @@ export TENV_AUTO_INSTALL=true
 # fi
 
 eval "$(starship init zsh)"
-eval "$(trivy completion zsh)"
-eval "$(op completion zsh)"; compdef _op op
+# eval "$(op completion zsh)"; compdef _op op
 
 # carapace
 eval "$(carapace _carapace)"
-# bun completions
-[ -s "/Users/leikoilja/.bun/_bun" ] && source "/Users/leikoilja/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -249,27 +248,30 @@ export CPPFLAGS="-I$(brew --prefix libmemcached)/include/"
 
 # Atuin
 eval "$(atuin init zsh)"
+function zvm_after_init() {
+  # fzf keybindings
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+  # atuin search
+  zvm_bindkey viins '^R' atuin-search
+  zvm_bindkey vicmd '^R' atuin-search
+}
+
+# FZF search
+export FZF_DEFAULT_OPTS="--extended"
 
 # Telos file
 export TELOS_FILE_PATH='/Users/leikoilja/Documents/Obsidian/IL/Quartz/content/2. areas/productivity/telos/telos.md'
 export OBSIDIAN_DAILIES_PATH='/Users/leikoilja/Documents/Obsidian/IL/dailies'
 
-# Custom completions
-. ~/Development/dotfiles/completions/setup-completions.zsh
-
-zstyle ':completion:*' menu select
-fpath+=~/.zfunc
-
-autoload -Uz compinit && compinit
-
-# Keep grep colour
-export GREP_OPTIONS='--color=always'
-export GREP_COLOR='1;35;40'
 
 eval "$(zoxide init zsh)"
-eval "$(mise activate zsh)"
-eval "$(tailscale completion zsh)"
-eval "$(opencode completion)"
+
+# Instead of eval on every run
+# eval "$(opencode completion)"
+# do this instead
+# opencode completion > ~/.zfunc/_opencode
+# to generate once and use func
 
 export OPENCODE_CONFIG=~/Development/dotfiles/symlinks/opencode.json
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
