@@ -52,7 +52,11 @@ alias dash='gh dash -c ~/Development/dotfiles/symlinks/gh-dash.yml'
 
 # worktrunk
 alias wts='wt switch $(wt list --format json | jq -r ".[].branch" | fzf)'
+alias wtr='wt remove $(wt list --format json | jq -r ".[].branch" | fzf)'
 alias wtc='wt switch --create'
+
+# opencode
+alias oc='opencode'
 
 # quartz
 alias q-run='cd ~/Development/quartz; npx quartz build --serve --verbose'
