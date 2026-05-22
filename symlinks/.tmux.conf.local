@@ -388,7 +388,8 @@ tmux_conf_urlscan_options="--compact --dedupe"
 # this is the place to override or undo settings
 
 # increase history size
-#set -g history-limit 10000
+# set -g history-limit 10000
+set -g history-limit 999999999
 
 # start with mouse mode enabled
 #set -g mouse on
@@ -457,6 +458,9 @@ set -g @plugin 'tmux-plugins/tmux-cpu'
 set -g @plugin 'IngoMeyer441/tmux-easy-motion'
 set -g @easy-motion-prefix "Space"
 
+set -g @plugin 'wfxr/tmux-power'
+set -g @tmux_power_theme 'gold'
+
 # -- custom variables ----------------------------------------------------------
 
 # to define a custom #{foo} variable, define a POSIX shell function between the
@@ -519,3 +523,6 @@ set-window-option -g mode-keys vi
 bind-key -T copy-mode-vi C-v send-keys -X begin-selection \; send-keys -X rectangle-toggle;
 bind-key -T copy-mode-vi v send-keys -X begin-selection;
 bind-key -T copy-mode-vi V send-keys -X select-line;
+
+# jump back to the last active session/pane with <prefix> + l
+bind-key -T prefix b switch-client -l
