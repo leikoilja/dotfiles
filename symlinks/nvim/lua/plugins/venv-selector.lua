@@ -1,10 +1,8 @@
 return {
   "linux-cultist/venv-selector.nvim",
-  branch = "regexp", -- Use this branch for the new version
-  cmd = "VenvSelect",
-  enabled = function()
-    return LazyVim.has("telescope.nvim") -- cannot use yet due to https://github.com/linux-cultist/venv-selector.nvim/issues/142#issuecomment-2364003039
-  end,
+  dependencies = {
+    { "nvim-telescope/telescope.nvim", version = "*", dependencies = { "nvim-lua/plenary.nvim" } }, -- optional: you can also use fzf-lua, snacks, mini-pick instead.
+  },
   opts = {
     settings = {
       options = {

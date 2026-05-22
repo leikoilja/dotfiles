@@ -38,6 +38,8 @@ vim.api.nvim_set_keymap("n", "<leader>go", ":Octo pr create<CR>", { noremap = tr
 
 vim.api.nvim_set_keymap("n", "<leader>gO", ":Octo pr browser<CR>", { noremap = true, silent = true, desc = "Open PR in browser" })
 
+vim.api.nvim_set_keymap("n", "<leader>gb", ":BlameToggle<CR>", { noremap = true, silent = true, desc = "Toggle Git blame" })
+
 -- Flash navigation
 vim.api.nvim_set_keymap("n", "<C-s>", "<cmd>lua require('flash').jump()<CR>", { noremap = true, silent = true, desc = "Flash Jump" })
 vim.api.nvim_set_keymap("n", "S", "<cmd>lua require('flash').treesitter()<CR>", { noremap = true, silent = true, desc = "Flash Treesitter" })

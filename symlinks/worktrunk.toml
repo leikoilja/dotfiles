@@ -1,10 +1,20 @@
 [commit.generation]
 command = "opencode run -m github-copilot/claude-haiku-4.5 --variant fast"
 
+template = """
+Write a commit message for this diff.
+You must use conventional commit for the commit's name, with a type and optional scope.
+One line, under 50 chars.
+
+Branch: {{ branch }}
+Diff:
+{{ git_diff }}
+"""
+
 # [post-switch]
 # tmux = "[ -n \"$TMUX\" ] && tmux rename-window {{ branch | sanitize }}"
 
-[post-create]
+[pre-start]
 # copy-ignored = "wt step copy-ignored"
 tmux = """
 S={{ repo }}/{{ branch | sanitize }}
