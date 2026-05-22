@@ -232,6 +232,9 @@ eval "$(carapace _carapace)"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# go build executables
+export PATH="$PATH:$(go env GOPATH)/bin"
+
 # yazi
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -266,6 +269,7 @@ export OBSIDIAN_DAILIES_PATH='/Users/leikoilja/Documents/Obsidian/IL/dailies'
 
 
 eval "$(zoxide init zsh)"
+eval "$(mise activate zsh)"
 
 # Instead of eval on every run
 # eval "$(opencode completion)"
