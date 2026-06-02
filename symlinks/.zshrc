@@ -277,5 +277,5 @@ eval "$(mise activate zsh)"
 # opencode completion > ~/.zfunc/_opencode
 # to generate once and use func
 
-export OPENCODE_CONFIG=~/Development/dotfiles/symlinks/opencode.json
+export OPENCODE_CONFIG=~/Development/dotfiles/symlinks/opencode.jsonc
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
