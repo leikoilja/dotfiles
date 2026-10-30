@@ -51,12 +51,17 @@ alias ytdl='yt-dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b"'
 alias dash='gh dash -c ~/Development/dotfiles/symlinks/gh-dash.yml'
 
 # worktrunk
-alias wts='wt switch $(wt list --format json | jq -r ".[].branch" | fzf)'
-alias wtr='wt remove $(wt list --format json | jq -r ".[].branch" | fzf)'
+alias wtl='wt list --full'
+alias wts='wt switch'
+alias wtr='wt remove'
 alias wtc='wt switch --create'
+wtpr() { wt switch "pr:${1##*/}"; }
 
 # opencode
 alias oc='opencode'
+
+# mise run
+alias m='mise run'
 
 # quartz
 alias q-run='cd ~/Development/quartz; npx quartz build --serve --verbose'
@@ -71,17 +76,6 @@ case "${unameOut}" in
     MINGW*)     machine=MinGw;;
     *)          machine="UNKNOWN:${unameOut}"
 esac
-
-if [ ${machine} = "Linux" ]; then
-    echo "** Activating Linux specific alias **"
-    # alias magit="emacs -nw --eval '(progn (magit-status) (delete-other-windows))'"
-elif [ ${machine} = "Mac" ]; then
-    echo "** Activating Mac arm specific alias **"
-    alias magit="/opt/homebrew/bin/emacs -nw --eval '(progn (magit-status) (delete-other-windows))'"
-
-    alias brew="/opt/homebrew/bin/brew"
-    alias brew-amd="/usr/local/bin/brew"
-fi
 
 # Silver Searcher global ignore
 alias ag='ag --path-to-ignore ~/.agignore'
@@ -132,7 +126,7 @@ alias dlogs="echo '--- Lets dig into logs ---'; docker compose logs -f"
 alias dps="echo '--- Running docker containers ---'; docker ps"
 
 ## Jobylon ##
-alias cdjbl="cd ~/Development/Jobylon/jbl-web/jbl-web"
+alias cdjbl="cd ~/Development/Jobylon/ATS/jbl-web/"
 alias jdebug2="echo '--- Restarting web container for debugging  ---'; jstop web; docker compose run --service-ports --rm web python -m ipdb manage.py runserver 0.0.0.0:8000; jstart web"
 alias jdebug="echo '--- Web debugging on 8003 ---'; docker compose -f docker-compose.yml -p jbl-web exec web python -m ipdb manage.py runserver 0.0.0.0:8003"
 alias jgulp="echo '--- Compiling frontend files (grunt) ---'; cdjbl; docker compose -f docker-compose.yml -p jbl-web exec web npm run gulp"

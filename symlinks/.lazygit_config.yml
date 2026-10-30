@@ -6,9 +6,9 @@ os:
   editAtLineAndWait: "nvim +{{line}} {{filename}}"
 promptToReturnFromSubprocess: false
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: delta --dark --paging=never
+      command: delta --dark --paging=never
 gui:
   showFileTree: false
 customCommands:

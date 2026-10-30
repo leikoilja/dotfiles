@@ -1,5 +1,11 @@
+[list]
+# Forces a fixed, narrower column set so `url` always renders instead of
+# being dropped first when the terminal is too narrow to fit every column
+# (built-in columns get pruned by width; `url` is the first to go).
+columns = ["branch", "status", "path", "url", "commit", "age", "message"]
+
 [commit.generation]
-command = "opencode run -m github-copilot/claude-haiku-4.5 --variant fast"
+command = "opencode run -m anthropic/claude-haiku-4.5 --variant fast"
 
 template = """
 Write a commit message for this diff.
@@ -14,8 +20,12 @@ Diff:
 # [post-switch]
 # tmux = "[ -n \"$TMUX\" ] && tmux rename-window {{ branch | sanitize }}"
 
-[pre-start]
+[post-start]
 # copy-ignored = "wt step copy-ignored"
+# Runs after all pre-start hooks (project included) finish, so .env.local's
+# JBL_WORKTREE_SLOT/JBL_GIT_COMMON_DIR lines are already written before this
+# pane's shell starts and computes its mise env - avoids a stale-env race
+# where the shell freezes JBL_WORKTREE_SLOT's default before the write lands.
 tmux = """
 S={{ repo }}/{{ branch | sanitize }}
 W={{ worktree_path }}
@@ -32,8 +42,19 @@ tmux new-session -d -s "$S" -c "$W" -n dev
 # tmux send-keys -t "$S:dev.3" 'npm run frontend' Enter
 
 # tmux select-pane -t "$S:dev.0"
+tmux attach-session -t "$S"
 echo "✓ New tmux session '$S' created"
 """
 
 [pre-remove]
 tmux = "tmux kill-session -t {{ repo }}/{{ branch | sanitize }} 2>/dev/null || true"
+
+# Project specific configurations
+[projects."github.com/jobylon/jbl-web"]
+worktree-path = "{{ repo_path }}/../{{ branch | sanitize }}"
+
+# Personal preference, not forced on the team via .config/wt.toml - link
+# .opencode and opencode.jsonc from the primary worktree into new worktrees.
+[[projects."github.com/jobylon/jbl-web".pre-start]]
+link-opencode = "ln -s {{ primary_worktree_path }}/.opencode {{ worktree_path }}/.opencode"
+link-opencode-config = "ln -s {{ primary_worktree_path }}/opencode.jsonc {{ worktree_path }}/opencode.jsonc"

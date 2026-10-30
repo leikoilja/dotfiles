@@ -1,5 +1,5 @@
-name: jbl-web
-root: ~/Development/Jobylon/jbl-web/
+name: ATS
+root: ~/Development/Jobylon/jbl-web/ATS/
 
 # Optional tmux socket
 # socket_name: foo
