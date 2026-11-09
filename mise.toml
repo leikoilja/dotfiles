@@ -1,35 +1,36 @@
 [dotfiles]
 # home-level files
-"~/.aerospace.toml"   = { source = "symlinks/.aerospace.toml" }
-"~/.agignore"         = { source = "symlinks/.agignore" }
-"~/.aliases"          = { source = "symlinks/.aliases" }
-"~/.bashrc"           = { source = "symlinks/.bashrc" }
-"~/.editorconfig"     = { source = "symlinks/.editorconfig" }
-"~/.git-templates"    = { source = "symlinks/.git-templates" }
-"~/.gitconfig"        = { source = "symlinks/.gitconfig" }
-"~/.gitignore"        = { source = "symlinks/.gitignore" }
-"~/.rgignore"         = { source = "symlinks/.rgignore" }
-"~/.tmuxinator.zsh"   = { source = "symlinks/.tmuxinator.zsh" }
-"~/.wakatime.cfg"     = { source = "symlinks/.wakatime.cfg" }
-"~/.wezterm.lua"      = { source = "symlinks/.wezterm.lua" }
-"~/.zshrc"            = { source = "symlinks/.zshrc" }
+"~/.aerospace.toml"   = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.aerospace.toml" }
+"~/.agents" = { source = "/Users/leikoilja/Development/dotfiles/.agents" }
+"~/.agignore"         = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.agignore" }
+"~/.aliases"          = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.aliases" }
+"~/.bashrc"           = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.bashrc" }
 
 # ~/.config entries
-"~/.config/atuin"            = { source = "symlinks/atuin" }
-"~/.config/bpytop/bpytop.conf" = { source = "symlinks/bpytop.conf" }
-"~/.config/worktrunk/config.toml" = { source = "symlinks/worktrunk.toml" }
-"~/.config/gh-dash/config.yml" = { source = "symlinks/gh-dash.yml" }
-"~/.config/opencode/opencode.jsonc" = { source = "symlinks/opencode.jsonc" }
-"~/.config/karabiner"        = { source = "symlinks/karabiner" }
-"~/.config/nvim"             = { source = "symlinks/nvim" }
-"~/.config/ohmyposh.json"    = { source = "symlinks/ohmyposh/base.json" }
-"~/.config/starship.toml"    = { source = "symlinks/starship.toml" }
-"~/.config/television"       = { source = "symlinks/television" }
-"~/.config/tmuxinator"       = { source = "symlinks/tmuxinator" }
-
-# app-specific path, not under ~/.config
-"~/Library/Application Support/lazygit/config.yml" = { source = "symlinks/.lazygit_config.yml" }
+"~/.config/atuin"            = { source = "/Users/leikoilja/Development/dotfiles/symlinks/atuin" }
+"~/.config/bpytop/bpytop.conf" = { source = "/Users/leikoilja/Development/dotfiles/symlinks/bpytop.conf" }
+"~/.config/gh-dash/config.yml" = { source = "/Users/leikoilja/Development/dotfiles/symlinks/gh-dash.yml" }
+"~/.config/karabiner"        = { source = "/Users/leikoilja/Development/dotfiles/symlinks/karabiner" }
+"~/.config/nvim"             = { source = "/Users/leikoilja/Development/dotfiles/symlinks/nvim" }
+"~/.config/ohmyposh.json"    = { source = "/Users/leikoilja/Development/dotfiles/symlinks/ohmyposh/base.json" }
+"~/.config/opencode/opencode.jsonc" = { source = "/Users/leikoilja/Development/dotfiles/symlinks/opencode.jsonc" }
+"~/.config/starship.toml"    = { source = "/Users/leikoilja/Development/dotfiles/symlinks/starship.toml" }
+"~/.config/television"       = { source = "/Users/leikoilja/Development/dotfiles/symlinks/television" }
+"~/.config/tmuxinator"       = { source = "/Users/leikoilja/Development/dotfiles/symlinks/tmuxinator" }
+"~/.config/worktrunk/config.toml" = { source = "/Users/leikoilja/Development/dotfiles/symlinks/worktrunk.toml" }
+"~/.editorconfig"     = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.editorconfig" }
+"~/.git-templates"    = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.git-templates" }
+"~/.gitconfig"        = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.gitconfig" }
+"~/.gitignore"        = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.gitignore" }
+"~/.rgignore"         = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.rgignore" }
 
 # secrets (already gitignored in this repo)
-"~/.secrets" = { source = ".secrets" }
-"~/.ssh"     = { source = ".secrets/.ssh" }
+"~/.secrets" = { source = "/Users/leikoilja/Development/dotfiles/.secrets" }
+"~/.ssh"     = { source = "/Users/leikoilja/Development/dotfiles/.secrets/.ssh" }
+"~/.tmuxinator.zsh"   = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.tmuxinator.zsh" }
+"~/.wakatime.cfg"     = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.wakatime.cfg" }
+"~/.wezterm.lua"      = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.wezterm.lua" }
+"~/.zshrc"            = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.zshrc" }
+
+# app-specific path, not under ~/.config
+"~/Library/Application Support/lazygit/config.yml" = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.lazygit_config.yml" }
