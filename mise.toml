@@ -1,0 +1,35 @@
+[dotfiles]
+# home-level files
+"~/.aerospace.toml"   = { source = "symlinks/.aerospace.toml" }
+"~/.agignore"         = { source = "symlinks/.agignore" }
+"~/.aliases"          = { source = "symlinks/.aliases" }
+"~/.bashrc"           = { source = "symlinks/.bashrc" }
+"~/.editorconfig"     = { source = "symlinks/.editorconfig" }
+"~/.git-templates"    = { source = "symlinks/.git-templates" }
+"~/.gitconfig"        = { source = "symlinks/.gitconfig" }
+"~/.gitignore"        = { source = "symlinks/.gitignore" }
+"~/.rgignore"         = { source = "symlinks/.rgignore" }
+"~/.tmuxinator.zsh"   = { source = "symlinks/.tmuxinator.zsh" }
+"~/.wakatime.cfg"     = { source = "symlinks/.wakatime.cfg" }
+"~/.wezterm.lua"      = { source = "symlinks/.wezterm.lua" }
+"~/.zshrc"            = { source = "symlinks/.zshrc" }
+
+# ~/.config entries
+"~/.config/atuin"            = { source = "symlinks/atuin" }
+"~/.config/bpytop/bpytop.conf" = { source = "symlinks/bpytop.conf" }
+"~/.config/worktrunk/config.toml" = { source = "symlinks/worktrunk.toml" }
+"~/.config/gh-dash/config.yml" = { source = "symlinks/gh-dash.yml" }
+"~/.config/opencode/opencode.jsonc" = { source = "symlinks/opencode.jsonc" }
+"~/.config/karabiner"        = { source = "symlinks/karabiner" }
+"~/.config/nvim"             = { source = "symlinks/nvim" }
+"~/.config/ohmyposh.json"    = { source = "symlinks/ohmyposh/base.json" }
+"~/.config/starship.toml"    = { source = "symlinks/starship.toml" }
+"~/.config/television"       = { source = "symlinks/television" }
+"~/.config/tmuxinator"       = { source = "symlinks/tmuxinator" }
+
+# app-specific path, not under ~/.config
+"~/Library/Application Support/lazygit/config.yml" = { source = "symlinks/.lazygit_config.yml" }
+
+# secrets (already gitignored in this repo)
+"~/.secrets" = { source = ".secrets" }
+"~/.ssh"     = { source = ".secrets/.ssh" }

@@ -1,6 +1,4 @@
 prSections:
-    - title: All Pull Requests
-      filters: is:open
     - title: My Pull Requests
       filters: is:open author:@me
     - title: Needs My Review
@@ -19,26 +17,30 @@ notificationsSections:
       filters: ""
     - title: Created
       filters: reason:author
-    - title: Mentioned
-      filters: reason:mention
     - title: Participating
       filters: reason:participating
+    - title: Mentioned
+      filters: reason:mention
     - title: Review Requested
       filters: reason:review-requested
     - title: Assigned
       filters: reason:assign
+    - title: Subscribed
+      filters: reason:subscribed
+    - title: Team Mentioned
+      filters: reason:team-mention
 repo:
     branchesRefetchIntervalSeconds: 30
     prsRefetchIntervalSeconds: 60
 defaults:
     preview:
-        open: true  # TODO: change to false after an update, for not it explodes
-        width: 0.70
+        open: true
+        width: 0.45
     prsLimit: 20
-    prApproveComment: Thanks for fixing it! 🙌
+    prApproveComment: LGTM
     issuesLimit: 20
     notificationsLimit: 20
-    view: prs  # notifications
+    view: prs
     layout:
         prs:
             updatedAt:
@@ -74,27 +76,7 @@ defaults:
                 width: 20
                 hidden: true
     refetchIntervalMinutes: 30
-keybindings:
-  universal:
-    - key: g
-      name: lazygit
-      command: >
-        cd {{.RepoPath}} && lazygit
-  prs:
-    - key: C
-      name: code review
-      command: >
-        tmux new-window -n PR-{{.RepoName}}-{{.PrNumber}}
-        'nvim -c
-        ":silent Octo pr edit {{.PrNumber}}"'
-    - key: N
-      name: Checkout in a worktree
-      command: >
-        wt switch pr:{{.PrNumber}} -x 'tmux send-keys -t "$(tmux list-sessions -F "#{session_created} #{session_name}" | sort -nr | head -n1 | cut -d" " -f2)" C-m'
-    - key: Z
-      name: code review using opencode
-      command: >
-        wt switch pr:{{.PrNumber}} -x 'tmux send-keys -t "$(tmux list-sessions -F "#{session_created} #{session_name}" | sort -nr | head -n1 | cut -d" " -f2)" "opencode -m github-copilot/claude-haiku-4.5 --prompt review-pr-for-this-branch" C-m'
+keybindings: {}
 repoPaths: {}
 theme:
     ui:
@@ -103,7 +85,7 @@ theme:
             showSeparator: true
             compact: false
 pager:
-    diff: "diffnav"
+    diff: ""
 confirmQuit: false
 showAuthorIcons: true
 smartFilteringAtLaunch: true
