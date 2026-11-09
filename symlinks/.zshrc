@@ -3,6 +3,9 @@
 export PATH=$PATH:/opt/homebrew/bin/
 export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 
+# mise must activate before anything below calls a mise-managed tool
+eval "$(mise activate zsh)"
+
 zstyle ':completion:*' menu select
 fpath=(~/.zfunc $fpath)
 
@@ -282,7 +285,6 @@ export OBSIDIAN_DAILIES_PATH='/Users/leikoilja/Documents/Obsidian/IL/dailies'
 
 
 eval "$(zoxide init zsh)"
-eval "$(mise activate zsh)"
 
 # Instead of eval on every run
 # eval "$(opencode completion)"
