@@ -133,7 +133,6 @@ experimental = true
 "~/.config/bpytop/bpytop.conf" = { source = "/Users/leikoilja/Development/dotfiles/symlinks/bpytop.conf" }
 "~/.config/gh-dash/config.yml" = { source = "/Users/leikoilja/Development/dotfiles/symlinks/gh-dash.yml" }
 "~/.config/karabiner"        = { source = "/Users/leikoilja/Development/dotfiles/symlinks/karabiner" }
-"~/.config/mise/config.toml" = { source = "/Users/leikoilja/Development/dotfiles/mise.toml" }
 "~/.config/nvim"             = { source = "/Users/leikoilja/Development/dotfiles/symlinks/nvim" }
 "~/.config/ohmyposh.json"    = { source = "/Users/leikoilja/Development/dotfiles/symlinks/ohmyposh/base.json" }
 "~/.config/opencode/opencode.jsonc" = { source = "/Users/leikoilja/Development/dotfiles/symlinks/opencode.jsonc" }
@@ -153,6 +152,7 @@ experimental = true
 "~/.tmuxinator.zsh"   = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.tmuxinator.zsh" }
 "~/.wakatime.cfg"     = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.wakatime.cfg" }
 "~/.wezterm.lua"      = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.wezterm.lua" }
+"~/.zshenv"           = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.zshenv" }
 "~/.zshrc"            = { source = "/Users/leikoilja/Development/dotfiles/symlinks/.zshrc" }
 
 # app-specific path, not under ~/.config
