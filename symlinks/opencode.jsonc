@@ -18,7 +18,8 @@
     { "action": "skill", "resource": "caveman-help", "effect": "allow" },
     { "action": "skill", "resource": "caveman-compress", "effect": "allow" },
     { "action": "shell", "resource": "pass *", "effect": "deny" },
-    { "action": "shell", "resource": "pass ls *", "effect": "allow" }
+    { "action": "shell", "resource": "pass ls *", "effect": "allow" },
+    { "action": "edit", "resource": "*", "effect": "ask" }
   ],
   "mcp": {
     // "actual-budget": {
@@ -32,7 +33,6 @@
     // }
   },
   "plugins": [
-    "/opt/homebrew/lib/node_modules/@rynfar/meridian/plugin/meridian.ts",
     "@mohak34/opencode-notifier@latest",
     "@plannotator/opencode@latest",
     "@tarquinen/opencode-dcp@latest",
