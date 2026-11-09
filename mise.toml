@@ -51,7 +51,6 @@ yt-dlp = "latest"
 zoxide = "latest"
 
 [bootstrap.packages]
-"brew:anomalyco/tap/opencode-v2" = "latest"
 "brew:angle-grinder" = "latest"
 "brew:btop" = "latest"
 "brew:duckdb" = "latest"
