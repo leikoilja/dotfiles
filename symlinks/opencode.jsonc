@@ -12,11 +12,6 @@
     { "action": "provider.use", "resource": "anthropic", "effect": "allow" }
   ],
   "permissions": [
-    { "action": "skill", "resource": "caveman", "effect": "allow" },
-    { "action": "skill", "resource": "caveman-commit", "effect": "allow" },
-    { "action": "skill", "resource": "caveman-review", "effect": "allow" },
-    { "action": "skill", "resource": "caveman-help", "effect": "allow" },
-    { "action": "skill", "resource": "caveman-compress", "effect": "allow" },
     { "action": "shell", "resource": "pass *", "effect": "deny" },
     { "action": "shell", "resource": "pass ls *", "effect": "allow" },
     { "action": "edit", "resource": "*", "effect": "ask" }
@@ -50,7 +45,5 @@
     }
   },
   "instructions": [
-    "/Users/leikoilja/.config/opencode/AGENTS.caveman.md",
-    "/Users/leikoilja/.config/opencode/AGENTS.style.md"
   ],
 }
