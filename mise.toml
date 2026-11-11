@@ -134,6 +134,7 @@ experimental = true
 "~/.config/karabiner"        = { source = "/Users/leikoilja/Development/dotfiles/symlinks/karabiner" }
 "~/.config/nvim"             = { source = "/Users/leikoilja/Development/dotfiles/symlinks/nvim" }
 "~/.config/ohmyposh.json"    = { source = "/Users/leikoilja/Development/dotfiles/symlinks/ohmyposh/base.json" }
+"~/.config/opencode/cli.json" = { source = "~/Development/dotfiles/symlinks/opencode-cli.json" }
 "~/.config/opencode/opencode.jsonc" = { source = "/Users/leikoilja/Development/dotfiles/symlinks/opencode.jsonc" }
 "~/.config/starship.toml"    = { source = "/Users/leikoilja/Development/dotfiles/symlinks/starship.toml" }
 "~/.config/television"       = { source = "/Users/leikoilja/Development/dotfiles/symlinks/television" }
